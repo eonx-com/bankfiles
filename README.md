@@ -1,6 +1,14 @@
 # Bank Files
 
-This project is a package dedicated to bank files parsing and dumping, it supports file formats as following:
+This project is a package dedicated to bank files parsing and generating. 
 
-* BPAY
+It supports parsing file formats as following:
+
+* BPAY BRF
 * NAI
+* ACK
+
+It supports generating file formats as following:
+
+* ABA
+* BPAY Batch
