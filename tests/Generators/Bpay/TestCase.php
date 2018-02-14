@@ -18,11 +18,9 @@ class TestCase extends GeneratorTestCase
     protected function createHeader(): Header
     {
         return new Header([
-            'recordType' => '1',
-            'batchCustomerId' => \str_pad('BatchCustomerId', 16),
-            'customerShortName' => \str_pad('CustomerShortName', 20),
-            'processingDate' => '20171104',
-            'restOfRecord' => \str_pad('', 99),
+            'batchCustomerId' => 'BatchCustomerId',
+            'customerShortName' => 'CustomerShortName',
+            'processingDate' => '20171104'
         ]);
     }
 
@@ -34,25 +32,27 @@ class TestCase extends GeneratorTestCase
     protected function createTransaction(): Transaction
     {
         return new Transaction([
-            'recordType' => '2',
-            'billerCode' => \str_pad('5566778', 10, '0', STR_PAD_LEFT),
+            'billerCode' => '5566778',
             'paymentAccountBSB' => '334455',
             'paymentAccountNumber' => '112233445',
-            'customerReferenceNumber' => \str_pad('9457689335', 20),
-            'amount' => \str_pad('2599', 13, '0', STR_PAD_LEFT),
-            'lodgementReference1' => \str_pad('lodgeRef1', 10),
-            'lodgementReference2' => \str_pad('lodgeRef2', 20),
-            'lodgementReference3' => \str_pad('lodgeRef1', 50),
-            'restOfRecord' => \str_pad('', 5)
+            'customerReferenceNumber' => '9457689335',
+            'amount' => '2599',
+            'lodgementReference1' => 'lodgeRef1',
+            'lodgementReference2' => 'lodgeRef2',
+            'lodgementReference3' => 'lodgeRef1'
         ]);
     }
 
-    protected function createTrailer()
+    /**
+     * Create a Trailer object.
+     *
+     * @return \EoneoPay\BankFiles\Generators\Bpay\Objects\Trailer
+     */
+    protected function createTrailer(): Trailer
     {
         return new Trailer([
-            'recordType' => '9',
-            'totalNumberOfPayments' => \str_pad('125', 10, '0', STR_PAD_LEFT),
-            'totalFileValue' => \str_pad('1500', 13, '0', STR_PAD_LEFT),
+            'totalNumberOfPayments' => '125',
+            'totalFileValue' => '1500'
         ]);
     }
 }

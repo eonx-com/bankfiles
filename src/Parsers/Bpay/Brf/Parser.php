@@ -12,9 +12,9 @@ use Illuminate\Support\Collection;
 
 class Parser extends AbstractLineByLineParser
 {
-    const HEADER = '00';
-    const TRAILER = '99';
-    const TRANSACTION = '50';
+    private const HEADER = '00';
+    private const TRAILER = '99';
+    private const TRANSACTION = '50';
 
     /** @var array $errors */
     protected $errors;
@@ -120,7 +120,7 @@ class Parser extends AbstractLineByLineParser
             'billerCreditAccount' => \substr($line, 38, 9),
             'fileCreationDate' => \substr($line, 47, 8),
             'fileCreationTime' => \substr($line, 55, 6),
-            'filler' => \substr($line, 61, 158),
+            'filler' => \substr($line, 61, 158)
         ]);
     }
 
@@ -128,6 +128,7 @@ class Parser extends AbstractLineByLineParser
      * Parse trailer
      *
      * @param string $line
+     *
      * @return Trailer
      */
     private function processTrailer(string $line): Trailer
@@ -141,7 +142,7 @@ class Parser extends AbstractLineByLineParser
             'numberOfReversals' => \substr($line, 60, 9),
             'amountOfReversals' => \substr($line, 69, 15),
             'settlementAmount' => \substr($line, 84, 15),
-            'filler' => \substr($line, 99, 120),
+            'filler' => \substr($line, 99, 120)
         ]);
     }
 
@@ -165,7 +166,7 @@ class Parser extends AbstractLineByLineParser
             'paymentDate' => \substr($line, 91, 8),
             'paymentTime' => \substr($line, 99, 6),
             'settlementDate' => \substr($line, 105, 8),
-            'filler' => \substr($line, 113, 106),
+            'filler' => \substr($line, 113, 106)
         ]);
     }
 }

@@ -8,36 +8,19 @@ use EoneoPay\BankFiles\Parsers\BaseResult;
 use Illuminate\Support\Collection;
 
 /**
- * Class PaymentAcknowledgement
- *
- * @method array|null getAttributes
- * @method array|null getPaymentId
- * @method array|null getOriginalMessageId
- * @method array|null getCustomerId
- * @method array|null getCompanyName
- * @method array|null getUserMessage
- * @method array|null getDetailedMessage
- * @method array|null getOriginalFilename
- * @method array|null getOriginalReference
- * @method Collection getIssues
+ * @method array|null getAttributes()
+ * @method array|null getPaymentId()
+ * @method array|null getOriginalMessageId()
+ * @method array|null getCustomerId()
+ * @method array|null getCompanyName()
+ * @method array|null getUserMessage()
+ * @method array|null getDetailedMessage()
+ * @method array|null getOriginalFilename()
+ * @method array|null getOriginalReference()
+ * @method Collection getIssues()
  */
 class PaymentAcknowledgement extends BaseResult
 {
-    /** @var array $attributes */
-    protected $attributes = [
-        'attributes',
-        'paymentId',
-        'originalMessageId',
-        'dateTime',
-        'customerId',
-        'companyName',
-        'userMessage',
-        'detailedMessage',
-        'originalFilename',
-        'originalReference',
-        'issues',
-    ];
-
     /**
      * Convert dateTime into DateTime object
      *
@@ -50,5 +33,27 @@ class PaymentAcknowledgement extends BaseResult
         }
 
         return $this->data['dateTime'];
+    }
+
+    /**
+     * Return object attributes.
+     *
+     * @return array
+     */
+    protected function initAttributes(): array
+    {
+        return [
+            'attributes',
+            'paymentId',
+            'originalMessageId',
+            'dateTime',
+            'customerId',
+            'companyName',
+            'userMessage',
+            'detailedMessage',
+            'originalFilename',
+            'originalReference',
+            'issues'
+        ];
     }
 }

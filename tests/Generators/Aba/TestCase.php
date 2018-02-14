@@ -18,16 +18,12 @@ class TestCase extends GeneratorTestCase
     protected function createDescriptiveRecord(): DescriptiveRecord
     {
         return new DescriptiveRecord([
-            'recordType' => '0',
-            'blank1' => \str_pad('', 17),
             'reelSequenceNumber' => '01',
             'userFinancialInstitution' => 'UFI',
-            'black2' => \str_pad('', 7),
             'nameOfUseSupplyingFile' => 'LOYALTY CORP AUSTRALIA    ',
             'numberOfUseSupplyingFile' => 492627,
             'descriptionOfEntries' => 'PAYMENTS    ',
-            'dateToBeProcessed' => '100817',
-            'blank3' => \str_pad('', 40)
+            'dateToBeProcessed' => '100817'
         ]);
     }
 
@@ -39,15 +35,11 @@ class TestCase extends GeneratorTestCase
     protected function createFileTotalRecord(): FileTotalRecord
     {
         return new FileTotalRecord([
-            'recordType' => '7',
             'bsbFiller' => '999-999',
-            'blank1' => \str_pad('', 12),
             'fileUserNetTotalAmount' => '0000000000',
             'fileUserCreditTotalAmount' => '0000043452',
             'fileUserDebitTotalAmount' => '0000043452',
-            'blank2' => \str_pad('', 24),
-            'fileUserCountOfRecordsType' => '000002',
-            'blank3' => \str_pad('', 40)
+            'fileUserCountOfRecordsType' => '000002'
         ]);
     }
 
@@ -59,7 +51,6 @@ class TestCase extends GeneratorTestCase
     protected function createTransaction(): Transaction
     {
         return new Transaction([
-            'recordType' => 1,
             'bsbNumber' => '083-163',
             'accountNumberToBeCreditedDebited' => '  1234356',
             'indicator' => ' ',

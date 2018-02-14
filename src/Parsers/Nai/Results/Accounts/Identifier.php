@@ -7,19 +7,12 @@ use EoneoPay\BankFiles\Parsers\BaseResult;
 use Illuminate\Support\Collection;
 
 /**
- * @method getCommercialAccountNumber
- * @method getCurrencyCode
+ * @method string getCode()
+ * @method string getCommercialAccountNumber()
+ * @method string getCurrencyCode()
  */
 class Identifier extends BaseResult
 {
-    /** @var array $attributes */
-    protected $attributes = [
-        'code',
-        'commercialAccountNumber',
-        'currencyCode',
-        'transactionCodes'
-    ];
-
     /**
      * Return collection of transactions
      *
@@ -28,5 +21,20 @@ class Identifier extends BaseResult
     public function getTransactionCodes(): Collection
     {
         return \collect($this->data['transactionCodes']);
+    }
+
+    /**
+     * Return object attributes.
+     *
+     * @return array
+     */
+    protected function initAttributes(): array
+    {
+        return [
+            'code',
+            'commercialAccountNumber',
+            'currencyCode',
+            'transactionCodes'
+        ];
     }
 }

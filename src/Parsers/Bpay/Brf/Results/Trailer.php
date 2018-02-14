@@ -11,20 +11,6 @@ class Trailer extends BaseResult
 {
     use SignedFieldsTrait;
 
-    /** @var array $attributes */
-    protected $attributes = [
-        'billerCode',
-        'numberOfPayments',
-        'amountOfPayments',
-        'numberOfErrorCorrections',
-        'amountOfErrorCorrections',
-        'numberOfReversals',
-        'amountOfReversals',
-        'settlementAmount',
-        'filler',
-    ];
-
-
     /**
      * Get the amount of error correction and type
      *
@@ -74,6 +60,26 @@ class Trailer extends BaseResult
     }
 
     /**
+     * Return object attributes.
+     *
+     * @return array
+     */
+    protected function initAttributes(): array
+    {
+        return [
+            'billerCode',
+            'numberOfPayments',
+            'amountOfPayments',
+            'numberOfErrorCorrections',
+            'amountOfErrorCorrections',
+            'numberOfReversals',
+            'amountOfReversals',
+            'settlementAmount',
+            'filler'
+        ];
+    }
+
+    /**
      * Get the trailer amount and convert to proper value based on signed field
      *
      * @param string $attrAmount
@@ -88,18 +94,15 @@ class Trailer extends BaseResult
         $sfValue = $this->getSignedFieldValue($sfCode);
 
         if (!$sfValue) {
-            throw new InvalidSignFieldException();
+            throw new InvalidSignFieldException(\sprintf('Invalid signed amount: %s', $attrAmount));
         }
 
         $amountOfPayments = \substr($this->data[$attrAmount], 0, 14) . $sfValue['value'];
 
         $cents = \substr($amountOfPayments, 13, 2);
         $amount = \substr($this->data[$attrAmount], 0, 13);
-        $amount = (int)$amount . '.' . $cents;
+        $amount = (int) $amount . '.' . $cents;
 
-        return [
-            'amount' => $amount,
-            'type' => $sfValue['type']
-        ];
+        return ['amount' => $amount, 'type' => $sfValue['type']];
     }
 }

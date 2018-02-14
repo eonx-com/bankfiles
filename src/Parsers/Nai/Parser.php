@@ -18,25 +18,24 @@ use Illuminate\Support\Collection;
 class Parser extends AbstractLineByLineParser
 {
     use AccountSummaryCodes;
-
     use TransactionDetailCodes;
 
-    const ACCOUNT_IDENTIFIER = '03';
-    const ACCOUNT_TRAILER = '49';
-    const CONTINUATION = '88';
-    const FILE_HEADER = '01';
-    const FILE_TRAILER = '99';
-    const GROUP_HEADER = '02';
-    const GROUP_TRAILER = '98';
-    const TRANSACTION_DETAIL = '16';
+    private const ACCOUNT_IDENTIFIER = '03';
+    private const ACCOUNT_TRAILER = '49';
+    private const CONTINUATION = '88';
+    private const FILE_HEADER = '01';
+    private const FILE_TRAILER = '99';
+    private const GROUP_HEADER = '02';
+    private const GROUP_TRAILER = '98';
+    private const TRANSACTION_DETAIL = '16';
 
-    /** @var Collection $accountBlocks */
-    private $accountBlocks;
+    /** @var array $accountBlocks */
+    private $accountBlocks = [];
 
     /**@var array $accounts */
     private $accounts = [];
 
-    /** @var Error $errors */
+    /** @var array $errors */
     private $errors = [];
 
     /** @var FileHeader $fileHeader */
@@ -82,7 +81,7 @@ class Parser extends AbstractLineByLineParser
             $transactionCodes[$key] = [
                 'code' => $code,
                 'description' => $this->getCodeSummary($code),
-                'amount' => $amount,
+                'amount' => $amount
             ];
         }
 
@@ -206,9 +205,7 @@ class Parser extends AbstractLineByLineParser
                 break;
             default:
                 $this->previousCode = null;
-                $this->errors[] = new Error([
-                    'line' => $line
-                ]);
+                $this->errors[] = new Error(['line' => $line]);
                 break;
         }
     }
@@ -333,7 +330,7 @@ class Parser extends AbstractLineByLineParser
                             }
 
                             if ($prevCode === self::TRANSACTION_DETAIL) {
-                                $transactionDetails[count($transactionDetails) - 1] .= \substr($item, 1);
+                                $transactionDetails[\count($transactionDetails) - 1] .= \substr($item, 1);
                             }
 
                             break;
@@ -428,7 +425,7 @@ class Parser extends AbstractLineByLineParser
             $originatorReceiverId,
             $groupStatus,
             $asOfDate,
-            $asOfTime,
+            $asOfTime
         ] = \explode(',', $line);
 
         $this->groupHeader = new GroupHeader(\compact(
@@ -481,7 +478,7 @@ class Parser extends AbstractLineByLineParser
         $data = \explode(',', $identifier);
 
         // Get the first 3 elements
-        [$code, $commercialAccountNumber, $currencyCode] = $data;
+        [$code, $accountNumber, $currencyCode] = $data;
 
         /*
          * So from 4th item onwards are Transaction code and Amount
@@ -494,7 +491,7 @@ class Parser extends AbstractLineByLineParser
 
         return new Identifier([
             'code' => $code,
-            'commercialAccountNumber' => $commercialAccountNumber,
+            'commercialAccountNumber' => $accountNumber,
             'currencyCode' => $currencyCode,
             'transactionCodes' => $transactionCodes
         ]);
@@ -503,11 +500,11 @@ class Parser extends AbstractLineByLineParser
     /**
      * Parse transaction details
      *
-     * @param $transactionDetails
+     * @param array $transactionDetails
      *
      * @return array
      */
-    private function parseTransaction($transactionDetails): array
+    private function parseTransaction(array $transactionDetails): array
     {
         $transactions = [];
         foreach ($transactionDetails as $key => $transaction) {
@@ -547,7 +544,7 @@ class Parser extends AbstractLineByLineParser
      */
     private function process88(string $line): void
     {
-        $line = \substr($line, 2);
+        $line = (string) \substr($line, 2);
 
         switch ($this->previousCode) {
             case self::FILE_HEADER:

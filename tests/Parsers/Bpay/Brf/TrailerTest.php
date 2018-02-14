@@ -111,8 +111,6 @@ class TrailerTest extends TestCase
      * @group Trailer
      *
      * @expectedException \EoneoPay\BankFiles\Parsers\Bpay\Brf\Exceptions\InvalidSignFieldException
-     * @expectedExceptionCode 404
-     * @expectedExceptionMessage Invalid signed field
      */
     public function testShouldThrowExceptionIfSignedFileNotFound(): void
     {

@@ -7,14 +7,21 @@ use EoneoPay\BankFiles\Parsers\BaseResult;
 
 class Header extends BaseResult
 {
-    /** @var array $attributes */
-    protected $attributes = [
-        'billerCode',
-        'billerShortName',
-        'billerCreditBSB',
-        'billerCreditAccount',
-        'fileCreationDate',
-        'fileCreationTime',
-        'filler'
-    ];
+    /**
+     * Return object attributes.
+     *
+     * @return array
+     */
+    protected function initAttributes(): array
+    {
+        return [
+            'billerCode',
+            'billerShortName',
+            'billerCreditBSB',
+            'billerCreditAccount',
+            'fileCreationDate',
+            'fileCreationTime',
+            'filler'
+        ];
+    }
 }

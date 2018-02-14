@@ -19,6 +19,8 @@ class Parser extends BaseParser
      * Override parent constructor.
      *
      * @param string $contents
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidXmlException
      */
     public function __construct(string $contents)
     {
@@ -51,6 +53,8 @@ class Parser extends BaseParser
      * Process line and parse data
      *
      * @return void
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidXmlException
      */
     protected function process(): void
     {
@@ -61,10 +65,10 @@ class Parser extends BaseParser
 
         $issues = [];
         if ($arr->get($result, 'Issues')) {
-            foreach ($result['Issues']['Issue'] as $issue) {
+            foreach ((array) $result['Issues']['Issue'] as $issue) {
                 $issues[] = new Issue([
                     'value' => $arr->get($issue, '@value'),
-                    'attributes' => $arr->get($issue, '@attributes'),
+                    'attributes' => $arr->get($issue, '@attributes')
                 ]);
             }
         }

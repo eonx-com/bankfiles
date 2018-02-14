@@ -17,6 +17,7 @@ class Generator extends BaseGenerator
      * @var Header
      */
     private $header;
+
     /**
      * @var Trailer|null
      */
@@ -38,7 +39,7 @@ class Generator extends BaseGenerator
      * @throws ValidationFailedException
      * @throws ValidationNotAnObjectException
      */
-    public function __construct(?Header $header = null, ?array $transactions = null, ?Trailer $trailer)
+    public function __construct(?Header $header = null, ?array $transactions = null, ?Trailer $trailer = null)
     {
         $this->header = $header;
         $this->transactions = $transactions;
@@ -62,35 +63,23 @@ class Generator extends BaseGenerator
 
         // Validate header attributes
         if ($this->header) {
-            $this->validateAttributes($this->header, [
-                'customerShortName' => static::VALIDATION_RULE_ALPHA,
-                'processingDate' => static::VALIDATION_RULE_DATE,
-            ]);
+            $this->validateAttributes($this->header, $this->header->getValidationRules());
 
             $this->contents .= $this->header->getAttributesAsLine() . PHP_EOL;
         }
 
         //  validate transactions attributes
         if ($this->transactions) {
-            /** @var Transaction $transaction */
             foreach ($this->transactions as $transaction) {
-                $this->validateAttributes($transaction, [
-                    'billerCode' => static::VALIDATION_RULE_NUMERIC,
-                    'paymentAccountBSB' => static::VALIDATION_RULE_NUMERIC,
-                    'paymentAccountNumber' => static::VALIDATION_RULE_NUMERIC,
-                    'customerReferenceNumber' => static::VALIDATION_RULE_ALPHA,
-                    'amount' => static::VALIDATION_RULE_NUMERIC,
-                ]);
+                /** @var Transaction $transaction */
+                $this->validateAttributes($transaction, $transaction->getValidationRules());
 
                 $this->contents .= $transaction->getAttributesAsLine() . PHP_EOL;
             }
         }
 
         if ($this->trailer) {
-            $this->validateAttributes($this->trailer, [
-                'totalNumberOfPayments' => static::VALIDATION_RULE_NUMERIC,
-                'totalFileValue' => static::VALIDATION_RULE_NUMERIC
-            ]);
+            $this->validateAttributes($this->trailer, $this->trailer->getValidationRules());
 
             $this->contents .= $this->trailer->getAttributesAsLine();
         }
@@ -115,12 +104,12 @@ class Generator extends BaseGenerator
      */
     protected function validateLineLengths(): void
     {
-        // validate header length
+        // Validate header length
         if ($this->header) {
             $this->checkLineLength($this->header->getAttributesAsLine());
         }
 
-        // validate transaction lengths
+        // Validate transaction lengths
         if ($this->transactions) {
             foreach ($this->transactions as $transaction) {
                 /** @var Transaction $transaction */
@@ -128,6 +117,7 @@ class Generator extends BaseGenerator
             }
         }
 
+        // Validate trailer length
         if ($this->trailer) {
             $this->checkLineLength($this->trailer->getAttributesAsLine());
         }

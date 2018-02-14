@@ -13,8 +13,8 @@ use EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException;
 
 class Generator extends BaseGenerator
 {
-    const DIRECT_ENTRY_CREDIT = 0;
-    const DIRECT_ENTRY_DEBIT = 1;
+    protected const DIRECT_ENTRY_CREDIT = 0;
+    protected const DIRECT_ENTRY_DEBIT = 1;
 
     /**
      * @var DescriptiveRecord
@@ -44,11 +44,11 @@ class Generator extends BaseGenerator
      */
     public function __construct(
         ?DescriptiveRecord $descriptiveRecord = null,
-        ?array $transactions = [],
+        ?array $transactions = null,
         ?FileTotalRecord $fileTotalRecord = null
     ) {
         $this->descriptiveRecord = $descriptiveRecord;
-        $this->transactions = $transactions;
+        $this->transactions = $transactions ?? [];
         $this->fileTotalRecord = $fileTotalRecord;
 
         $this->generate();
@@ -69,31 +69,16 @@ class Generator extends BaseGenerator
 
         // Validate descriptive record's attributes
         if ($this->descriptiveRecord) {
-            $this->validateAttributes($this->descriptiveRecord, [
-                'nameOfUseSupplyingFile' => static::VALIDATION_RULE_ALPHA,
-                'numberOfUseSupplyingFile' => static::VALIDATION_RULE_NUMERIC,
-                'descriptionOfEntries' => static::VALIDATION_RULE_ALPHA,
-                'dateToBeProcessed' => static::VALIDATION_RULE_DATE,
-            ]);
+            $this->validateAttributes($this->descriptiveRecord, $this->descriptiveRecord->getValidationRules());
 
             $this->contents .= $this->descriptiveRecord->getAttributesAsLine() . PHP_EOL;
         }
 
         //  validate transactions attributes
         if ($this->transactions) {
-            /** @var Transaction $transaction */
             foreach ($this->transactions as $transaction) {
-                $this->validateAttributes($transaction, [
-                    'bsbNumber' => static::VALIDATION_RULE_BSB,
-                    'accountNumberToBeCreditedDebited' => static::VALIDATION_RULE_ALPHA,
-                    'amount' => static::VALIDATION_RULE_NUMERIC,
-                    'titleOfAccountToBeCreditedDebited' => static::VALIDATION_RULE_ALPHA,
-                    'lodgementReference' => static::VALIDATION_RULE_ALPHA,
-                    'traceRecord' => static::VALIDATION_RULE_BSB,
-                    'accountNumber' => static::VALIDATION_RULE_ALPHA,
-                    'nameOfRemitter' => static::VALIDATION_RULE_ALPHA,
-                    'amountOfWithholdingTax' => static::VALIDATION_RULE_NUMERIC,
-                ]);
+                /** @var Transaction $transaction */
+                $this->validateAttributes($transaction, $transaction->getValidationRules());
 
                 $this->contents .= $transaction->getAttributesAsLine() . PHP_EOL;
             }
@@ -101,12 +86,7 @@ class Generator extends BaseGenerator
 
         // validate file total record attributes
         if ($this->fileTotalRecord) {
-            $this->validateAttributes($this->fileTotalRecord, [
-                'fileUserNetTotalAmount' => static::VALIDATION_RULE_NUMERIC,
-                'fileUserCreditTotalAmount' => static::VALIDATION_RULE_NUMERIC,
-                'fileUserDebitTotalAmount' => static::VALIDATION_RULE_NUMERIC,
-                'fileUserCountOfRecordsType' => static::VALIDATION_RULE_NUMERIC,
-            ]);
+            $this->validateAttributes($this->fileTotalRecord, $this->fileTotalRecord->getValidationRules());
 
             $this->contents .= $this->fileTotalRecord->getAttributesAsLine();
         }

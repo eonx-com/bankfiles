@@ -7,8 +7,13 @@ use EoneoPay\BankFiles\Parsers\BaseResult;
 
 class Error extends BaseResult
 {
-    /** @var array $attributes */
-    protected $attributes = [
-        'line'
-    ];
+    /**
+     * Return object attributes.
+     *
+     * @return array
+     */
+    protected function initAttributes(): array
+    {
+        return ['line'];
+    }
 }

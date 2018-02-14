@@ -6,15 +6,23 @@ namespace EoneoPay\BankFiles\Parsers\Nai\Results\Accounts;
 use EoneoPay\BankFiles\Parsers\BaseResult;
 
 /**
- * @method getAccountControlTotalA
- * @method getAccountControlTotalB
-*/
+ * @method string getAccountControlTotalA()
+ * @method string getAccountControlTotalB()
+ * @method string getCode()
+ */
 class Trailer extends BaseResult
 {
-    /** @var array $attributes */
-    protected $attributes = [
-        'code',
-        'accountControlTotalA',
-        'accountControlTotalB'
-    ];
+    /**
+     * Return object attributes.
+     *
+     * @return array
+     */
+    protected function initAttributes(): array
+    {
+        return [
+            'code',
+            'accountControlTotalA',
+            'accountControlTotalB'
+        ];
+    }
 }

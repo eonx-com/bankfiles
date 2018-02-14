@@ -4,17 +4,16 @@ declare(strict_types=1);
 namespace EoneoPay\BankFiles\Parsers\Nai\Results;
 
 use EoneoPay\BankFiles\Parsers\BaseResult;
+use EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Identifier;
+use EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Trailer;
 use Illuminate\Support\Collection;
 
+/**
+ * @method Identifier getIdentifier()
+ * @method Trailer getTrailer()
+ */
 class Account extends BaseResult
 {
-    /** @var array $attributes */
-    protected $attributes = [
-        'identifier',
-        'transactions',
-        'trailer'
-    ];
-
     /**
      * Return collection of transactions
      *
@@ -23,5 +22,19 @@ class Account extends BaseResult
     public function getTransactions(): Collection
     {
         return \collect($this->data['transactions']);
+    }
+
+    /**
+     * Return object attributes.
+     *
+     * @return array
+     */
+    protected function initAttributes(): array
+    {
+        return [
+            'identifier',
+            'transactions',
+            'trailer'
+        ];
     }
 }

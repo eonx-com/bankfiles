@@ -6,7 +6,7 @@ namespace EoneoPay\BankFiles\Parsers\Bpay\Brf;
 trait SignedFieldsTrait
 {
     /** @var array $signedFields */
-    private $signedFields = [
+    private static $signedFields = [
         '{' => '0+',
         '}' => '0-',
         'A' => '1+',
@@ -38,15 +38,15 @@ trait SignedFieldsTrait
      */
     public function getSignedFieldValue(string $code): ?array
     {
-        $signedField = $this->signedFields[$code] ?? null;
-
-        if (!$signedField) {
+        if (!isset(static::$signedFields[$code])) {
             return null;
         }
 
+        $signedField = static::$signedFields[$code];
+
         return [
-            'value' => \substr($signedField, 0, 1),
-            'type' => \substr($signedField, 1) === '+' ? 'credit' : 'debit'
+            'value' => $signedField[0],
+            'type' => $signedField[1] === '+' ? 'credit' : 'debit'
         ];
     }
 }

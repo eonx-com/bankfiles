@@ -8,7 +8,7 @@ abstract class AbstractDataBag
     /**
      * @var array
      */
-    protected $attributes = [];
+    protected $attributes;
 
     /**
      * @var array
@@ -20,8 +20,10 @@ abstract class AbstractDataBag
      *
      * @param array|null $data
      */
-    public function __construct(array $data = null)
+    public function __construct(?array $data = null)
     {
+        $this->attributes = $this->initAttributes() ?? [];
+
         foreach ($data ?? [] as $key => $value) {
             if (\in_array($key, $this->attributes, true)) {
                 $this->data[$key] = $value;
@@ -48,4 +50,11 @@ abstract class AbstractDataBag
 
         return null;
     }
+
+    /**
+     * Return object attributes.
+     *
+     * @return array
+     */
+    abstract protected function initAttributes(): array;
 }

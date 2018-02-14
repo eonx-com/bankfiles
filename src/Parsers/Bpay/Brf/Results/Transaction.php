@@ -18,21 +18,6 @@ use EoneoPay\BankFiles\Parsers\BaseResult;
  */
 class Transaction extends BaseResult
 {
-    /** @var array $attributes */
-    protected $attributes = [
-        'billerCode',
-        'customerReferenceNumber',
-        'paymentInstructionType',
-        'transactionReferenceNumber',
-        'originalReferenceNumber',
-        'errorCorrectionReason',
-        'amount',
-        'paymentDate',
-        'paymentTime',
-        'settlementDate',
-        'filler',
-    ];
-
     /**
      * Convert amount into float and return
      *
@@ -65,5 +50,27 @@ class Transaction extends BaseResult
     public function getSettlementDate(): DateTime
     {
         return new DateTime($this->data['settlementDate']);
+    }
+
+    /**
+     * Return object attributes.
+     *
+     * @return array
+     */
+    protected function initAttributes(): array
+    {
+        return [
+            'billerCode',
+            'customerReferenceNumber',
+            'paymentInstructionType',
+            'transactionReferenceNumber',
+            'originalReferenceNumber',
+            'errorCorrectionReason',
+            'amount',
+            'paymentDate',
+            'paymentTime',
+            'settlementDate',
+            'filler'
+        ];
     }
 }

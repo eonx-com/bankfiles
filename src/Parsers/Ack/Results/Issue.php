@@ -6,16 +6,21 @@ namespace EoneoPay\BankFiles\Parsers\Ack\Results;
 use EoneoPay\BankFiles\Parsers\BaseResult;
 
 /**
- * Class Issue
- *
- * @method string getValue
- * @method array getAttribute
+ * @method string getValue()
+ * @method array getAttributes()
 */
 class Issue extends BaseResult
 {
-    /** @var array $attributes */
-    protected $attributes = [
-        'value',
-        'attributes'
-    ];
+    /**
+     * Return object attributes.
+     *
+     * @return array
+     */
+    protected function initAttributes(): array
+    {
+        return [
+            'value',
+            'attributes'
+        ];
+    }
 }

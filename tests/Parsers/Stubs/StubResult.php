@@ -7,8 +7,13 @@ use EoneoPay\BankFiles\Parsers\BaseResult;
 
 class StubResult extends BaseResult
 {
-    /** @var array $attributes */
-    protected $attributes = [
-        'biller'
-    ];
+    /**
+     * Return object attributes.
+     *
+     * @return array
+     */
+    protected function initAttributes(): array
+    {
+        return ['biller'];
+    }
 }

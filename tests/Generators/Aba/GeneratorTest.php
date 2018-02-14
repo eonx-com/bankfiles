@@ -61,7 +61,7 @@ class GeneratorTest extends AbaTestCase
         $this->expectException(LengthExceedsException::class);
 
         $descriptiveRecord = $this->createDescriptiveRecord();
-        $descriptiveRecord->setAttribute('blank3', \str_pad('', 41));
+        $descriptiveRecord->setAttribute('nameOfUseSupplyingFile', \str_pad('', 41));
 
         new Generator($descriptiveRecord);
     }
@@ -106,8 +106,8 @@ class GeneratorTest extends AbaTestCase
 
         try {
             new Generator($this->createDescriptiveRecord(), [$trans]);
-        } catch (ValidationFailedException $e) {
-            self::assertEquals($expected, $e->getErrors()[0]);
+        } catch (ValidationFailedException $exception) {
+            self::assertEquals($expected, $exception->getErrors()[0]);
         }
 
         $this->expectException(ValidationFailedException::class);

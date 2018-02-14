@@ -10,6 +10,9 @@ use EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException;
 
 class StubGenerator extends BaseGenerator
 {
+    /**
+     * @var array
+     */
     private $descriptiveRecord;
 
     /**

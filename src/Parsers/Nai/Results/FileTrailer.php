@@ -7,21 +7,13 @@ use EoneoPay\BankFiles\Parsers\BaseResult;
 use EoneoPay\BankFiles\Parsers\Nai\ControlTotal;
 
 /**
- * @method getNumberOfGroups
- * @method getNumberOfRecords
+ * @method string getCode()
+ * @method getNumberOfGroups()
+ * @method getNumberOfRecords()
  */
 class FileTrailer extends BaseResult
 {
     use ControlTotal;
-
-    /** @var array $attributes */
-    protected $attributes = [
-        'code',
-        'fileControlTotalA',
-        'numberOfGroups',
-        'numberOfRecords',
-        'fileControlTotalB'
-    ];
 
     /**
      * Return file control total A
@@ -41,5 +33,21 @@ class FileTrailer extends BaseResult
     public function getFileControlTotalB(): float
     {
         return $this->formatAmount($this->data['fileControlTotalB']);
+    }
+
+    /**
+     * Return object attributes.
+     *
+     * @return array
+     */
+    protected function initAttributes(): array
+    {
+        return [
+            'code',
+            'fileControlTotalA',
+            'numberOfGroups',
+            'numberOfRecords',
+            'fileControlTotalB'
+        ];
     }
 }

@@ -7,26 +7,16 @@ use DateTime;
 use EoneoPay\BankFiles\Parsers\BaseResult;
 
 /**
- * @method getReceiverId
- * @method getFileSequenceNumber
- * @method getPhysicalRecordLength
- * @method getBlockingFactor
- * @method getFileCreationTime
+ * @method string getBlockingFactor()
+ * @method string getCode()
+ * @method string getFileCreationTime()
+ * @method string getFileSequenceNumber()
+ * @method string getPhysicalRecordLength()
+ * @method string getReceiverId()
+ * @method string getSenderId()
  */
 class FileHeader extends BaseResult
 {
-    /** @var array $attributes */
-    protected $attributes = [
-        'code',
-        'senderId',
-        'receiverId',
-        'fileCreationDate',
-        'fileCreationTime',
-        'fileSequenceNumber',
-        'physicalRecordLength',
-        'blockingFactor'
-    ];
-
     /**
      * Convert to DateTime object and return
      *
@@ -38,5 +28,24 @@ class FileHeader extends BaseResult
         $date->setTime(0, 0);
 
         return $date;
+    }
+
+    /**
+     * Return object attributes.
+     *
+     * @return array
+     */
+    protected function initAttributes(): array
+    {
+        return [
+            'code',
+            'senderId',
+            'receiverId',
+            'fileCreationDate',
+            'fileCreationTime',
+            'fileSequenceNumber',
+            'physicalRecordLength',
+            'blockingFactor'
+        ];
     }
 }

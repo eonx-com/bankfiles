@@ -6,25 +6,23 @@ namespace EoneoPay\BankFiles\Generators;
 use EoneoPay\BankFiles\Generators\Exceptions\LengthExceedsException;
 use EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException;
 use EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException;
+use EoneoPay\BankFiles\Generators\Interfaces\GeneratorInterface;
 
-abstract class BaseGenerator
+abstract class BaseGenerator implements GeneratorInterface
 {
-    const VALIDATION_RULE_ALPHA = 'alpha';
-    const VALIDATION_RULE_BSB = 'bsb';
-    const VALIDATION_RULE_DATE = 'date';
-    const VALIDATION_RULE_NUMERIC = 'numeric';
+    /**
+     * @var string
+     */
+    protected $contents = '';
 
-    /**@var array $validationRules */
+    /**
+     * @var array $validationRules
+     */
     protected static $validationRules = [
         self::VALIDATION_RULE_ALPHA => '/[^A-Za-z0-9 &\',-\.\/\+\$\!%\(\)\*\#=:\?\[\]_\^@]/',
         self::VALIDATION_RULE_NUMERIC => '/[^0-9-]/',
         self::VALIDATION_RULE_BSB => '/^\d{3}(\-)\d{3}/'
     ];
-
-    /**
-     * @var string
-     */
-    protected $contents = '';
 
     /**
      * Return contents
@@ -35,29 +33,6 @@ abstract class BaseGenerator
     {
         return $this->contents;
     }
-
-    /**
-     * Generate
-     *
-     * @return void
-     */
-    abstract protected function generate(): void;
-
-    /**
-     * Return the defined line length of a generator
-     *
-     * @return int
-     */
-    abstract protected function getLineLength(): int;
-
-    /**
-     * Check if record length is no more than defined characters
-     *
-     * @return void
-     *
-     * @throws LengthExceedsException
-     */
-    abstract protected function validateLineLengths(): void;
 
     /**
      * Check if line's length is greater than defined length
@@ -78,17 +53,31 @@ abstract class BaseGenerator
     }
 
     /**
+     * Generate
+     *
+     * @return void
+     */
+    abstract protected function generate(): void;
+
+    /**
+     * Return the defined line length of a generator
+     *
+     * @return int
+     */
+    abstract protected function getLineLength(): int;
+
+    /**
      * Validate object attributes
      *
      * @param $object
-     * @param array $rules
+     * @param null|array $rules
      *
      * @return void
      *
      * @throws ValidationFailedException
      * @throws ValidationNotAnObjectException
      */
-    protected function validateAttributes($object, array $rules = []): void
+    protected function validateAttributes($object, ?array $rules = null): void
     {
         if (!\is_object($object)) {
             throw new ValidationNotAnObjectException('Not an object exception');
@@ -96,8 +85,8 @@ abstract class BaseGenerator
 
         $errors = [];
 
-        foreach ($rules as $attribute => $rule) {
-            $value = (string)$object->{'get' . \ucfirst($attribute)}();
+        foreach ($rules ?? [] as $attribute => $rule) {
+            $value = (string) $object->{'get' . \ucfirst($attribute)}();
 
             switch ($rule) {
                 case self::VALIDATION_RULE_BSB:
@@ -116,7 +105,7 @@ abstract class BaseGenerator
                 case self::VALIDATION_RULE_ALPHA:
                 case self::VALIDATION_RULE_NUMERIC:
                     if (\preg_match(self::$validationRules[$rule], $value)) {
-                        $errors[] = compact('attribute', 'value', 'rule');
+                        $errors[] = \compact('attribute', 'value', 'rule');
                     }
                     break;
             }
@@ -126,4 +115,13 @@ abstract class BaseGenerator
             throw new ValidationFailedException($errors, 'Validation Errors');
         }
     }
+
+    /**
+     * Check if record length is no more than defined characters
+     *
+     * @return void
+     *
+     * @throws LengthExceedsException
+     */
+    abstract protected function validateLineLengths(): void;
 }

@@ -6,12 +6,17 @@ namespace EoneoPay\BankFiles\Parsers\Nai\Results;
 use EoneoPay\BankFiles\Parsers\BaseResult;
 
 /**
- * @method getLine
+ * @method string getLine()
  */
 class Error extends BaseResult
 {
-    /** @var array $attributes */
-    protected $attributes = [
-        'line'
-    ];
+    /**
+     * Return object attributes.
+     *
+     * @return array
+     */
+    protected function initAttributes(): array
+    {
+        return ['line'];
+    }
 }

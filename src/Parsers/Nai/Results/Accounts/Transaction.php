@@ -6,24 +6,22 @@ namespace EoneoPay\BankFiles\Parsers\Nai\Results\Accounts;
 use EoneoPay\BankFiles\Parsers\BaseResult;
 use EoneoPay\BankFiles\Parsers\Nai\Results\Account;
 
+/**
+ * @method Account getAccount()
+ * @method string getAmount()
+ * @method string getCode()
+ * @method string getFundsType()
+ * @method string getReferenceNumber()
+ * @method string getText()
+ * @method string getTransactionCode()
+ * @method array getTransactionDetails()
+ */
 class Transaction extends BaseResult
 {
-    /** @var array $attributes */
-    protected $attributes = [
-        'code',
-        'transactionCode',
-        'transactionDetails',
-        'amount',
-        'fundsType',
-        'referenceNumber',
-        'text',
-        'account'
-    ];
-
     /**
-     * Set Account
+     * Set Account.
      *
-     * @param $account
+     * @param Account $account
      *
      * @return self
      */
@@ -32,5 +30,24 @@ class Transaction extends BaseResult
         $this->data['account'] = $account;
 
         return $this;
+    }
+
+    /**
+     * Return object attributes.
+     *
+     * @return array
+     */
+    protected function initAttributes(): array
+    {
+        return [
+            'code',
+            'transactionCode',
+            'transactionDetails',
+            'amount',
+            'fundsType',
+            'referenceNumber',
+            'text',
+            'account'
+        ];
     }
 }

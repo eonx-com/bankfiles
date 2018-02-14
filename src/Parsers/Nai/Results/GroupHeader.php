@@ -7,23 +7,14 @@ use DateTime;
 use EoneoPay\BankFiles\Parsers\BaseResult;
 
 /**
- * @method getUltimateReceiverId
- * @method getOriginatorReceiverId
- * @method getGroupStatus
- * @method getAsOfTime
-*/
+ * @method getAsOfTime()
+ * @method string getCode()
+ * @method getGroupStatus()
+ * @method getOriginatorReceiverId()
+ * @method getUltimateReceiverId()
+ */
 class GroupHeader extends BaseResult
 {
-    /** @var array $attributes */
-    protected $attributes = [
-        'code',
-        'ultimateReceiverId',
-        'originatorReceiverId',
-        'groupStatus',
-        'asOfDate',
-        'asOfTime',
-    ];
-
     /**
      * Convert to DateTime object and return
      *
@@ -32,5 +23,22 @@ class GroupHeader extends BaseResult
     public function getAsOfDate(): ?DateTime
     {
         return $this->data['asOfDate'] ? new DateTime($this->data['asOfDate']) : null;
+    }
+
+    /**
+     * Return object attributes.
+     *
+     * @return array
+     */
+    protected function initAttributes(): array
+    {
+        return [
+            'code',
+            'ultimateReceiverId',
+            'originatorReceiverId',
+            'groupStatus',
+            'asOfDate',
+            'asOfTime'
+        ];
     }
 }
