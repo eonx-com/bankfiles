@@ -13,9 +13,6 @@ use EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException;
 
 class Generator extends BaseGenerator
 {
-    protected const DIRECT_ENTRY_CREDIT = 0;
-    protected const DIRECT_ENTRY_DEBIT = 1;
-
     /**
      * @var DescriptiveRecord
      */
@@ -43,7 +40,7 @@ class Generator extends BaseGenerator
      * @throws ValidationNotAnObjectException
      */
     public function __construct(
-        ?DescriptiveRecord $descriptiveRecord = null,
+        DescriptiveRecord $descriptiveRecord = null,
         ?array $transactions = null,
         ?FileTotalRecord $fileTotalRecord = null
     ) {
@@ -65,31 +62,29 @@ class Generator extends BaseGenerator
      */
     protected function generate(): void
     {
-        $this->validateLineLengths();
+        $objects = [$this->descriptiveRecord];
 
-        // Validate descriptive record's attributes
-        if ($this->descriptiveRecord) {
-            $this->validateAttributes($this->descriptiveRecord, $this->descriptiveRecord->getValidationRules());
+        $creditTotal = 0;
+        $debitTotal = 0;
+        foreach ($this->transactions as $transaction) {
+            /** @var Transaction $transaction */
+            $objects[] = $transaction;
 
-            $this->contents .= $this->descriptiveRecord->getAttributesAsLine() . PHP_EOL;
-        }
-
-        //  validate transactions attributes
-        if ($this->transactions) {
-            foreach ($this->transactions as $transaction) {
-                /** @var Transaction $transaction */
-                $this->validateAttributes($transaction, $transaction->getValidationRules());
-
-                $this->contents .= $transaction->getAttributesAsLine() . PHP_EOL;
+            if (Transaction::CODE_GENERAL_CREDIT === (int) $transaction->getTransactionCode()) {
+                $creditTotal += (int) $transaction->getAmount();
+            }
+            if (Transaction::CODE_GENERAL_DEBIT === (int) $transaction->getTransactionCode()) {
+                $debitTotal += (int) $transaction->getAmount();
             }
         }
 
-        // validate file total record attributes
-        if ($this->fileTotalRecord) {
-            $this->validateAttributes($this->fileTotalRecord, $this->fileTotalRecord->getValidationRules());
+        $objects[] = $this->fileTotalRecord ?? $this->createFileTotalRecord(
+                \count($this->transactions),
+                $creditTotal,
+                $debitTotal
+            );
 
-            $this->contents .= $this->fileTotalRecord->getAttributesAsLine();
-        }
+        $this->writeLinesForObjects($objects);
     }
 
     /**
@@ -103,30 +98,21 @@ class Generator extends BaseGenerator
     }
 
     /**
-     * Check if record length is no more than 120 characters
+     * Create new file total record.
      *
-     * @return void
+     * @param int $count
+     * @param int $creditTotal
+     * @param int $debitTotal
      *
-     * @throws LengthExceedsException
+     * @return \EoneoPay\BankFiles\Generators\Aba\Objects\FileTotalRecord
      */
-    protected function validateLineLengths(): void
+    private function createFileTotalRecord(int $count, int $creditTotal, int $debitTotal): FileTotalRecord
     {
-        // validate descriptive record length
-        if ($this->descriptiveRecord) {
-            $this->checkLineLength($this->descriptiveRecord->getAttributesAsLine());
-        }
-
-        // validate transaction lengths
-        if ($this->transactions) {
-            foreach ($this->transactions as $transaction) {
-                /** @var Transaction $transaction */
-                $this->checkLineLength($transaction->getAttributesAsLine());
-            }
-        }
-
-        // validate file total record length
-        if ($this->fileTotalRecord) {
-            $this->checkLineLength($this->fileTotalRecord->getAttributesAsLine());
-        }
+        return new FileTotalRecord([
+            'fileUserCountOfRecordsType' => $count,
+            'fileUserCreditTotalAmount' => $creditTotal,
+            'fileUserDebitTotalAmount' => $debitTotal,
+            'fileUserNetTotalAmount' => $creditTotal - $debitTotal
+        ]);
     }
 }

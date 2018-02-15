@@ -41,7 +41,7 @@ abstract class BaseObject extends AbstractDataBag
             $value = $this->data[$attribute] ?? '';
 
             if (isset($paddingRules[$attribute])) {
-                \array_unshift($paddingRules[$attribute], $value);
+                \array_unshift($paddingRules[$attribute], (string) $value);
                 $value = \str_pad(...$paddingRules[$attribute]);
             }
 
@@ -69,11 +69,11 @@ abstract class BaseObject extends AbstractDataBag
      * Set the value of the attribute
      *
      * @param string $attribute
-     * @param null|string $value
+     * @param null|string|int $value
      *
      * @return self
      */
-    public function setAttribute(string $attribute, ?string $value = null): self
+    public function setAttribute(string $attribute, $value = null): self
     {
         $this->data[$attribute] = $value ?? '';
 

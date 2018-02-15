@@ -6,6 +6,13 @@ namespace EoneoPay\BankFiles\Generators\Bpay\Objects;
 use EoneoPay\BankFiles\Generators\BaseObject;
 use EoneoPay\BankFiles\Generators\Interfaces\GeneratorInterface;
 
+/**
+ * @method string getAmount()
+ * @method string getBillerCode()
+ * @method string getPaymentAccountBsb()
+ * @method string getPaymentAccountNumber()
+ * @method string getCustomerReferenceNumber()
+ */
 class Transaction extends BaseObject
 {
     /**

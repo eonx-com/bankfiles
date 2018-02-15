@@ -5,7 +5,6 @@ namespace Tests\EoneoPay\BankFiles;
 
 use EoneoPay\BankFiles\Generators\Bpay\Generator;
 use EoneoPay\BankFiles\Generators\Bpay\Objects\Header;
-use EoneoPay\BankFiles\Generators\Bpay\Objects\Trailer;
 use EoneoPay\BankFiles\Generators\Bpay\Objects\Transaction;
 use Tests\EoneoPay\BankFiles\Generators\Bpay\TestCase;
 
@@ -21,10 +20,7 @@ class SampleFilesTest extends TestCase
             ->setAttribute('billerCode', '11133')
             ->setAttribute('amount', '200');
         $trans2 =  $this->createTransaction();
-
-        $trailer = $this->createTrailer();
-
-        $generator = new Generator($header, [$trans1, $trans2], $trailer);
+        $generator = new Generator($header, [$trans1, $trans2]);
 
         $sample = \fopen('random_sample.bpb', 'wb+');
         \fwrite($sample, $generator->getContents());
@@ -36,7 +32,7 @@ class SampleFilesTest extends TestCase
     public function testGenerateOfficialSample(): void
     {
         $header = new Header([
-            'batchCustomerId' => 'custid',
+            'batchCustomerId' => '10897',
             'customerShortName' => 'Customer short name',
             'processingDate' => '20060126'
         ]);
@@ -93,12 +89,7 @@ class SampleFilesTest extends TestCase
             'lodgementReference3' => 'lodgement reference 333333333333333333333333333333'
         ]);
 
-        $trailer = new Trailer([
-            'totalNumberOfPayments' => '5',
-            'totalFileValue' => '1500'
-        ]);
-
-        $generator = new Generator($header, $transactions, $trailer);
+        $generator = new Generator($header, $transactions);
 
         $sample = \fopen('official_sample.bpb', 'wb+');
         \fwrite($sample, $generator->getContents());

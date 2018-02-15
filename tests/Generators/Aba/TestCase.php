@@ -20,9 +20,9 @@ class TestCase extends GeneratorTestCase
         return new DescriptiveRecord([
             'reelSequenceNumber' => '01',
             'userFinancialInstitution' => 'UFI',
-            'nameOfUseSupplyingFile' => 'LOYALTY CORP AUSTRALIA    ',
-            'numberOfUseSupplyingFile' => 492627,
-            'descriptionOfEntries' => 'PAYMENTS    ',
+            'nameOfUseSupplyingFile' => 'LOYALTY CORP AUSTRALIA',
+            'numberOfUserSupplyingFile' => 492627,
+            'descriptionOfEntries' => 'PAYMENTS',
             'dateToBeProcessed' => '100817'
         ]);
     }
@@ -35,11 +35,10 @@ class TestCase extends GeneratorTestCase
     protected function createFileTotalRecord(): FileTotalRecord
     {
         return new FileTotalRecord([
-            'bsbFiller' => '999-999',
-            'fileUserNetTotalAmount' => '0000000000',
-            'fileUserCreditTotalAmount' => '0000043452',
-            'fileUserDebitTotalAmount' => '0000043452',
-            'fileUserCountOfRecordsType' => '000002'
+            'fileUserNetTotalAmount' => '0',
+            'fileUserCreditTotalAmount' => '43452',
+            'fileUserDebitTotalAmount' => '43452',
+            'fileUserCountOfRecordsType' => '2'
         ]);
     }
 
@@ -52,14 +51,13 @@ class TestCase extends GeneratorTestCase
     {
         return new Transaction([
             'bsbNumber' => '083-163',
-            'accountNumberToBeCreditedDebited' => '  1234356',
-            'indicator' => ' ',
-            'transactionCode' => '50',
+            'accountNumber' => '1234356',
+            'transactionCode' => Transaction::CODE_GENERAL_CREDIT,
             'amount' => '0000043452',
-            'titleOfAccountToBeCreditedDebited' => 'TRUST ME                        ',
+            'titleOfAccount' => 'TRUST ME',
             'lodgementReference' => '0049e2d7dd1288d086',
-            'traceRecord' => '083-170',
-            'accountNumber' => '739827524',
+            'traceBsb' => '083-170',
+            'traceAccountNumber' => '739827524',
             'nameOfRemitter' => 'TEST PAY RENT RE',
             'amountOfWithholdingTax' => '00000000'
         ]);

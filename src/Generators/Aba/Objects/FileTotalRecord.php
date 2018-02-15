@@ -9,6 +9,16 @@ use EoneoPay\BankFiles\Generators\Interfaces\GeneratorInterface;
 class FileTotalRecord extends BaseObject
 {
     /**
+     * BaseResult constructor.
+     *
+     * @param array|null $data
+     */
+    public function __construct(?array $data = null)
+    {
+        parent::__construct(\array_merge(['bsbFiller' => '999-999'], $data ?? []));
+    }
+
+    /**
      * Get validation rules.
      *
      * @return array
@@ -34,7 +44,11 @@ class FileTotalRecord extends BaseObject
         return [
             'blank1' => [12],
             'blank2' => [24],
-            'blank3' => [40]
+            'blank3' => [40],
+            'fileUserCountOfRecordsType' => [6, '0', STR_PAD_LEFT],
+            'fileUserNetTotalAmount' => [10, '0', STR_PAD_LEFT],
+            'fileUserCreditTotalAmount' => [10, '0', STR_PAD_LEFT],
+            'fileUserDebitTotalAmount' => [10, '0', STR_PAD_LEFT]
         ];
     }
 

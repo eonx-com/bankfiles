@@ -31,25 +31,6 @@ class GeneratorTest extends AbaTestCase
     }
 
     /**
-     * Should throw exception if validation fails
-     *
-     * @group Generator-Aba
-     *
-     * @return void
-     */
-    public function testShouldThrowExceptionIfValidationFails(): void
-    {
-        $this->expectException(ValidationFailedException::class);
-
-        $descriptiveRecord = $this->createDescriptiveRecord();
-        $descriptiveRecord
-            ->setAttribute('numberOfUseSupplyingFile', '49262x')
-            ->setAttribute('dateToBeProcessed', '10081Q');
-
-        new Generator($descriptiveRecord);
-    }
-
-    /**
      * Should trow exception if DescriptiveRecord's length is greater than 120
      *
      * @group Generator-Aba
@@ -81,7 +62,26 @@ class GeneratorTest extends AbaTestCase
 
         $transaction->setAttribute('amount', '00000012555');
 
-        new Generator(null, [$transaction]);
+        new Generator($this->createDescriptiveRecord(), [$transaction]);
+    }
+
+    /**
+     * Should throw exception if validation fails
+     *
+     * @group Generator-Aba
+     *
+     * @return void
+     */
+    public function testShouldThrowExceptionIfValidationFails(): void
+    {
+        $this->expectException(ValidationFailedException::class);
+
+        $descriptiveRecord = $this->createDescriptiveRecord();
+        $descriptiveRecord
+            ->setAttribute('numberOfUserSupplyingFile', '49262x')
+            ->setAttribute('dateToBeProcessed', '10081Q');
+
+        new Generator($descriptiveRecord);
     }
 
     /**

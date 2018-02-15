@@ -9,6 +9,16 @@ use EoneoPay\BankFiles\Generators\Interfaces\GeneratorInterface;
 class DescriptiveRecord extends BaseObject
 {
     /**
+     * BaseResult constructor.
+     *
+     * @param array|null $data
+     */
+    public function __construct(?array $data = null)
+    {
+        parent::__construct(\array_merge(['reelSequenceNumber' => '01'], $data ?? []));
+    }
+
+    /**
      * Get validation rules.
      *
      * @return array
@@ -17,7 +27,7 @@ class DescriptiveRecord extends BaseObject
     {
         return [
             'nameOfUseSupplyingFile' => GeneratorInterface::VALIDATION_RULE_ALPHA,
-            'numberOfUseSupplyingFile' => GeneratorInterface::VALIDATION_RULE_NUMERIC,
+            'numberOfUserSupplyingFile' => GeneratorInterface::VALIDATION_RULE_NUMERIC,
             'descriptionOfEntries' => GeneratorInterface::VALIDATION_RULE_ALPHA,
             'dateToBeProcessed' => GeneratorInterface::VALIDATION_RULE_DATE
         ];
@@ -34,7 +44,10 @@ class DescriptiveRecord extends BaseObject
         return [
             'blank1' => [17],
             'blank2' => [7],
-            'blank3' => [40]
+            'blank3' => [40],
+            'nameOfUseSupplyingFile' => [26],
+            'numberOfUserSupplyingFile' => [6, '0', STR_PAD_LEFT],
+            'descriptionOfEntries' => [12]
         ];
     }
 
@@ -52,7 +65,7 @@ class DescriptiveRecord extends BaseObject
             'userFinancialInstitution',
             'black2',
             'nameOfUseSupplyingFile',
-            'numberOfUseSupplyingFile',
+            'numberOfUserSupplyingFile',
             'descriptionOfEntries',
             'dateToBeProcessed',
             'blank3'

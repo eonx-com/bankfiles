@@ -18,7 +18,7 @@ class TestCase extends GeneratorTestCase
     protected function createHeader(): Header
     {
         return new Header([
-            'batchCustomerId' => 'BatchCustomerId',
+            'batchCustomerId' => '85765',
             'customerShortName' => 'CustomerShortName',
             'processingDate' => '20171104'
         ]);
@@ -33,26 +33,13 @@ class TestCase extends GeneratorTestCase
     {
         return new Transaction([
             'billerCode' => '5566778',
-            'paymentAccountBSB' => '334455',
+            'paymentAccountBSB' => '084455',
             'paymentAccountNumber' => '112233445',
             'customerReferenceNumber' => '9457689335',
             'amount' => '2599',
             'lodgementReference1' => 'lodgeRef1',
             'lodgementReference2' => 'lodgeRef2',
             'lodgementReference3' => 'lodgeRef2'
-        ]);
-    }
-
-    /**
-     * Create a Trailer object.
-     *
-     * @return \EoneoPay\BankFiles\Generators\Bpay\Objects\Trailer
-     */
-    protected function createTrailer(): Trailer
-    {
-        return new Trailer([
-            'totalNumberOfPayments' => '125',
-            'totalFileValue' => '1500'
         ]);
     }
 }

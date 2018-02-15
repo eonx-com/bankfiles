@@ -6,8 +6,25 @@ namespace EoneoPay\BankFiles\Generators\Aba\Objects;
 use EoneoPay\BankFiles\Generators\BaseObject;
 use EoneoPay\BankFiles\Generators\Interfaces\GeneratorInterface;
 
+/**
+ * @method string getAccountNumber()
+ * @method string getAmount()
+ * @method string getAmountOfWithholdingTax()
+ * @method string getBsbNumber()
+ * @method string getIndicator()
+ * @method string getLodgementReference()
+ * @method string getNameOfRemitter()
+ * @method string getRecordType()
+ * @method string getTitleOfAccount()
+ * @method string getTraceAccountNumber()
+ * @method string getTraceBsb()
+ * @method string|int getTransactionCode()
+ */
 class Transaction extends BaseObject
 {
+    public const CODE_GENERAL_CREDIT = 50;
+    public const CODE_GENERAL_DEBIT = 13;
+
     /**
      * Get validation rules.
      *
@@ -17,12 +34,12 @@ class Transaction extends BaseObject
     {
         return [
             'bsbNumber' => GeneratorInterface::VALIDATION_RULE_BSB,
-            'accountNumberToBeCreditedDebited' => GeneratorInterface::VALIDATION_RULE_ALPHA,
-            'amount' => GeneratorInterface::VALIDATION_RULE_NUMERIC,
-            'titleOfAccountToBeCreditedDebited' => GeneratorInterface::VALIDATION_RULE_ALPHA,
-            'lodgementReference' => GeneratorInterface::VALIDATION_RULE_ALPHA,
-            'traceRecord' => GeneratorInterface::VALIDATION_RULE_BSB,
             'accountNumber' => GeneratorInterface::VALIDATION_RULE_ALPHA,
+            'amount' => GeneratorInterface::VALIDATION_RULE_NUMERIC,
+            'titleOfAccount' => GeneratorInterface::VALIDATION_RULE_ALPHA,
+            'lodgementReference' => GeneratorInterface::VALIDATION_RULE_ALPHA,
+            'traceBsb' => GeneratorInterface::VALIDATION_RULE_BSB,
+            'traceAccountNumber' => GeneratorInterface::VALIDATION_RULE_ALPHA,
             'nameOfRemitter' => GeneratorInterface::VALIDATION_RULE_ALPHA,
             'amountOfWithholdingTax' => GeneratorInterface::VALIDATION_RULE_NUMERIC
         ];
@@ -36,7 +53,16 @@ class Transaction extends BaseObject
      */
     protected function getAttributesPaddingRules(): array
     {
-        return [];
+        return [
+            'accountNumber' => [9, ' ', STR_PAD_LEFT],
+            'indicator' => [1],
+            'amount' => [10, '0', STR_PAD_LEFT],
+            'titleOfAccount' => [32],
+            'lodgementReference' => [18],
+            'traceAccountNumber' => [9, ' ', STR_PAD_LEFT],
+            'nameOfRemitter' => [16],
+            'amountOfWithholdingTax' => [8, '0', STR_PAD_LEFT]
+        ];
     }
 
     /**
@@ -49,14 +75,14 @@ class Transaction extends BaseObject
         return [
             'recordType',
             'bsbNumber',
-            'accountNumberToBeCreditedDebited',
+            'accountNumber',
             'indicator',
             'transactionCode',
             'amount',
-            'titleOfAccountToBeCreditedDebited',
+            'titleOfAccount',
             'lodgementReference',
-            'traceRecord',
-            'accountNumber',
+            'traceBsb',
+            'traceAccountNumber',
             'nameOfRemitter',
             'amountOfWithholdingTax'
         ];

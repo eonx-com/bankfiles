@@ -39,10 +39,10 @@ class Generator extends BaseGenerator
      * @throws ValidationFailedException
      * @throws ValidationNotAnObjectException
      */
-    public function __construct(?Header $header = null, ?array $transactions = null, ?Trailer $trailer = null)
+    public function __construct(Header $header, ?array $transactions = null, ?Trailer $trailer = null)
     {
         $this->header = $header;
-        $this->transactions = $transactions;
+        $this->transactions = $transactions ?? [];
         $this->trailer = $trailer;
 
         $this->generate();
@@ -59,30 +59,18 @@ class Generator extends BaseGenerator
      */
     protected function generate(): void
     {
-        $this->validateLineLengths();
+        $objects = [$this->header];
 
-        // Validate header attributes
-        if ($this->header) {
-            $this->validateAttributes($this->header, $this->header->getValidationRules());
-
-            $this->contents .= $this->header->getAttributesAsLine() . PHP_EOL;
+        $totalAmount = 0;
+        foreach ($this->transactions as $transaction) {
+            /** @var Transaction $transaction */
+            $objects[] = $transaction;
+            $totalAmount += (int) $transaction->getAmount();
         }
 
-        //  validate transactions attributes
-        if ($this->transactions) {
-            foreach ($this->transactions as $transaction) {
-                /** @var Transaction $transaction */
-                $this->validateAttributes($transaction, $transaction->getValidationRules());
+        $objects[] = $this->trailer ?? $this->createTrailer(\count($this->transactions), $totalAmount);
 
-                $this->contents .= $transaction->getAttributesAsLine() . PHP_EOL;
-            }
-        }
-
-        if ($this->trailer) {
-            $this->validateAttributes($this->trailer, $this->trailer->getValidationRules());
-
-            $this->contents .= $this->trailer->getAttributesAsLine();
-        }
+        $this->writeLinesForObjects($objects);
     }
 
     /**
@@ -96,30 +84,18 @@ class Generator extends BaseGenerator
     }
 
     /**
-     * Check if record length is no more than LINE_LENGTH
+     * Create new trailer.
      *
-     * @return void
+     * @param int $count
+     * @param int $totalAmount
      *
-     * @throws LengthExceedsException
+     * @return \EoneoPay\BankFiles\Generators\Bpay\Objects\Trailer
      */
-    protected function validateLineLengths(): void
+    private function createTrailer(int $count, int $totalAmount): Trailer
     {
-        // Validate header length
-        if ($this->header) {
-            $this->checkLineLength($this->header->getAttributesAsLine());
-        }
-
-        // Validate transaction lengths
-        if ($this->transactions) {
-            foreach ($this->transactions as $transaction) {
-                /** @var Transaction $transaction */
-                $this->checkLineLength($transaction->getAttributesAsLine());
-            }
-        }
-
-        // Validate trailer length
-        if ($this->trailer) {
-            $this->checkLineLength($this->trailer->getAttributesAsLine());
-        }
+        return new Trailer([
+            'totalNumberOfPayments' => $count,
+            'totalFileValue' => $totalAmount
+        ]);
     }
 }

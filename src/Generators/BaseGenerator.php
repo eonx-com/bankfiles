@@ -46,8 +46,6 @@ abstract class BaseGenerator implements GeneratorInterface
     protected function checkLineLength(string $line): void
     {
         if (\strlen($line) > $this->getLineLength()) {
-            \var_dump(\strlen($line));
-            \var_dump($line);
             throw new LengthExceedsException(
                 \sprintf('Length exceeds the defined %s maximum characters', $this->getLineLength())
             );
@@ -119,11 +117,58 @@ abstract class BaseGenerator implements GeneratorInterface
     }
 
     /**
-     * Check if record length is no more than defined characters
+     * Add line to contents.
+     *
+     * @param string $line
      *
      * @return void
      *
-     * @throws LengthExceedsException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthExceedsException
      */
-    abstract protected function validateLineLengths(): void;
+    protected function writeLine(string $line): void
+    {
+        $this->checkLineLength($line);
+        $this->contents .= $line;
+    }
+
+    /**
+     * Add line to contents with brake line at the end.
+     *
+     * @param string $line
+     *
+     * @return void
+     *
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthExceedsException
+     */
+    protected function writeLineWithBrake(string $line): void
+    {
+        $this->writeLine($line);
+        $this->contents .= PHP_EOL;
+    }
+
+    /**
+     * Add lines for given objects.
+     *
+     * @param array $objects
+     *
+     * @return void
+     *
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
+     */
+    protected function writeLinesForObjects(array $objects): void
+    {
+        // Loop index
+        $loop = 1;
+        $count = \count($objects);
+
+        foreach ($objects as $object) {
+            /** @var \EoneoPay\BankFiles\Generators\BaseObject */
+            $this->validateAttributes($object, $object->getValidationRules());
+            $method = $loop !== $count ? 'writeLineWithBrake' : 'writeLine';
+            $this->$method($object->getAttributesAsLine());
+
+            $loop++;
+        }
+    }
 }

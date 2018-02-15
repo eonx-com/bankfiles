@@ -25,12 +25,9 @@ class GeneratorTest extends TestCase
             ->setAttribute('amount', '200');
         $trans2 =  $this->createTransaction();
 
-        $trailer = $this->createTrailer();
-
-        $generator = new Generator($header, [$trans1, $trans2], $trailer);
+        $generator = new Generator($header, [$trans1, $trans2]);
 
         self::assertContains($header->getAttributesAsLine(), $generator->getContents());
         self::assertContains($trans1->getAttributesAsLine(), $generator->getContents());
-        self::assertContains($trailer->getAttributesAsLine(), $generator->getContents());
     }
 }
