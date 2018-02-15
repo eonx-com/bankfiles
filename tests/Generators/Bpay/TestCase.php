@@ -39,7 +39,7 @@ class TestCase extends GeneratorTestCase
             'amount' => '2599',
             'lodgementReference1' => 'lodgeRef1',
             'lodgementReference2' => 'lodgeRef2',
-            'lodgementReference3' => 'lodgeRef1'
+            'lodgementReference3' => 'lodgeRef2'
         ]);
     }
 

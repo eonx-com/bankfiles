@@ -21,8 +21,8 @@ class GeneratorTest extends TestCase
         // create a transaction and set it's values
         $trans1 =  $this->createTransaction();
         $trans1
-            ->setAttribute('billerCode', \str_pad('11133', 10, '0', STR_PAD_LEFT))
-            ->setAttribute('amount', \str_pad('200', 13, '0', STR_PAD_LEFT));
+            ->setAttribute('billerCode', '11133')
+            ->setAttribute('amount', '200');
         $trans2 =  $this->createTransaction();
 
         $trailer = $this->createTrailer();

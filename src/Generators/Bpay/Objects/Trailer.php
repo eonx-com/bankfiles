@@ -31,7 +31,8 @@ class Trailer extends BaseObject
     {
         return [
             'totalNumberOfPayments' => [10, '0', STR_PAD_LEFT],
-            'totalFileValue' => [13, '0', STR_PAD_LEFT]
+            'totalFileValue' => [13, '0', STR_PAD_LEFT],
+            'restOfRecord' => [120]
         ];
     }
 
@@ -45,7 +46,8 @@ class Trailer extends BaseObject
         return [
             'recordType',
             'totalNumberOfPayments',
-            'totalFileValue'
+            'totalFileValue',
+            'restOfRecord'
         ];
     }
 

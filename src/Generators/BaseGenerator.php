@@ -46,6 +46,8 @@ abstract class BaseGenerator implements GeneratorInterface
     protected function checkLineLength(string $line): void
     {
         if (\strlen($line) > $this->getLineLength()) {
+            \var_dump(\strlen($line));
+            \var_dump($line);
             throw new LengthExceedsException(
                 \sprintf('Length exceeds the defined %s maximum characters', $this->getLineLength())
             );
