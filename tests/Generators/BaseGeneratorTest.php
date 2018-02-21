@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\BankFiles\Generators;
 
 use EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException;
-use Tests\EoneoPay\BankFiles\Generators\Stubs\StubGenerator;
+use Tests\EoneoPay\BankFiles\Generators\Stubs\GeneratorStub;
 
 class BaseGeneratorTest extends TestCase
 {
@@ -17,6 +17,6 @@ class BaseGeneratorTest extends TestCase
     {
         $this->expectException(ValidationNotAnObjectException::class);
 
-        new StubGenerator([]);
+        new GeneratorStub([]);
     }
 }

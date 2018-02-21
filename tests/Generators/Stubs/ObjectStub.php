@@ -5,7 +5,7 @@ namespace Tests\EoneoPay\BankFiles\Generators\Stubs;
 
 use EoneoPay\BankFiles\Generators\BaseObject;
 
-class StubObject extends BaseObject
+class ObjectStub extends BaseObject
 {
     /**
      * Get validation rules.

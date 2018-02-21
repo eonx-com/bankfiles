@@ -5,7 +5,7 @@ namespace Tests\EoneoPay\BankFiles\Parsers\Stubs;
 
 use EoneoPay\BankFiles\Parsers\BaseResult;
 
-class StubResult extends BaseResult
+class ResultStub extends BaseResult
 {
     /**
      * Return object attributes.

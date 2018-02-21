@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\BankFiles\Parsers;
 
-use Tests\EoneoPay\BankFiles\Parsers\Stubs\StubParser;
+use Tests\EoneoPay\BankFiles\Parsers\Stubs\ParserStub;
 
 class BaseParserTest extends TestCase
 {
@@ -18,7 +18,7 @@ class BaseParserTest extends TestCase
     {
         $content = 'sample content';
 
-        $parser = new StubParser($content);
+        $parser = new ParserStub($content);
 
         $property = $this->getProtectedProperty(\get_class($parser), 'contents');
 

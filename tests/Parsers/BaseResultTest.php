@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\BankFiles\Parsers;
 
-use Tests\EoneoPay\BankFiles\Parsers\Stubs\StubResult;
+use Tests\EoneoPay\BankFiles\Parsers\Stubs\ResultStub;
 
 class BaseResultTest extends TestCase
 {
@@ -20,7 +20,7 @@ class BaseResultTest extends TestCase
             'biller' => 'Company Name'
         ];
 
-        $result = new StubResult($data);
+        $result = new ResultStub($data);
 
         self::assertEquals($data['biller'], $result->getBiller());
     }
@@ -38,7 +38,7 @@ class BaseResultTest extends TestCase
             'biller' => 'Company Name'
         ];
 
-        $result = new StubResult($data);
+        $result = new ResultStub($data);
 
         self::assertNull($result->getWhatAttribute());
     }

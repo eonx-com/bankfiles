@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\BankFiles\Generators;
 
-use Tests\EoneoPay\BankFiles\Generators\Stubs\StubObject;
+use Tests\EoneoPay\BankFiles\Generators\Stubs\ObjectStub;
 
 class BaseObjectTest extends TestCase
 {
@@ -21,7 +21,7 @@ class BaseObjectTest extends TestCase
             'accountNumber' => '11-222-33'
         ];
 
-        $object = new StubObject($data);
+        $object = new ObjectStub($data);
 
         self::assertInternalType('array', $object->getAttributes());
         self::assertEquals($data, $object->getAttributes());

@@ -8,7 +8,7 @@ use EoneoPay\BankFiles\Generators\Exceptions\LengthExceedsException;
 use EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException;
 use EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException;
 
-class StubGenerator extends BaseGenerator
+class GeneratorStub extends BaseGenerator
 {
     /**
      * @var array

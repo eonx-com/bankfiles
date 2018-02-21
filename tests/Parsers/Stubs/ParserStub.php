@@ -5,7 +5,7 @@ namespace Tests\EoneoPay\BankFiles\Parsers\Stubs;
 
 use EoneoPay\BankFiles\Parsers\BaseParser;
 
-class StubParser extends BaseParser
+class ParserStub extends BaseParser
 {
     /**
      * Process parsing
