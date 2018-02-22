@@ -128,22 +128,7 @@ abstract class BaseGenerator implements GeneratorInterface
     protected function writeLine(string $line): void
     {
         $this->checkLineLength($line);
-        $this->contents .= $line;
-    }
-
-    /**
-     * Add line to contents with brake line at the end.
-     *
-     * @param string $line
-     *
-     * @return void
-     *
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthExceedsException
-     */
-    protected function writeLineWithBrake(string $line): void
-    {
-        $this->writeLine($line);
-        $this->contents .= PHP_EOL;
+        $this->contents .= $line . PHP_EOL;
     }
 
     /**
@@ -155,20 +140,14 @@ abstract class BaseGenerator implements GeneratorInterface
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthExceedsException
      */
     protected function writeLinesForObjects(array $objects): void
     {
-        // Loop index
-        $loop = 1;
-        $count = \count($objects);
-
         foreach ($objects as $object) {
             /** @var \EoneoPay\BankFiles\Generators\BaseObject */
             $this->validateAttributes($object, $object->getValidationRules());
-            $method = $loop !== $count ? 'writeLineWithBrake' : 'writeLine';
-            $this->$method($object->getAttributesAsLine());
-
-            $loop++;
+            $this->writeLine($object->getAttributesAsLine());
         }
     }
 }
