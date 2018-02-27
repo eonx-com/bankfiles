@@ -17,16 +17,17 @@ class GeneratorTest extends AbaTestCase
      * @group Generator-Aba
      *
      * @return void
+     *
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthExceedsException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      */
     public function testShouldReturnContents(): void
     {
         $descriptiveRecord = $this->createDescriptiveRecord();
-
         $generator = new Generator($descriptiveRecord);
 
         self::assertNotEmpty($generator->getContents());
-        self::assertInternalType('string', $generator->getContents());
-
         self::assertContains($descriptiveRecord->getAttributesAsLine(), $generator->getContents());
     }
 
@@ -36,6 +37,10 @@ class GeneratorTest extends AbaTestCase
      * @group Generator-Aba
      *
      * @return void
+     *
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthExceedsException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      */
     public function testShouldThrowExceptionIfDescriptiveRecordLineExceeds(): void
     {
@@ -44,7 +49,7 @@ class GeneratorTest extends AbaTestCase
         $descriptiveRecord = $this->createDescriptiveRecord();
         $descriptiveRecord->setAttribute('nameOfUseSupplyingFile', \str_pad('', 41));
 
-        new Generator($descriptiveRecord);
+        (new Generator($descriptiveRecord))->getContents();
     }
 
     /**
@@ -53,6 +58,10 @@ class GeneratorTest extends AbaTestCase
      * @group Generator-Aba
      *
      * @return void
+     *
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthExceedsException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      */
     public function testShouldThrowExceptionIfTransactionLineExceeds(): void
     {
@@ -62,7 +71,7 @@ class GeneratorTest extends AbaTestCase
 
         $transaction->setAttribute('amount', '00000012555');
 
-        new Generator($this->createDescriptiveRecord(), [$transaction]);
+        (new Generator($this->createDescriptiveRecord(), [$transaction]))->getContents();
     }
 
     /**
@@ -71,6 +80,10 @@ class GeneratorTest extends AbaTestCase
      * @group Generator-Aba
      *
      * @return void
+     *
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthExceedsException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      */
     public function testShouldThrowExceptionIfValidationFails(): void
     {
@@ -81,7 +94,7 @@ class GeneratorTest extends AbaTestCase
             ->setAttribute('numberOfUserSupplyingFile', '49262x')
             ->setAttribute('dateToBeProcessed', '10081Q');
 
-        new Generator($descriptiveRecord);
+        (new Generator($descriptiveRecord))->getContents();
     }
 
     /**
@@ -90,6 +103,10 @@ class GeneratorTest extends AbaTestCase
      * @group Generator-Aba
      *
      * @return void
+     *
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthExceedsException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      */
     public function testShouldTrowValidationExceptionIfWrongBSBFormat(): void
     {
@@ -105,7 +122,7 @@ class GeneratorTest extends AbaTestCase
         $trans->setAttribute('bsbNumber', '1112333');
 
         try {
-            new Generator($this->createDescriptiveRecord(), [$trans]);
+            (new Generator($this->createDescriptiveRecord(), [$trans]))->getContents();
         } catch (ValidationFailedException $exception) {
             self::assertEquals($expected, $exception->getErrors()[0]);
         }
@@ -113,7 +130,7 @@ class GeneratorTest extends AbaTestCase
         $this->expectException(ValidationFailedException::class);
 
         $trans->setAttribute('bsbNumber', '111--33');
-        new Generator($this->createDescriptiveRecord(), [$trans]);
+        (new Generator($this->createDescriptiveRecord(), [$trans]))->getContents();
     }
 
     /**
@@ -122,6 +139,10 @@ class GeneratorTest extends AbaTestCase
      * @group Generator-Aba
      *
      * @return void
+     *
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthExceedsException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      */
     public function testValuesShouldBePresentInTheContent(): void
     {

@@ -44,8 +44,6 @@ class Generator extends BaseGenerator
         $this->header = $header;
         $this->transactions = $transactions ?? [];
         $this->trailer = $trailer;
-
-        $this->generate();
     }
 
     /**

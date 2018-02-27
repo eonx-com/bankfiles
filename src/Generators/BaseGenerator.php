@@ -13,6 +13,11 @@ abstract class BaseGenerator implements GeneratorInterface
     /**
      * @var string
      */
+    protected $breakLine = self::BREAK_LINE_UNIX;
+
+    /**
+     * @var string
+     */
     protected $contents = '';
 
     /**
@@ -31,7 +36,23 @@ abstract class BaseGenerator implements GeneratorInterface
      */
     public function getContents(): string
     {
+        $this->generate();
+
         return $this->contents;
+    }
+
+    /**
+     * Set break lines.
+     *
+     * @param string $breakLine
+     *
+     * @return \EoneoPay\BankFiles\Generators\BaseGenerator
+     */
+    public function setBreakLines(string $breakLine): self
+    {
+        $this->breakLine = $breakLine;
+
+        return $this;
     }
 
     /**
@@ -128,7 +149,7 @@ abstract class BaseGenerator implements GeneratorInterface
     protected function writeLine(string $line): void
     {
         $this->checkLineLength($line);
-        $this->contents .= $line . PHP_EOL;
+        $this->contents .= $line . $this->breakLine;
     }
 
     /**

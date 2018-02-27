@@ -6,6 +6,7 @@ namespace Tests\EoneoPay\BankFiles;
 use EoneoPay\BankFiles\Generators\Bpay\Generator;
 use EoneoPay\BankFiles\Generators\Bpay\Objects\Header;
 use EoneoPay\BankFiles\Generators\Bpay\Objects\Transaction;
+use EoneoPay\BankFiles\Generators\Interfaces\GeneratorInterface;
 use Tests\EoneoPay\BankFiles\Generators\Bpay\TestCase;
 
 class SampleFilesTest extends TestCase
@@ -20,7 +21,7 @@ class SampleFilesTest extends TestCase
             ->setAttribute('billerCode', '11133')
             ->setAttribute('amount', '200');
         $trans2 =  $this->createTransaction();
-        $generator = new Generator($header, [$trans1, $trans2]);
+        $generator = (new Generator($header, [$trans1, $trans2]))->setBreakLines(GeneratorInterface::BREAK_LINE_WINDOWS);
 
         $sample = \fopen('random_sample.bpb', 'wb+');
         \fwrite($sample, $generator->getContents());
@@ -89,7 +90,7 @@ class SampleFilesTest extends TestCase
             'lodgementReference3' => 'lodgement reference 333333333333333333333333333333'
         ]);
 
-        $generator = new Generator($header, $transactions);
+        $generator = (new Generator($header, $transactions))->setBreakLines(GeneratorInterface::BREAK_LINE_WINDOWS);
 
         $sample = \fopen('official_sample.bpb', 'wb+');
         \fwrite($sample, $generator->getContents());

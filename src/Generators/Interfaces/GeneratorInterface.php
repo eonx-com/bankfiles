@@ -5,6 +5,10 @@ namespace EoneoPay\BankFiles\Generators\Interfaces;
 
 interface GeneratorInterface
 {
+    public const BREAK_LINE_MAC = "\r";
+    public const BREAK_LINE_UNIX = "\n";
+    public const BREAK_LINE_WINDOWS = "\r\n";
+
     public const VALIDATION_RULE_ALPHA = 'alpha';
     public const VALIDATION_RULE_BSB = 'bsb';
     public const VALIDATION_RULE_DATE = 'date';

@@ -47,8 +47,6 @@ class Generator extends BaseGenerator
         $this->descriptiveRecord = $descriptiveRecord;
         $this->transactions = $transactions ?? [];
         $this->fileTotalRecord = $fileTotalRecord;
-
-        $this->generate();
     }
 
     /**
