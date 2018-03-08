@@ -7,7 +7,7 @@ use EoneoPay\BankFiles\Generators\Aba\Objects\DescriptiveRecord;
 use EoneoPay\BankFiles\Generators\Aba\Objects\FileTotalRecord;
 use EoneoPay\BankFiles\Generators\Aba\Objects\Transaction;
 use EoneoPay\BankFiles\Generators\BaseGenerator;
-use EoneoPay\BankFiles\Generators\Exceptions\LengthExceedsException;
+use EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException;
 use EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException;
 use EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException;
 
@@ -35,7 +35,7 @@ class Generator extends BaseGenerator
      * @param array|null $transactions
      * @param FileTotalRecord $fileTotalRecord
      *
-     * @throws LengthExceedsException
+     * @throws LengthMismatchesException
      * @throws ValidationFailedException
      * @throws ValidationNotAnObjectException
      */
@@ -54,7 +54,7 @@ class Generator extends BaseGenerator
      *
      * @return void
      *
-     * @throws LengthExceedsException
+     * @throws LengthMismatchesException
      * @throws ValidationFailedException
      * @throws ValidationNotAnObjectException
      */

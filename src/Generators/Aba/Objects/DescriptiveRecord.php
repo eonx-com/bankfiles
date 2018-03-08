@@ -26,7 +26,7 @@ class DescriptiveRecord extends BaseObject
     public function getValidationRules(): array
     {
         return [
-            'nameOfUseSupplyingFile' => GeneratorInterface::VALIDATION_RULE_ALPHA,
+            'nameOfUserSupplyingFile' => GeneratorInterface::VALIDATION_RULE_ALPHA,
             'numberOfUserSupplyingFile' => GeneratorInterface::VALIDATION_RULE_NUMERIC,
             'descriptionOfEntries' => GeneratorInterface::VALIDATION_RULE_ALPHA,
             'dateToBeProcessed' => GeneratorInterface::VALIDATION_RULE_DATE
@@ -45,7 +45,7 @@ class DescriptiveRecord extends BaseObject
             'blank1' => [17],
             'blank2' => [7],
             'blank3' => [40],
-            'nameOfUseSupplyingFile' => [26],
+            'nameOfUserSupplyingFile' => [26],
             'numberOfUserSupplyingFile' => [6, '0', STR_PAD_LEFT],
             'descriptionOfEntries' => [12]
         ];
@@ -63,8 +63,8 @@ class DescriptiveRecord extends BaseObject
             'blank1',
             'reelSequenceNumber',
             'userFinancialInstitution',
-            'black2',
-            'nameOfUseSupplyingFile',
+            'blank2',
+            'nameOfUserSupplyingFile',
             'numberOfUserSupplyingFile',
             'descriptionOfEntries',
             'dateToBeProcessed',

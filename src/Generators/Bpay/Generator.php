@@ -7,7 +7,7 @@ use EoneoPay\BankFiles\Generators\BaseGenerator;
 use EoneoPay\BankFiles\Generators\Bpay\Objects\Header;
 use EoneoPay\BankFiles\Generators\Bpay\Objects\Trailer;
 use EoneoPay\BankFiles\Generators\Bpay\Objects\Transaction;
-use EoneoPay\BankFiles\Generators\Exceptions\LengthExceedsException;
+use EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException;
 use EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException;
 use EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException;
 
@@ -35,7 +35,7 @@ class Generator extends BaseGenerator
      * @param array|null $transactions
      * @param Trailer|null $trailer
      *
-     * @throws LengthExceedsException
+     * @throws LengthMismatchesException
      * @throws ValidationFailedException
      * @throws ValidationNotAnObjectException
      */
@@ -51,7 +51,7 @@ class Generator extends BaseGenerator
      *
      * @return void
      *
-     * @throws LengthExceedsException
+     * @throws LengthMismatchesException
      * @throws ValidationFailedException
      * @throws ValidationNotAnObjectException
      */

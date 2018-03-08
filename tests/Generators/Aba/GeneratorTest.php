@@ -5,7 +5,7 @@ namespace Tests\EoneoPay\BankFiles\Generators\Aba;
 
 use EoneoPay\BankFiles\Generators\Aba\Generator;
 use EoneoPay\BankFiles\Generators\Aba\Objects\Transaction;
-use EoneoPay\BankFiles\Generators\Exceptions\LengthExceedsException;
+use EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException;
 use EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException;
 use Tests\EoneoPay\BankFiles\Generators\Aba\TestCase as AbaTestCase;
 
@@ -18,7 +18,7 @@ class GeneratorTest extends AbaTestCase
      *
      * @return void
      *
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthExceedsException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      */
@@ -38,16 +38,16 @@ class GeneratorTest extends AbaTestCase
      *
      * @return void
      *
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthExceedsException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      */
     public function testShouldThrowExceptionIfDescriptiveRecordLineExceeds(): void
     {
-        $this->expectException(LengthExceedsException::class);
+        $this->expectException(LengthMismatchesException::class);
 
         $descriptiveRecord = $this->createDescriptiveRecord();
-        $descriptiveRecord->setAttribute('nameOfUseSupplyingFile', \str_pad('', 41));
+        $descriptiveRecord->setAttribute('nameOfUserSupplyingFile', \str_pad('', 41));
 
         (new Generator($descriptiveRecord))->getContents();
     }
@@ -59,13 +59,13 @@ class GeneratorTest extends AbaTestCase
      *
      * @return void
      *
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthExceedsException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      */
     public function testShouldThrowExceptionIfTransactionLineExceeds(): void
     {
-        $this->expectException(LengthExceedsException::class);
+        $this->expectException(LengthMismatchesException::class);
 
         $transaction = $this->createTransaction();
 
@@ -81,7 +81,7 @@ class GeneratorTest extends AbaTestCase
      *
      * @return void
      *
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthExceedsException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      */
@@ -104,7 +104,7 @@ class GeneratorTest extends AbaTestCase
      *
      * @return void
      *
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthExceedsException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      */
@@ -140,7 +140,7 @@ class GeneratorTest extends AbaTestCase
      *
      * @return void
      *
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthExceedsException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      */

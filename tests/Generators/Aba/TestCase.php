@@ -20,7 +20,7 @@ class TestCase extends GeneratorTestCase
         return new DescriptiveRecord([
             'reelSequenceNumber' => '01',
             'userFinancialInstitution' => 'UFI',
-            'nameOfUseSupplyingFile' => 'LOYALTY CORP AUSTRALIA',
+            'nameOfUserSupplyingFile' => 'LOYALTY CORP AUSTRALIA',
             'numberOfUserSupplyingFile' => 492627,
             'descriptionOfEntries' => 'PAYMENTS',
             'dateToBeProcessed' => '100817'

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace EoneoPay\BankFiles\Generators;
 
-use EoneoPay\BankFiles\Generators\Exceptions\LengthExceedsException;
+use EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException;
 use EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException;
 use EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException;
 use EoneoPay\BankFiles\Generators\Interfaces\GeneratorInterface;
@@ -62,14 +62,16 @@ abstract class BaseGenerator implements GeneratorInterface
      *
      * @return void
      *
-     * @throws LengthExceedsException
+     * @throws LengthMismatchesException
      */
     protected function checkLineLength(string $line): void
     {
-        if (\strlen($line) > $this->getLineLength()) {
-            throw new LengthExceedsException(
-                \sprintf('Length exceeds the defined %s maximum characters', $this->getLineLength())
-            );
+        if (\strlen($line) !== $this->getLineLength()) {
+            throw new LengthMismatchesException(\sprintf(
+                'Length %s mismatches the defined %s maximum characters',
+                \strlen($line),
+                $this->getLineLength()
+            ));
         }
     }
 
@@ -144,7 +146,7 @@ abstract class BaseGenerator implements GeneratorInterface
      *
      * @return void
      *
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthExceedsException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
      */
     protected function writeLine(string $line): void
     {
@@ -161,7 +163,7 @@ abstract class BaseGenerator implements GeneratorInterface
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthExceedsException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
      */
     protected function writeLinesForObjects(array $objects): void
     {

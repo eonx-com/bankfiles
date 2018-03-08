@@ -5,7 +5,7 @@ namespace EoneoPay\BankFiles\Generators\Exceptions;
 
 use Exception;
 
-class LengthExceedsException extends Exception
+class LengthMismatchesException extends Exception
 {
     //
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\BankFiles\Generators\Stubs;
 
 use EoneoPay\BankFiles\Generators\BaseGenerator;
-use EoneoPay\BankFiles\Generators\Exceptions\LengthExceedsException;
+use EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException;
 use EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException;
 use EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException;
 
@@ -20,7 +20,7 @@ class GeneratorStub extends BaseGenerator
      *
      * @param $descriptiveRecord
      *
-     * @throws LengthExceedsException
+     * @throws LengthMismatchesException
      * @throws ValidationFailedException
      * @throws ValidationNotAnObjectException
      */
@@ -61,7 +61,7 @@ class GeneratorStub extends BaseGenerator
      *
      * @return void
      *
-     * @throws LengthExceedsException
+     * @throws LengthMismatchesException
      */
     protected function validateLineLengths(): void
     {
