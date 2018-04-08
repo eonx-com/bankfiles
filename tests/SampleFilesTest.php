@@ -21,7 +21,8 @@ class SampleFilesTest extends TestCase
             ->setAttribute('billerCode', '11133')
             ->setAttribute('amount', '200');
         $trans2 =  $this->createTransaction();
-        $generator = (new Generator($header, [$trans1, $trans2]))->setBreakLines(GeneratorInterface::BREAK_LINE_WINDOWS);
+        $generator = (new Generator($header, [$trans1, $trans2]))
+            ->setBreakLines(GeneratorInterface::BREAK_LINE_WINDOWS);
 
         $sample = \fopen('random_sample.bpb', 'wb+');
         \fwrite($sample, $generator->getContents());

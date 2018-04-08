@@ -34,10 +34,6 @@ class Generator extends BaseGenerator
      * @param DescriptiveRecord $descriptiveRecord
      * @param array|null $transactions
      * @param FileTotalRecord $fileTotalRecord
-     *
-     * @throws LengthMismatchesException
-     * @throws ValidationFailedException
-     * @throws ValidationNotAnObjectException
      */
     public function __construct(
         DescriptiveRecord $descriptiveRecord = null,
@@ -68,19 +64,19 @@ class Generator extends BaseGenerator
             /** @var Transaction $transaction */
             $objects[] = $transaction;
 
-            if (Transaction::CODE_GENERAL_CREDIT === (int) $transaction->getTransactionCode()) {
-                $creditTotal += (int) $transaction->getAmount();
+            if (Transaction::CODE_GENERAL_CREDIT === (int)$transaction->getTransactionCode()) {
+                $creditTotal += (int)$transaction->getAmount();
             }
-            if (Transaction::CODE_GENERAL_DEBIT === (int) $transaction->getTransactionCode()) {
-                $debitTotal += (int) $transaction->getAmount();
+            if (Transaction::CODE_GENERAL_DEBIT === (int)$transaction->getTransactionCode()) {
+                $debitTotal += (int)$transaction->getAmount();
             }
         }
 
         $objects[] = $this->fileTotalRecord ?? $this->createFileTotalRecord(
-                \count($this->transactions),
-                $creditTotal,
-                $debitTotal
-            );
+            \count($this->transactions),
+            $creditTotal,
+            $debitTotal
+        );
 
         $this->writeLinesForObjects($objects);
     }
