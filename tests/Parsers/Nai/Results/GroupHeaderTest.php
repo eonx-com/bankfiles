@@ -29,24 +29,6 @@ class GroupHeaderTest extends TestCase
     }
 
     /**
-     * Should set and return group header attribute value
-     *
-     * @group Nai-Group-Header
-     *
-     * @return void
-     */
-    public function testShouldSetAndReturnAnAttribute(): void
-    {
-        $expected = 'TEST';
-
-        $groupHeader = new GroupHeader([
-            'ultimateReceiverId' => $expected
-        ]);
-
-        self::assertEquals($expected, $groupHeader->getUltimateReceiverId());
-    }
-
-    /**
      * Should return asOfDate as DateTime object
      *
      * @group Nai-Group-Header
@@ -63,5 +45,23 @@ class GroupHeaderTest extends TestCase
 
         self::assertInstanceOf(DateTime::class, $groupHeader->getAsOfDate());
         self::assertEquals(new DateTime($date), $groupHeader->getAsOfDate());
+    }
+
+    /**
+     * Should set and return group header attribute value
+     *
+     * @group Nai-Group-Header
+     *
+     * @return void
+     */
+    public function testShouldSetAndReturnAnAttribute(): void
+    {
+        $expected = 'TEST';
+
+        $groupHeader = new GroupHeader([
+            'ultimateReceiverId' => $expected
+        ]);
+
+        self::assertEquals($expected, $groupHeader->getUltimateReceiverId());
     }
 }

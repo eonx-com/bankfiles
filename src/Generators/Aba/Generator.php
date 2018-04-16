@@ -14,12 +14,12 @@ use EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException;
 class Generator extends BaseGenerator
 {
     /**
-     * @var DescriptiveRecord
+     * @var DescriptiveRecord|null
      */
     private $descriptiveRecord;
 
     /**
-     * @var FileTotalRecord
+     * @var FileTotalRecord|null
      */
     private $fileTotalRecord;
 
@@ -60,7 +60,11 @@ class Generator extends BaseGenerator
 
         $creditTotal = 0;
         $debitTotal = 0;
-        foreach ($this->transactions as $transaction) {
+
+        // Cast transactions to array
+        $transactions = (array)$this->transactions;
+
+        foreach ($transactions as $transaction) {
             /** @var Transaction $transaction */
             $objects[] = $transaction;
 
@@ -73,7 +77,7 @@ class Generator extends BaseGenerator
         }
 
         $objects[] = $this->fileTotalRecord ?? $this->createFileTotalRecord(
-            \count($this->transactions),
+            \count($transactions),
             $creditTotal,
             $debitTotal
         );

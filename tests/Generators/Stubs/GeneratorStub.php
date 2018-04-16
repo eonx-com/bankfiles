@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\BankFiles\Generators\Stubs;
 
 use EoneoPay\BankFiles\Generators\BaseGenerator;
-use EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException;
 use EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException;
 use EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException;
 
@@ -18,13 +17,12 @@ class GeneratorStub extends BaseGenerator
     /**
      * StubGenerator constructor.
      *
-     * @param $descriptiveRecord
+     * @param array $descriptiveRecord
      *
-     * @throws LengthMismatchesException
-     * @throws ValidationFailedException
-     * @throws ValidationNotAnObjectException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      */
-    public function __construct($descriptiveRecord)
+    public function __construct(array $descriptiveRecord)
     {
         $this->descriptiveRecord = $descriptiveRecord;
 
@@ -43,6 +41,7 @@ class GeneratorStub extends BaseGenerator
      */
     protected function generate(): void
     {
+        /** @noinspection PhpParamsInspection Intentionally set to array to generate exception */
         $this->validateAttributes($this->descriptiveRecord, []);
     }
 
@@ -60,8 +59,6 @@ class GeneratorStub extends BaseGenerator
      * Check if record length is no more than defined characters
      *
      * @return void
-     *
-     * @throws LengthMismatchesException
      */
     protected function validateLineLengths(): void
     {

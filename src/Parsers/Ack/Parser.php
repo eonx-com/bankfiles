@@ -7,8 +7,9 @@ use EoneoPay\BankFiles\Parsers\Ack\Results\Issue;
 use EoneoPay\BankFiles\Parsers\Ack\Results\PaymentAcknowledgement;
 use EoneoPay\BankFiles\Parsers\BaseParser;
 use EoneoPay\Utils\Arr;
+use EoneoPay\Utils\Collection;
+use EoneoPay\Utils\Interfaces\CollectionInterface;
 use EoneoPay\Utils\XmlConverter;
-use Illuminate\Support\Collection;
 
 class Parser extends BaseParser
 {
@@ -32,9 +33,9 @@ class Parser extends BaseParser
     /**
      * Return issues
      *
-     * @return Collection
+     * @return \EoneoPay\Utils\Interfaces\CollectionInterface
      */
-    public function getIssues(): Collection
+    public function getIssues(): CollectionInterface
     {
         return $this->acknowledgement->getIssues();
     }
@@ -65,7 +66,7 @@ class Parser extends BaseParser
 
         $issues = [];
         if ($arr->get($result, 'Issues')) {
-            foreach ((array) $result['Issues']['Issue'] as $issue) {
+            foreach ((array)$result['Issues']['Issue'] as $issue) {
                 $issues[] = new Issue([
                     'value' => $arr->get($issue, '@value'),
                     'attributes' => $arr->get($issue, '@attributes')
@@ -84,7 +85,7 @@ class Parser extends BaseParser
             'detailedMessage' => $arr->get($result, 'DetailedMessage'),
             'originalFilename' => $arr->get($result, 'OriginalFilename'),
             'originalReference' => $arr->get($result, 'OriginalReference'),
-            'issues' => \collect($issues)
+            'issues' => new Collection($issues)
         ]);
     }
 }

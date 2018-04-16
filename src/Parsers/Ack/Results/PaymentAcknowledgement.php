@@ -5,7 +5,7 @@ namespace EoneoPay\BankFiles\Parsers\Ack\Results;
 
 use DateTime;
 use EoneoPay\BankFiles\Parsers\BaseResult;
-use Illuminate\Support\Collection;
+use EoneoPay\Utils\Collection;
 
 /**
  * @method array|null getAttributes()

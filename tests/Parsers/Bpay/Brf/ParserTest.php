@@ -7,7 +7,7 @@ use EoneoPay\BankFiles\Parsers\Bpay\Brf\Parser;
 use EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Header;
 use EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Trailer;
 use EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Transaction;
-use Illuminate\Support\Collection;
+use EoneoPay\Utils\Collection;
 use Tests\EoneoPay\BankFiles\Parsers\TestCase;
 
 class ParserTest extends TestCase
@@ -24,6 +24,7 @@ class ParserTest extends TestCase
 
         $brfParser = new Parser($content);
 
+        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
         self::assertInstanceOf(Collection::class, $brfParser->getErrors());
     }
 
@@ -41,6 +42,7 @@ class ParserTest extends TestCase
 
         $brfParser = new Parser($content);
 
+        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
         self::assertInstanceOf(Header::class, $brfParser->getHeader());
     }
 
@@ -56,6 +58,7 @@ class ParserTest extends TestCase
 
         $brfParser = new Parser($content);
 
+        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
         self::assertInstanceOf(Trailer::class, $brfParser->getTrailer());
     }
 
@@ -75,7 +78,9 @@ class ParserTest extends TestCase
 
         $transactions = $brfParser->getTransactions();
 
+        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
         self::assertInstanceOf(Collection::class, $transactions);
+
         /** @var Transaction $firstTransactionItem */
         $firstTransactionItem = $transactions->first();
 

@@ -11,7 +11,8 @@ class BaseGeneratorTest extends TestCase
     /**
      * Should throw exception if target is not an object
      *
-     * @group Generators-Base
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      */
     public function testShouldThrowExceptionIfTargetIsNotAnObject(): void
     {

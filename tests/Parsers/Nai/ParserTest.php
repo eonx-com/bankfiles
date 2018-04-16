@@ -8,7 +8,7 @@ use EoneoPay\BankFiles\Parsers\Nai\Results\FileHeader;
 use EoneoPay\BankFiles\Parsers\Nai\Results\FileTrailer;
 use EoneoPay\BankFiles\Parsers\Nai\Results\GroupHeader;
 use EoneoPay\BankFiles\Parsers\Nai\Results\GroupTrailer;
-use Illuminate\Support\Collection;
+use EoneoPay\Utils\Collection;
 use Tests\EoneoPay\BankFiles\Parsers\TestCase;
 
 class ParserTest extends TestCase
@@ -44,6 +44,7 @@ class ParserTest extends TestCase
 
         $parser = new Parser($content);
 
+        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
         self::assertInstanceOf(Collection::class, $parser->getAccounts());
     }
 
@@ -54,13 +55,14 @@ class ParserTest extends TestCase
      *
      * @return void
      */
-    public function testShouldReturnErrors()
+    public function testShouldReturnErrors(): void
     {
         $filename = \realpath(__DIR__ . '/data') . '/sample.NAI';
         $content = \file_get_contents($filename);
 
         $parser = new Parser($content);
 
+        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
         self::assertInstanceOf(Collection::class, $parser->getErrors());
     }
 
@@ -71,13 +73,14 @@ class ParserTest extends TestCase
      *
      * @return void
      */
-    public function testShouldReturnFileHeader()
+    public function testShouldReturnFileHeader(): void
     {
         $filename = \realpath(__DIR__ . '/data') . '/sample.NAI';
         $content = \file_get_contents($filename);
 
         $parser = new Parser($content);
 
+        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
         self::assertInstanceOf(FileHeader::class, $parser->getFileHeader());
     }
 
@@ -88,13 +91,14 @@ class ParserTest extends TestCase
      *
      * @return void
      */
-    public function testShouldReturnFileTrailer()
+    public function testShouldReturnFileTrailer(): void
     {
         $filename = \realpath(__DIR__ . '/data') . '/sample.NAI';
         $content = \file_get_contents($filename);
 
         $parser = new Parser($content);
 
+        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
         self::assertInstanceOf(FileTrailer::class, $parser->getFileTrailer());
     }
 
@@ -105,13 +109,14 @@ class ParserTest extends TestCase
      *
      * @return void
      */
-    public function testShouldReturnGroupHeader()
+    public function testShouldReturnGroupHeader(): void
     {
         $filename = \realpath(__DIR__ . '/data') . '/sample.NAI';
         $content = \file_get_contents($filename);
 
         $parser = new Parser($content);
 
+        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
         self::assertInstanceOf(GroupHeader::class, $parser->getGroupHeader());
     }
 
@@ -122,13 +127,14 @@ class ParserTest extends TestCase
      *
      * @return void
      */
-    public function testShouldReturnGroupTrailer()
+    public function testShouldReturnGroupTrailer(): void
     {
         $filename = \realpath(__DIR__ . '/data') . '/sample.NAI';
         $content = \file_get_contents($filename);
 
         $parser = new Parser($content);
 
+        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
         self::assertInstanceOf(GroupTrailer::class, $parser->getGroupTrailer());
     }
 
@@ -146,6 +152,7 @@ class ParserTest extends TestCase
 
         $parser = new Parser($content);
 
+        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
         self::assertInstanceOf(Collection::class, $parser->getTransactions());
     }
 }

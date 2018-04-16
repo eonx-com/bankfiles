@@ -101,7 +101,7 @@ class Trailer extends BaseResult
 
         $cents = \substr($amountOfPayments, 13, 2);
         $amount = \substr($this->data[$attrAmount], 0, 13);
-        $amount = (int) $amount . '.' . $cents;
+        $amount = (int)$amount . '.' . $cents;
 
         return ['amount' => $amount, 'type' => $sfValue['type']];
     }

@@ -9,8 +9,7 @@
   "type": "package",
   "require": {
     "php": ">=7.1",
-    "eoneopay/utils": "dev-master",
-    "tightenco/collect": "^5.5"
+    "eoneopay/utils": "dev-master"
   },
   "require-dev": {
     "eoneopay/standards": "dev-master",

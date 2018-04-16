@@ -6,7 +6,7 @@ namespace Tests\EoneoPay\BankFiles\Parsers\Nai\Results;
 use EoneoPay\BankFiles\Parsers\Nai\Parser;
 use EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Identifier;
 use EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Trailer;
-use Illuminate\Support\Collection;
+use EoneoPay\Utils\Collection;
 use Tests\EoneoPay\BankFiles\Parsers\TestCase;
 
 class AccountTest extends TestCase

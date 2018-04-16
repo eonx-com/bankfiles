@@ -17,10 +17,6 @@ class GeneratorTest extends AbaTestCase
      * @group Generator-Aba
      *
      * @return void
-     *
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      */
     public function testShouldReturnContents(): void
     {
@@ -37,10 +33,6 @@ class GeneratorTest extends AbaTestCase
      * @group Generator-Aba
      *
      * @return void
-     *
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      */
     public function testShouldThrowExceptionIfDescriptiveRecordLineExceeds(): void
     {
@@ -58,10 +50,6 @@ class GeneratorTest extends AbaTestCase
      * @group Generator-Aba
      *
      * @return void
-     *
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      */
     public function testShouldThrowExceptionIfTransactionLineExceeds(): void
     {
@@ -80,10 +68,6 @@ class GeneratorTest extends AbaTestCase
      * @group Generator-Aba
      *
      * @return void
-     *
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      */
     public function testShouldThrowExceptionIfValidationFails(): void
     {
@@ -103,10 +87,6 @@ class GeneratorTest extends AbaTestCase
      * @group Generator-Aba
      *
      * @return void
-     *
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      */
     public function testShouldTrowValidationExceptionIfWrongBSBFormat(): void
     {
@@ -120,10 +100,9 @@ class GeneratorTest extends AbaTestCase
 
         // without '-'
         $trans->setAttribute('bsbNumber', '1112333');
-
         try {
             (new Generator($this->createDescriptiveRecord(), [$trans]))->getContents();
-        } catch (ValidationFailedException $exception) {
+        } /** @noinspection PhpRedundantCatchClauseInspection */ catch (ValidationFailedException $exception) {
             self::assertEquals($expected, $exception->getErrors()[0]);
         }
 
@@ -139,10 +118,6 @@ class GeneratorTest extends AbaTestCase
      * @group Generator-Aba
      *
      * @return void
-     *
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      */
     public function testValuesShouldBePresentInTheContent(): void
     {

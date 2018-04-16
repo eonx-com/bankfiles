@@ -18,6 +18,13 @@ abstract class BaseObject extends AbstractDataBag
     }
 
     /**
+     * Get validation rules.
+     *
+     * @return array
+     */
+    abstract public function getValidationRules(): array;
+
+    /**
      * Return all the attributes
      *
      * @return array
@@ -41,7 +48,13 @@ abstract class BaseObject extends AbstractDataBag
             $value = $this->data[$attribute] ?? '';
 
             if (isset($paddingRules[$attribute])) {
-                \array_unshift($paddingRules[$attribute], (string) $value);
+                \array_unshift($paddingRules[$attribute], $value);
+
+                // Ensure first attribute is a string
+                if (!\is_string($paddingRules[$attribute][0])) {
+                    $paddingRules[$attribute][0] = (string)$paddingRules[$attribute][0];
+                }
+
                 $value = \str_pad(...$paddingRules[$attribute]);
             }
 
@@ -50,20 +63,6 @@ abstract class BaseObject extends AbstractDataBag
 
         return \implode($line);
     }
-
-    /**
-     * Return record type.
-     *
-     * @return string
-     */
-    abstract protected function initRecordType(): string;
-
-    /**
-     * Get validation rules.
-     *
-     * @return array
-     */
-    abstract public function getValidationRules(): array;
 
     /**
      * Set the value of the attribute
@@ -87,4 +86,11 @@ abstract class BaseObject extends AbstractDataBag
      * @return array
      */
     abstract protected function getAttributesPaddingRules(): array;
+
+    /**
+     * Return record type.
+     *
+     * @return string
+     */
+    abstract protected function initRecordType(): string;
 }

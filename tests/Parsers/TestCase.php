@@ -17,6 +17,8 @@ class TestCase extends PHPUnitTestCase
      * @param string $method
      *
      * @return ReflectionMethod
+     *
+     * @throws \ReflectionException
      */
     protected function getProtectedMethod(string $class, string $method): ReflectionMethod
     {
@@ -35,6 +37,8 @@ class TestCase extends PHPUnitTestCase
      * @param string $property
      *
      * @return ReflectionProperty
+     *
+     * @throws \ReflectionException
      */
     protected function getProtectedProperty(string $class, string $property): ReflectionProperty
     {

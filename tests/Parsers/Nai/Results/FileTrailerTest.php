@@ -31,9 +31,11 @@ class FileTrailerTest extends TestCase
 
         self::assertEquals(3, $fileTrailer->getNumberOfGroups());
 
+        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
         self::assertInternalType('float', $fileTrailer->getFileControlTotalA());
         self::assertEquals($totalA, $fileTrailer->getFileControlTotalA());
 
+        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
         self::assertInternalType('float', $fileTrailer->getFileControlTotalB());
         self::assertEquals($totalB, $fileTrailer->getFileControlTotalB());
     }

@@ -84,6 +84,6 @@ trait TransactionDetailCodes
      */
     public function getTransactionCodeDetails(string $code): ?array
     {
-        return static::$transactionCodes[(int) $code] ?? null;
+        return static::$transactionCodes[(int)$code] ?? null;
     }
 }

@@ -19,11 +19,11 @@ class GeneratorTest extends TestCase
         $header = $this->createHeader();
 
         // create a transaction and set it's values
-        $trans1 =  $this->createTransaction();
+        $trans1 = $this->createTransaction();
         $trans1
             ->setAttribute('billerCode', '11133')
             ->setAttribute('amount', '200');
-        $trans2 =  $this->createTransaction();
+        $trans2 = $this->createTransaction();
 
         $generator = new Generator($header, [$trans1, $trans2]);
 

@@ -8,7 +8,8 @@ use EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Error;
 use EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Header;
 use EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Trailer;
 use EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Transaction;
-use Illuminate\Support\Collection;
+use EoneoPay\Utils\Collection;
+use EoneoPay\Utils\Interfaces\CollectionInterface;
 
 class Parser extends AbstractLineByLineParser
 {
@@ -31,11 +32,11 @@ class Parser extends AbstractLineByLineParser
     /**
      * Return the Error object
      *
-     * @return Collection
+     * @return \EoneoPay\Utils\Interfaces\CollectionInterface
      */
-    public function getErrors(): Collection
+    public function getErrors(): CollectionInterface
     {
-        return collect($this->errors);
+        return new Collection($this->errors);
     }
 
     /**
@@ -61,11 +62,11 @@ class Parser extends AbstractLineByLineParser
     /**
      * Return the Transaction
      *
-     * @return Collection
+     * @return \EoneoPay\Utils\Interfaces\CollectionInterface
      */
-    public function getTransactions(): Collection
+    public function getTransactions(): CollectionInterface
     {
-        return \collect($this->transactions);
+        return new Collection($this->transactions);
     }
 
     /**
@@ -77,7 +78,7 @@ class Parser extends AbstractLineByLineParser
      */
     public function processLine(string $line): void
     {
-        if ($line === '') {
+        if ('' === $line) {
             return;
         }
 

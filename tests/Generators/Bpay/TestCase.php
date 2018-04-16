@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\BankFiles\Generators\Bpay;
 
 use EoneoPay\BankFiles\Generators\Bpay\Objects\Header;
-use EoneoPay\BankFiles\Generators\Bpay\Objects\Trailer;
 use EoneoPay\BankFiles\Generators\Bpay\Objects\Transaction;
 use Tests\EoneoPay\BankFiles\Generators\TestCase as GeneratorTestCase;
 

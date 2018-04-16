@@ -21,6 +21,8 @@ class FileHeader extends BaseResult
      * Convert to DateTime object and return
      *
      * @return DateTime
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess) DateTime requires static access to createFromFormat()
      */
     public function getFileCreationDate(): DateTime
     {

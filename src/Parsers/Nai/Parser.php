@@ -13,7 +13,8 @@ use EoneoPay\BankFiles\Parsers\Nai\Results\FileHeader;
 use EoneoPay\BankFiles\Parsers\Nai\Results\FileTrailer;
 use EoneoPay\BankFiles\Parsers\Nai\Results\GroupHeader;
 use EoneoPay\BankFiles\Parsers\Nai\Results\GroupTrailer;
-use Illuminate\Support\Collection;
+use EoneoPay\Utils\Collection;
+use EoneoPay\Utils\Interfaces\CollectionInterface;
 
 class Parser extends AbstractLineByLineParser
 {
@@ -62,7 +63,7 @@ class Parser extends AbstractLineByLineParser
     /** @var array $groupTrailerContents */
     private $groupTrailerContents;
 
-    /** @var string $previousCode */
+    /** @var string|null $previousCode */
     private $previousCode;
 
     /** @var Collection $transactions */
@@ -77,7 +78,9 @@ class Parser extends AbstractLineByLineParser
      */
     public function formatTransactionCodes(array $transactionCodes): array
     {
-        foreach ($transactionCodes as $key => [$code, $amount]) {
+        foreach ($transactionCodes as $key => $codes) {
+            [$code, $amount] = $codes;
+
             $transactionCodes[$key] = [
                 'code' => $code,
                 'description' => $this->getCodeSummary($code),
@@ -91,21 +94,21 @@ class Parser extends AbstractLineByLineParser
     /**
      * Return account blocks
      *
-     * @return Collection
+     * @return \EoneoPay\Utils\Interfaces\CollectionInterface
      */
-    public function getAccounts(): Collection
+    public function getAccounts(): CollectionInterface
     {
-        return \collect($this->accountBlocks);
+        return new Collection($this->accountBlocks);
     }
 
     /**
      * Return errors
      *
-     * @return Collection
+     * @return \EoneoPay\Utils\Interfaces\CollectionInterface
      */
-    public function getErrors(): Collection
+    public function getErrors(): CollectionInterface
     {
-        return \collect($this->errors);
+        return new Collection($this->errors);
     }
 
     /**
@@ -151,9 +154,9 @@ class Parser extends AbstractLineByLineParser
     /**
      * Return the collection of transactions
      *
-     * @return Collection
+     * @return \EoneoPay\Utils\Interfaces\CollectionInterface
      */
-    public function getTransactions(): Collection
+    public function getTransactions(): CollectionInterface
     {
         return $this->transactions;
     }
@@ -228,22 +231,21 @@ class Parser extends AbstractLineByLineParser
     }
 
     /**
-     * Extract all transactions from all of the accounts
-     *  and add its respective Account as an attribute
+     * Extract all transactions from all of the accounts and add its respective account as an attribute
      *
      * @return self
      */
     private function extractTransactions(): self
     {
-        $this->transactions = \collect($this->accountBlocks)->flatMap(function ($account) {
+        $this->transactions = (new Collection($this->accountBlocks))->map(function ($account) {
             /** @var Account $account */
             $transactions = $account->getTransactions();
 
-            return $transactions->map(function ($transaction, $key) use ($account) {
+            return $transactions->map(function ($transaction) use ($account) {
                 /** @var Transaction $transaction */
                 return $transaction->setAccount($account);
             });
-        });
+        })->collapse();
 
         return $this;
     }
@@ -251,19 +253,79 @@ class Parser extends AbstractLineByLineParser
     /**
      * Parse account trailer
      *
-     * @param $accountTrailer
+     * @param string $accountTrailer
      *
      * @return Trailer
      */
-    private function parseAccountTrailer($accountTrailer): Trailer
+    private function parseAccountTrailer(string $accountTrailer): Trailer
     {
-        [
-            $code,
-            $accountControlTotalA,
-            $accountControlTotalB
-        ] = \explode(',', $accountTrailer);
+        [$code, $accountControlTotalA, $accountControlTotalB] = \explode(',', $accountTrailer);
 
         return new Trailer(\compact('code', 'accountControlTotalA', 'accountControlTotalB'));
+    }
+
+    /**
+     * Process an account trailer block
+     *
+     * @param int $start The position in the account to start from
+     * @param int $key The key of the current account
+     *
+     * @return void
+     */
+    private function parseAccountTrailerBlock(int $start, int $key): void
+    {
+        $block = \array_slice($this->accounts, $start, ($key + 1) - $start);
+
+        /**
+         * Now let's loop through the block and separate into 3 parts.
+         * 1. (03) Account identification and summary status
+         * 2. (16) Transaction detail
+         * 3. (49) Account trailer
+         */
+        $accountIdentifier = null;
+        $transactionDetails = [];
+        $accountTrailer = null;
+        $prevCode = null;
+        foreach ($block as $item) {
+            $code = \substr($item, 0, 2);
+
+            switch ($code) {
+                case self::ACCOUNT_IDENTIFIER:
+                    $prevCode = self::ACCOUNT_IDENTIFIER;
+                    $accountIdentifier .= $item;
+                    break;
+
+                case self::TRANSACTION_DETAIL:
+                    $prevCode = self::TRANSACTION_DETAIL;
+
+                    // Sometimes there are multiple transactions so let's put them in array
+                    $transactionDetails[] = $item;
+                    break;
+
+                case self::ACCOUNT_TRAILER:
+                    $prevCode = self::ACCOUNT_TRAILER;
+                    $accountTrailer .= $item;
+                    break;
+
+                default: // If no matching code, it means it's a continuation of the previous line
+                    if (self::ACCOUNT_IDENTIFIER === $prevCode) {
+                        $accountIdentifier .= $item;
+                    }
+
+                    if (self::TRANSACTION_DETAIL === $prevCode) {
+                        $transactionCount = \count($transactionDetails) - 1;
+                        $transactionDetails[$transactionCount] .= \substr($item, 1);
+                    }
+
+                    break;
+            }
+        }
+
+        $this->accountBlocks[] = new Account([
+            'identifier' => $this->parseIdentifier($accountIdentifier ?? ''),
+            'transactions' => $this->parseTransaction($transactionDetails),
+            'trailer' => $this->parseAccountTrailer($accountTrailer ?? '')
+        ]);
     }
 
     /**
@@ -282,7 +344,7 @@ class Parser extends AbstractLineByLineParser
         foreach ($this->accounts as $key => $line) {
             $code = \substr($line, 0, 2);
 
-            if ($code === self::ACCOUNT_IDENTIFIER) {
+            if (self::ACCOUNT_IDENTIFIER === $code) {
                 $start = $key;
             }
 
@@ -290,58 +352,8 @@ class Parser extends AbstractLineByLineParser
              * Slice the arrays bounded by code 03 and 49
              * Put it in an array as a block
              */
-            if ($code === self::ACCOUNT_TRAILER) {
-                $block = \array_slice($this->accounts, $start, ($key + 1) - $start);
-
-                /**
-                 * Now let's loop through the block and separate into 3 parts.
-                 * 1. (03) Account identification and summary status
-                 * 2. (16) Transaction detail
-                 * 3. (49) Account trailer
-                 */
-                $accountIdentifier = null;
-                $transactionDetails = [];
-                $accountTrailer = null;
-                $prevCode = null;
-                foreach ($block as $item) {
-                    $code = \substr($item, 0, 2);
-
-                    switch ($code) {
-                        case self::ACCOUNT_IDENTIFIER:
-                            $prevCode = self::ACCOUNT_IDENTIFIER;
-                            $accountIdentifier .= $item;
-                            break;
-
-                        case self::TRANSACTION_DETAIL:
-                            $prevCode = self::TRANSACTION_DETAIL;
-
-                            // Sometimes there are multiple transactions so let's put them in array
-                            $transactionDetails[] = $item;
-                            break;
-
-                        case self::ACCOUNT_TRAILER:
-                            $prevCode = self::ACCOUNT_TRAILER;
-                            $accountTrailer .= $item;
-                            break;
-
-                        default: // If no matching code, it means it's a continuation of the previous line
-                            if ($prevCode === self::ACCOUNT_IDENTIFIER) {
-                                $accountIdentifier .= $item;
-                            }
-
-                            if ($prevCode === self::TRANSACTION_DETAIL) {
-                                $transactionDetails[\count($transactionDetails) - 1] .= \substr($item, 1);
-                            }
-
-                            break;
-                    }
-                }
-
-                $this->accountBlocks[] = new Account([
-                    'identifier' => $this->parseIdentifier($accountIdentifier),
-                    'transactions' => $this->parseTransaction($transactionDetails),
-                    'trailer' => $this->parseAccountTrailer($accountTrailer)
-                ]);
+            if (self::ACCOUNT_TRAILER === $code) {
+                $this->parseAccountTrailerBlock($start, $key);
             }
         }
 
@@ -469,11 +481,11 @@ class Parser extends AbstractLineByLineParser
     /**
      * Parse account identifier
      *
-     * @param $identifier
+     * @param string $identifier
      *
      * @return Identifier
      */
-    private function parseIdentifier($identifier): Identifier
+    private function parseIdentifier(string $identifier): Identifier
     {
         $data = \explode(',', $identifier);
 
@@ -507,19 +519,9 @@ class Parser extends AbstractLineByLineParser
     private function parseTransaction(array $transactionDetails): array
     {
         $transactions = [];
-        foreach ($transactionDetails as $key => $transaction) {
-            /*
-             * Since explode will always return 6 elements
-             * lets use PHP 7.1 symmetric array destructuring
-             */
-            [
-                $code,
-                $transactionCode,
-                $amount,
-                $fundsType,
-                $referenceNumber,
-                $text
-            ] = \explode(',', $transaction);
+        foreach ($transactionDetails as $transaction) {
+            // Explode transaction into parts
+            [$code, $transactionCode, $amount, $fundsType, $referenceNumber, $text] = \explode(',', $transaction, 6);
 
             $transactions[] = new Transaction([
                 'code' => $code,
@@ -544,7 +546,7 @@ class Parser extends AbstractLineByLineParser
      */
     private function process88(string $line): void
     {
-        $line = (string) \substr($line, 2);
+        $line = (string)\substr($line, 2);
 
         switch ($this->previousCode) {
             case self::FILE_HEADER:

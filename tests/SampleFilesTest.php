@@ -11,26 +11,11 @@ use Tests\EoneoPay\BankFiles\Generators\Bpay\TestCase;
 
 class SampleFilesTest extends TestCase
 {
-    public function testGenerateRandomSample(): void
-    {
-        $header = $this->createHeader();
-
-        // create a transaction and set it's values
-        $trans1 =  $this->createTransaction();
-        $trans1
-            ->setAttribute('billerCode', '11133')
-            ->setAttribute('amount', '200');
-        $trans2 =  $this->createTransaction();
-        $generator = (new Generator($header, [$trans1, $trans2]))
-            ->setBreakLines(GeneratorInterface::BREAK_LINE_WINDOWS);
-
-        $sample = \fopen('random_sample.bpb', 'wb+');
-        \fwrite($sample, $generator->getContents());
-        \fclose($sample);
-
-        self::assertTrue(true);
-    }
-
+    /**
+     * Generate an official sample and test the result
+     *
+     * @return void
+     */
     public function testGenerateOfficialSample(): void
     {
         $header = new Header([
@@ -94,6 +79,31 @@ class SampleFilesTest extends TestCase
         $generator = (new Generator($header, $transactions))->setBreakLines(GeneratorInterface::BREAK_LINE_WINDOWS);
 
         $sample = \fopen('official_sample.bpb', 'wb+');
+        \fwrite($sample, $generator->getContents());
+        \fclose($sample);
+
+        self::assertTrue(true);
+    }
+
+    /**
+     * Generate a random sample and test the result
+     *
+     * @return void
+     */
+    public function testGenerateRandomSample(): void
+    {
+        $header = $this->createHeader();
+
+        // create a transaction and set it's values
+        $trans1 = $this->createTransaction();
+        $trans1
+            ->setAttribute('billerCode', '11133')
+            ->setAttribute('amount', '200');
+        $trans2 = $this->createTransaction();
+        $generator = (new Generator($header, [$trans1, $trans2]))
+            ->setBreakLines(GeneratorInterface::BREAK_LINE_WINDOWS);
+
+        $sample = \fopen('random_sample.bpb', 'wb+');
         \fwrite($sample, $generator->getContents());
         \fclose($sample);
 

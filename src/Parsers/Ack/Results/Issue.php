@@ -8,7 +8,7 @@ use EoneoPay\BankFiles\Parsers\BaseResult;
 /**
  * @method string getValue()
  * @method array getAttributes()
-*/
+ */
 class Issue extends BaseResult
 {
     /**

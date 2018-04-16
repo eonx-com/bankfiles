@@ -34,10 +34,6 @@ class Generator extends BaseGenerator
      * @param Header $header
      * @param array|null $transactions
      * @param Trailer|null $trailer
-     *
-     * @throws LengthMismatchesException
-     * @throws ValidationFailedException
-     * @throws ValidationNotAnObjectException
      */
     public function __construct(Header $header, ?array $transactions = null, ?Trailer $trailer = null)
     {
@@ -58,15 +54,18 @@ class Generator extends BaseGenerator
     protected function generate(): void
     {
         $objects = [$this->header];
-
         $totalAmount = 0;
-        foreach ($this->transactions as $transaction) {
+
+        // Ensure transactions is always an array
+        $transactions = (array)$this->transactions;
+
+        foreach ($transactions as $transaction) {
             /** @var Transaction $transaction */
             $objects[] = $transaction;
-            $totalAmount += (int) $transaction->getAmount();
+            $totalAmount += (int)$transaction->getAmount();
         }
 
-        $objects[] = $this->trailer ?? $this->createTrailer(\count($this->transactions), $totalAmount);
+        $objects[] = $this->trailer ?? $this->createTrailer(\count($transactions), $totalAmount);
 
         $this->writeLinesForObjects($objects);
     }

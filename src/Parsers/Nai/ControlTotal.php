@@ -16,10 +16,10 @@ trait ControlTotal
     {
         $length = \strlen($amount);
 
-        return (float) \sprintf(
+        return (float)\sprintf(
             '%d.%d',
-            (int) \substr($amount, 0, $length - 2),
-            (int) \substr($amount, $length - 2)
+            (int)\substr($amount, 0, $length - 2),
+            (int)\substr($amount, $length - 2)
         );
     }
 }

@@ -18,7 +18,7 @@ class TransactionTest extends TestCase
      */
     public function testShouldReturnAmount(): void
     {
-        $transaction = new Transaction(['amount' => "000000500025"]);
+        $transaction = new Transaction(['amount' => '000000500025']);
 
         self::assertEquals(5000.25, $transaction->getAmount());
     }
@@ -32,8 +32,9 @@ class TransactionTest extends TestCase
      */
     public function testShouldReturnPaymentDate(): void
     {
-        $transaction = new Transaction(['paymentDate' => "20160426"]);
+        $transaction = new Transaction(['paymentDate' => '20160426']);
 
+        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
         self::assertInstanceOf(DateTime::class, $transaction->getPaymentDate());
     }
 
@@ -46,8 +47,9 @@ class TransactionTest extends TestCase
      */
     public function testShouldReturnSettlementDate(): void
     {
-        $transaction = new Transaction(['settlementDate' => "20160426"]);
+        $transaction = new Transaction(['settlementDate' => '20160426']);
 
+        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
         self::assertInstanceOf(DateTime::class, $transaction->getSettlementDate());
     }
 }

@@ -4,7 +4,8 @@ declare(strict_types=1);
 namespace EoneoPay\BankFiles\Parsers\Nai\Results\Accounts;
 
 use EoneoPay\BankFiles\Parsers\BaseResult;
-use Illuminate\Support\Collection;
+use EoneoPay\Utils\Collection;
+use EoneoPay\Utils\Interfaces\CollectionInterface;
 
 /**
  * @method string getCode()
@@ -16,11 +17,11 @@ class Identifier extends BaseResult
     /**
      * Return collection of transactions
      *
-     * @return Collection
+     * @return \EoneoPay\Utils\Interfaces\CollectionInterface
      */
-    public function getTransactionCodes(): Collection
+    public function getTransactionCodes(): CollectionInterface
     {
-        return \collect($this->data['transactionCodes']);
+        return new Collection($this->data['transactionCodes']);
     }
 
     /**

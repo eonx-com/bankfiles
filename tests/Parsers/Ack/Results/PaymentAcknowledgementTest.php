@@ -23,10 +23,10 @@ class PaymentAcknowledgementTest extends TestCase
             '@value' => new DateTime($dateString)
         ];
 
-        $paymentAcknowledgement = new PaymentAcknowledgement([
-            'dateTime' => ['@value' => $dateString],
+        $acknowledgement = new PaymentAcknowledgement([
+            'dateTime' => ['@value' => $dateString]
         ]);
 
-        self::assertEquals($expected, $paymentAcknowledgement->getDateTime());
+        self::assertEquals($expected, $acknowledgement->getDateTime());
     }
 }

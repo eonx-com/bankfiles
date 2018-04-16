@@ -15,6 +15,8 @@ class FileHeaderTest extends TestCase
      * @group Nai-File-Header
      *
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess) DateTime requires static access to createFromFormat()
      */
     public function testShouldReturnFileCreationDate(): void
     {
@@ -26,6 +28,7 @@ class FileHeaderTest extends TestCase
             'fileCreationDate' => $date
         ]);
 
+        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
         self::assertInstanceOf(DateTime::class, $fileHeader->getFileCreationDate());
         self::assertEquals($expected, $fileHeader->getFileCreationDate());
     }

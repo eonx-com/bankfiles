@@ -1,2 +1,3 @@
 parameters:
     ignoreErrors:
+        - '/Parameter #1 \$object of method EoneoPay\\BankFiles\\Generators\\BaseGenerator::validateAttributes\(\) expects object, array given./'

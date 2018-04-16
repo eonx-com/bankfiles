@@ -10,9 +10,9 @@ class BaseParserTest extends TestCase
     /**
      * Should set the content
      *
-     * @group Base-Parser
-     *
      * @return void
+     *
+     * @throws \ReflectionException
      */
     public function testShouldSetContent(): void
     {

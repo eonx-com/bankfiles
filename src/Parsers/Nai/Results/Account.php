@@ -6,7 +6,8 @@ namespace EoneoPay\BankFiles\Parsers\Nai\Results;
 use EoneoPay\BankFiles\Parsers\BaseResult;
 use EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Identifier;
 use EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Trailer;
-use Illuminate\Support\Collection;
+use EoneoPay\Utils\Collection;
+use EoneoPay\Utils\Interfaces\CollectionInterface;
 
 /**
  * @method Identifier getIdentifier()
@@ -17,11 +18,11 @@ class Account extends BaseResult
     /**
      * Return collection of transactions
      *
-     * @return Collection
+     * @return \EoneoPay\Utils\Interfaces\CollectionInterface
      */
-    public function getTransactions(): Collection
+    public function getTransactions(): CollectionInterface
     {
-        return \collect($this->data['transactions']);
+        return new Collection($this->data['transactions']);
     }
 
     /**

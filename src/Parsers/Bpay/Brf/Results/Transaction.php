@@ -7,14 +7,14 @@ use DateTime;
 use EoneoPay\BankFiles\Parsers\BaseResult;
 
 /**
- * @method getBillerCode
- * @method getReferenceNumber
- * @method getPaymentInstructionType
- * @method getTransactionReferenceNumber
- * @method getOriginalReferenceNumber
- * @method getErrorCorrectionReason
- * @method getPaymentTime
- * @method getFiller
+ * @method getBillerCode()
+ * @method getReferenceNumber()
+ * @method getPaymentInstructionType()
+ * @method getTransactionReferenceNumber()
+ * @method getOriginalReferenceNumber()
+ * @method getErrorCorrectionReason()
+ * @method getPaymentTime()
+ * @method getFiller()
  */
 class Transaction extends BaseResult
 {
@@ -25,10 +25,10 @@ class Transaction extends BaseResult
      */
     public function getAmount(): float
     {
-        return (float) \sprintf(
+        return (float)\sprintf(
             '%d.%d',
-            (int) \substr($this->data['amount'], 0, 10),
-            (int) \substr($this->data['amount'], 10, 2)
+            (int)\substr($this->data['amount'], 0, 10),
+            (int)\substr($this->data['amount'], 10, 2)
         );
     }
 
