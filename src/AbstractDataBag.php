@@ -44,7 +44,7 @@ abstract class AbstractDataBag
         $type = \strtolower(\substr($method, 0, 3));
         $attribute = \lcfirst(\substr($method, 3));
 
-        if ('get' === $type && isset($this->data[$attribute])) {
+        if ($type === 'get' && isset($this->data[$attribute])) {
             return $this->data[$attribute];
         }
 

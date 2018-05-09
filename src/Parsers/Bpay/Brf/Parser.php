@@ -78,7 +78,7 @@ class Parser extends AbstractLineByLineParser
      */
     public function processLine(string $line): void
     {
-        if ('' === $line) {
+        if ($line === '') {
             return;
         }
 

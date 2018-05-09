@@ -308,11 +308,11 @@ class Parser extends AbstractLineByLineParser
                     break;
 
                 default: // If no matching code, it means it's a continuation of the previous line
-                    if (self::ACCOUNT_IDENTIFIER === $prevCode) {
+                    if ($prevCode === self::ACCOUNT_IDENTIFIER) {
                         $accountIdentifier .= $item;
                     }
 
-                    if (self::TRANSACTION_DETAIL === $prevCode) {
+                    if ($prevCode === self::TRANSACTION_DETAIL) {
                         $transactionCount = \count($transactionDetails) - 1;
                         $transactionDetails[$transactionCount] .= \substr($item, 1);
                     }
@@ -344,7 +344,7 @@ class Parser extends AbstractLineByLineParser
         foreach ($this->accounts as $key => $line) {
             $code = \substr($line, 0, 2);
 
-            if (self::ACCOUNT_IDENTIFIER === $code) {
+            if ($code === self::ACCOUNT_IDENTIFIER) {
                 $start = $key;
             }
 
@@ -352,7 +352,7 @@ class Parser extends AbstractLineByLineParser
              * Slice the arrays bounded by code 03 and 49
              * Put it in an array as a block
              */
-            if (self::ACCOUNT_TRAILER === $code) {
+            if ($code === self::ACCOUNT_TRAILER) {
                 $this->parseAccountTrailerBlock($start, $key);
             }
         }

@@ -68,10 +68,10 @@ class Generator extends BaseGenerator
             /** @var Transaction $transaction */
             $objects[] = $transaction;
 
-            if (Transaction::CODE_GENERAL_CREDIT === (int)$transaction->getTransactionCode()) {
+            if ((int)$transaction->getTransactionCode() === Transaction::CODE_GENERAL_CREDIT) {
                 $creditTotal += (int)$transaction->getAmount();
             }
-            if (Transaction::CODE_GENERAL_DEBIT === (int)$transaction->getTransactionCode()) {
+            if ((int)$transaction->getTransactionCode() === Transaction::CODE_GENERAL_DEBIT) {
                 $debitTotal += (int)$transaction->getAmount();
             }
         }
