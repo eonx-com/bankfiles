@@ -6,19 +6,19 @@ namespace EoneoPay\BankFiles;
 abstract class AbstractDataBag
 {
     /**
-     * @var array
+     * @var mixed[]
      */
     protected $attributes;
 
     /**
-     * @var array
+     * @var mixed[]
      */
     protected $data = [];
 
     /**
      * BaseResult constructor.
      *
-     * @param array|null $data
+     * @param mixed[]|null $data
      */
     public function __construct(?array $data = null)
     {
@@ -35,7 +35,7 @@ abstract class AbstractDataBag
      * Return attribute's value
      *
      * @param string $method
-     * @param array $parameters
+     * @param mixed[] $parameters
      *
      * @return mixed|null
      */
@@ -54,7 +54,7 @@ abstract class AbstractDataBag
     /**
      * Return object attributes.
      *
-     * @return array
+     * @return mixed[]
      */
     abstract protected function initAttributes(): array;
 }

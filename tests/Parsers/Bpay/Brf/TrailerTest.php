@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\BankFiles\Parsers\Bpay\Brf;
 
-use EoneoPay\BankFiles\Parsers\Bpay\Brf\Exceptions\InvalidSignFieldException;
 use EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Trailer;
 use Tests\EoneoPay\BankFiles\Parsers\TestCase;
 
@@ -12,11 +11,11 @@ class TrailerTest extends TestCase
     /**
      * Should return amount of error corrections
      *
-     * @group Trailer
+     * @group \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Trailer
      *
      * @return void
      *
-     * @throws InvalidSignFieldException
+     * @throws \EoneoPay\BankFiles\Parsers\Bpay\Brf\Exceptions\InvalidSignFieldException
      */
     public function testShouldReturnAmountOfErrorCorrections(): void
     {
@@ -37,11 +36,11 @@ class TrailerTest extends TestCase
     /**
      * Should return amount of payments
      *
-     * @group Trailer
+     * @group \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Trailer
      *
      * @return void
      *
-     * @throws InvalidSignFieldException
+     * @throws \EoneoPay\BankFiles\Parsers\Bpay\Brf\Exceptions\InvalidSignFieldException
      */
     public function testShouldReturnAmountOfPayments(): void
     {
@@ -62,11 +61,11 @@ class TrailerTest extends TestCase
     /**
      * Should return amount of payments
      *
-     * @group Trailer
+     * @group \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Trailer
      *
      * @return void
      *
-     * @throws InvalidSignFieldException
+     * @throws \EoneoPay\BankFiles\Parsers\Bpay\Brf\Exceptions\InvalidSignFieldException
      */
     public function testShouldReturnAmountOfReversals(): void
     {
@@ -87,11 +86,11 @@ class TrailerTest extends TestCase
     /**
      * Should return settlement amount
      *
-     * @group Trailer
+     * @group \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Trailer
      *
      * @return void
      *
-     * @throws InvalidSignFieldException
+     * @throws \EoneoPay\BankFiles\Parsers\Bpay\Brf\Exceptions\InvalidSignFieldException
      */
     public function testShouldReturnSettlementAmount(): void
     {
@@ -112,7 +111,7 @@ class TrailerTest extends TestCase
     /**
      * Should throw exception if sign field is not found
      *
-     * @group Trailer
+     * @group \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Trailer
      *
      * @expectedException \EoneoPay\BankFiles\Parsers\Bpay\Brf\Exceptions\InvalidSignFieldException
      */

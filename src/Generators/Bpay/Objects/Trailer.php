@@ -11,7 +11,7 @@ class Trailer extends BaseObject
     /**
      * Get validation rules.
      *
-     * @return array
+     * @return string[]
      */
     public function getValidationRules(): array
     {
@@ -25,13 +25,13 @@ class Trailer extends BaseObject
      * Get attributes padding configuration as [<attribute> => [<length>, <string>, <type>]].
      * @see http://php.net/manual/en/function.str-pad.php
      *
-     * @return array
+     * @return mixed[]
      */
     protected function getAttributesPaddingRules(): array
     {
         return [
-            'totalNumberOfPayments' => [10, '0', STR_PAD_LEFT],
-            'totalFileValue' => [13, '0', STR_PAD_LEFT],
+            'totalNumberOfPayments' => [10, '0', \STR_PAD_LEFT],
+            'totalFileValue' => [13, '0', \STR_PAD_LEFT],
             'restOfRecord' => [120]
         ];
     }
@@ -39,7 +39,7 @@ class Trailer extends BaseObject
     /**
      * Return object attributes.
      *
-     * @return array
+     * @return string[]
      */
     protected function initAttributes(): array
     {

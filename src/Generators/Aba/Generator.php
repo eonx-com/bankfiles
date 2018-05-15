@@ -7,36 +7,33 @@ use EoneoPay\BankFiles\Generators\Aba\Objects\DescriptiveRecord;
 use EoneoPay\BankFiles\Generators\Aba\Objects\FileTotalRecord;
 use EoneoPay\BankFiles\Generators\Aba\Objects\Transaction;
 use EoneoPay\BankFiles\Generators\BaseGenerator;
-use EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException;
-use EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException;
-use EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException;
 
 class Generator extends BaseGenerator
 {
     /**
-     * @var DescriptiveRecord|null
+     * @var \EoneoPay\BankFiles\Generators\Aba\Objects\DescriptiveRecord|null
      */
     private $descriptiveRecord;
 
     /**
-     * @var FileTotalRecord|null
+     * @var \EoneoPay\BankFiles\Generators\Aba\Objects\FileTotalRecord|null
      */
     private $fileTotalRecord;
 
     /**
-     * @var array|null
+     * @var mixed[]|null
      */
     private $transactions;
 
     /**
      * Generator constructor.
      *
-     * @param DescriptiveRecord $descriptiveRecord
-     * @param array|null $transactions
-     * @param FileTotalRecord $fileTotalRecord
+     * @param \EoneoPay\BankFiles\Generators\Aba\Objects\DescriptiveRecord $descriptiveRecord
+     * @param mixed[]|null $transactions
+     * @param \EoneoPay\BankFiles\Generators\Aba\Objects\FileTotalRecord $fileTotalRecord
      */
     public function __construct(
-        DescriptiveRecord $descriptiveRecord = null,
+        ?DescriptiveRecord $descriptiveRecord = null,
         ?array $transactions = null,
         ?FileTotalRecord $fileTotalRecord = null
     ) {
@@ -50,9 +47,9 @@ class Generator extends BaseGenerator
      *
      * @return void
      *
-     * @throws LengthMismatchesException
-     * @throws ValidationFailedException
-     * @throws ValidationNotAnObjectException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      */
     protected function generate(): void
     {
@@ -65,7 +62,7 @@ class Generator extends BaseGenerator
         $transactions = (array)$this->transactions;
 
         foreach ($transactions as $transaction) {
-            /** @var Transaction $transaction */
+            /** @var \EoneoPay\BankFiles\Generators\Aba\Objects\Transaction $transaction */
             $objects[] = $transaction;
 
             if ((int)$transaction->getTransactionCode() === Transaction::CODE_GENERAL_CREDIT) {

@@ -81,7 +81,7 @@ class ParserTest extends TestCase
         /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
         self::assertInstanceOf(Collection::class, $transactions);
 
-        /** @var Transaction $firstTransactionItem */
+        /** @var \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Transaction $firstTransactionItem */
         $firstTransactionItem = $transactions->first();
 
         if ($firstTransactionItem) {

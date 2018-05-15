@@ -17,16 +17,16 @@ class Parser extends AbstractLineByLineParser
     private const TRAILER = '99';
     private const TRANSACTION = '50';
 
-    /** @var array $errors */
+    /** @var mixed[] $errors */
     protected $errors;
 
-    /** @var Header $header */
+    /** @var \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Header $header */
     protected $header;
 
-    /** @var Trailer $trailer */
+    /** @var \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Trailer $trailer */
     protected $trailer;
 
-    /** @var array $transactions */
+    /** @var \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Transaction[] $transactions */
     protected $transactions;
 
     /**
@@ -42,7 +42,7 @@ class Parser extends AbstractLineByLineParser
     /**
      * Return the Header object
      *
-     * @return Header
+     * @return \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Header
      */
     public function getHeader(): Header
     {
@@ -52,7 +52,7 @@ class Parser extends AbstractLineByLineParser
     /**
      * Return the Trailer object
      *
-     * @return Trailer
+     * @return \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Trailer
      */
     public function getTrailer(): Trailer
     {
@@ -110,7 +110,7 @@ class Parser extends AbstractLineByLineParser
      *
      * @param string $line
      *
-     * @return Header
+     * @return \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Header
      */
     private function processHeader(string $line): Header
     {
@@ -130,7 +130,7 @@ class Parser extends AbstractLineByLineParser
      *
      * @param string $line
      *
-     * @return Trailer
+     * @return \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Trailer
      */
     private function processTrailer(string $line): Trailer
     {
@@ -152,7 +152,7 @@ class Parser extends AbstractLineByLineParser
      *
      * @param string $line
      *
-     * @return Transaction
+     * @return \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Transaction
      */
     private function processTransaction(string $line): Transaction
     {

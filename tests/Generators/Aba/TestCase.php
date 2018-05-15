@@ -13,7 +13,7 @@ class TestCase extends GeneratorTestCase
     /**
      * Create a DescriptiveRecord object with default attributes
      *
-     * @return DescriptiveRecord
+     * @return \EoneoPay\BankFiles\Generators\Aba\Objects\DescriptiveRecord
      */
     protected function createDescriptiveRecord(): DescriptiveRecord
     {
@@ -30,7 +30,7 @@ class TestCase extends GeneratorTestCase
     /**
      * Create File Total Record object with default values
      *
-     * @return FileTotalRecord
+     * @return \EoneoPay\BankFiles\Generators\Aba\Objects\FileTotalRecord
      */
     protected function createFileTotalRecord(): FileTotalRecord
     {
@@ -45,7 +45,7 @@ class TestCase extends GeneratorTestCase
     /**
      * Create a Transaction object with default values
      *
-     * @return Transaction
+     * @return \EoneoPay\BankFiles\Generators\Aba\Objects\Transaction
      */
     protected function createTransaction(): Transaction
     {

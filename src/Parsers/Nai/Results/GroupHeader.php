@@ -18,7 +18,7 @@ class GroupHeader extends BaseResult
     /**
      * Convert to DateTime object and return
      *
-     * @return DateTime
+     * @return \DateTime
      */
     public function getAsOfDate(): ?DateTime
     {
@@ -28,7 +28,7 @@ class GroupHeader extends BaseResult
     /**
      * Return object attributes.
      *
-     * @return array
+     * @return string[]
      */
     protected function initAttributes(): array
     {

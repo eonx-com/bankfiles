@@ -14,9 +14,9 @@ class Trailer extends BaseResult
     /**
      * Get the amount of error correction and type
      *
-     * @return array
+     * @return mixed[]
      *
-     * @throws InvalidSignFieldException
+     * @throws \EoneoPay\BankFiles\Parsers\Bpay\Brf\Exceptions\InvalidSignFieldException
      */
     public function getAmountOfErrorCorrections(): array
     {
@@ -26,9 +26,9 @@ class Trailer extends BaseResult
     /**
      * Get the amount of payment and type
      *
-     * @return array
+     * @return mixed[]
      *
-     * @throws InvalidSignFieldException
+     * @throws \EoneoPay\BankFiles\Parsers\Bpay\Brf\Exceptions\InvalidSignFieldException
      */
     public function getAmountOfPayments(): array
     {
@@ -38,9 +38,9 @@ class Trailer extends BaseResult
     /**
      * Get the amount fo reversal and type
      *
-     * @return array
+     * @return mixed[]
      *
-     * @throws InvalidSignFieldException
+     * @throws \EoneoPay\BankFiles\Parsers\Bpay\Brf\Exceptions\InvalidSignFieldException
      */
     public function getAmountOfReversals(): array
     {
@@ -50,9 +50,9 @@ class Trailer extends BaseResult
     /**
      * Get the settlement amount and type
      *
-     * @return array
+     * @return mixed[]
      *
-     * @throws InvalidSignFieldException
+     * @throws \EoneoPay\BankFiles\Parsers\Bpay\Brf\Exceptions\InvalidSignFieldException
      */
     public function getSettlementAmount(): array
     {
@@ -62,7 +62,7 @@ class Trailer extends BaseResult
     /**
      * Return object attributes.
      *
-     * @return array
+     * @return string[]
      */
     protected function initAttributes(): array
     {
@@ -84,16 +84,16 @@ class Trailer extends BaseResult
      *
      * @param string $attrAmount
      *
-     * @return array
+     * @return mixed[]
      *
-     * @throws InvalidSignFieldException
+     * @throws \EoneoPay\BankFiles\Parsers\Bpay\Brf\Exceptions\InvalidSignFieldException
      */
     private function getTrailerAmount(string $attrAmount): array
     {
         $sfCode = \substr($this->data[$attrAmount], 14);
         $sfValue = $this->getSignedFieldValue($sfCode);
 
-        if (!$sfValue) {
+        if ($sfValue === null) {
             throw new InvalidSignFieldException(\sprintf('Invalid signed amount: %s', $attrAmount));
         }
 

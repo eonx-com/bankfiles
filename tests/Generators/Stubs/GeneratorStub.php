@@ -4,20 +4,18 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\BankFiles\Generators\Stubs;
 
 use EoneoPay\BankFiles\Generators\BaseGenerator;
-use EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException;
-use EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException;
 
 class GeneratorStub extends BaseGenerator
 {
     /**
-     * @var array
+     * @var mixed[]
      */
     private $descriptiveRecord;
 
     /**
      * StubGenerator constructor.
      *
-     * @param array $descriptiveRecord
+     * @param mixed[] $descriptiveRecord
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
@@ -36,8 +34,8 @@ class GeneratorStub extends BaseGenerator
      *
      * @return void
      *
-     * @throws ValidationFailedException
-     * @throws ValidationNotAnObjectException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      */
     protected function generate(): void
     {
@@ -62,6 +60,5 @@ class GeneratorStub extends BaseGenerator
      */
     protected function validateLineLengths(): void
     {
-        //
     }
 }

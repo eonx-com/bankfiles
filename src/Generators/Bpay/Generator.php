@@ -6,34 +6,30 @@ namespace EoneoPay\BankFiles\Generators\Bpay;
 use EoneoPay\BankFiles\Generators\BaseGenerator;
 use EoneoPay\BankFiles\Generators\Bpay\Objects\Header;
 use EoneoPay\BankFiles\Generators\Bpay\Objects\Trailer;
-use EoneoPay\BankFiles\Generators\Bpay\Objects\Transaction;
-use EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException;
-use EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException;
-use EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException;
 
 class Generator extends BaseGenerator
 {
     /**
-     * @var Header
+     * @var \EoneoPay\BankFiles\Generators\Bpay\Objects\Header
      */
     private $header;
 
     /**
-     * @var Trailer|null
+     * @var \EoneoPay\BankFiles\Generators\Bpay\Objects\Trailer|null
      */
     private $trailer;
 
     /**
-     * @var array|null
+     * @var mixed[]|null
      */
     private $transactions;
 
     /**
      * Generator constructor.
      *
-     * @param Header $header
-     * @param array|null $transactions
-     * @param Trailer|null $trailer
+     * @param \EoneoPay\BankFiles\Generators\Bpay\Objects\Header $header
+     * @param mixed[]|null $transactions
+     * @param \EoneoPay\BankFiles\Generators\Bpay\Objects\Trailer|null $trailer
      */
     public function __construct(Header $header, ?array $transactions = null, ?Trailer $trailer = null)
     {
@@ -47,9 +43,9 @@ class Generator extends BaseGenerator
      *
      * @return void
      *
-     * @throws LengthMismatchesException
-     * @throws ValidationFailedException
-     * @throws ValidationNotAnObjectException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      */
     protected function generate(): void
     {
@@ -60,7 +56,7 @@ class Generator extends BaseGenerator
         $transactions = (array)$this->transactions;
 
         foreach ($transactions as $transaction) {
-            /** @var Transaction $transaction */
+            /** @var \EoneoPay\BankFiles\Generators\Bpay\Objects\Transaction $transaction */
             $objects[] = $transaction;
             $totalAmount += (int)$transaction->getAmount();
         }

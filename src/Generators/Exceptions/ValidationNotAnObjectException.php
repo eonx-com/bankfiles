@@ -7,5 +7,5 @@ use Exception;
 
 class ValidationNotAnObjectException extends Exception
 {
-    //
+    
 }

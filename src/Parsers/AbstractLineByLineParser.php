@@ -33,7 +33,7 @@ abstract class AbstractLineByLineParser extends BaseParser
      */
     protected function process(): void
     {
-        $contents = \explode(PHP_EOL, $this->contents);
+        $contents = \explode(\PHP_EOL, $this->contents);
 
         foreach ($contents as $line) {
             $this->processLine($line);

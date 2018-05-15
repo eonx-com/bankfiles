@@ -24,11 +24,13 @@ class PaymentAcknowledgement extends BaseResult
     /**
      * Convert dateTime into DateTime object
      *
-     * @return array|null
+     * @return \DateTime[]|null
      */
     public function getDateTime(): ?array
     {
-        if (isset($this->data['dateTime']['@value']) && !($this->data['dateTime']['@value'] instanceof DateTime)) {
+        if (isset($this->data['dateTime']['@value']) &&
+            ($this->data['dateTime']['@value'] instanceof DateTime) === false
+        ) {
             $this->data['dateTime']['@value'] = new DateTime($this->data['dateTime']['@value']);
         }
 
@@ -38,7 +40,7 @@ class PaymentAcknowledgement extends BaseResult
     /**
      * Return object attributes.
      *
-     * @return array
+     * @return string[]
      */
     protected function initAttributes(): array
     {

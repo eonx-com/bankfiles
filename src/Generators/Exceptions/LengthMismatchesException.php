@@ -7,5 +7,5 @@ use Exception;
 
 class LengthMismatchesException extends Exception
 {
-    //
+
 }

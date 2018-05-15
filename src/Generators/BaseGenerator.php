@@ -12,15 +12,6 @@ use EoneoPay\BankFiles\Generators\Interfaces\GeneratorInterface;
 abstract class BaseGenerator implements GeneratorInterface
 {
     /**
-     * @var array $validationRules
-     */
-    private static $validationRules = [
-        self::VALIDATION_RULE_ALPHA => '/[^A-Za-z0-9 &\',-\.\/\+\$\!%\(\)\*\#=:\?\[\]_\^@]/',
-        self::VALIDATION_RULE_NUMERIC => '/[^0-9-]/',
-        self::VALIDATION_RULE_BSB => '/^\d{3}(\-)\d{3}/'
-    ];
-
-    /**
      * @var string
      */
     protected $breakLine = self::BREAK_LINE_UNIX;
@@ -29,6 +20,15 @@ abstract class BaseGenerator implements GeneratorInterface
      * @var string
      */
     protected $contents = '';
+
+    /**
+     * @var string[] $validationRules
+     */
+    private static $validationRules = [
+        self::VALIDATION_RULE_ALPHA => '/[^A-Za-z0-9 &\',-\.\/\+\$\!%\(\)\*\#=:\?\[\]_\^@]/',
+        self::VALIDATION_RULE_NUMERIC => '/[^0-9-]/',
+        self::VALIDATION_RULE_BSB => '/^\d{3}(\-)\d{3}/'
+    ];
 
     /**
      * Return contents
@@ -77,7 +77,7 @@ abstract class BaseGenerator implements GeneratorInterface
      *
      * @return void
      *
-     * @throws LengthMismatchesException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
      */
     protected function checkLineLength(string $line): void
     {
@@ -94,16 +94,18 @@ abstract class BaseGenerator implements GeneratorInterface
      * Validate object attributes
      *
      * @param object $object
-     * @param null|array $rules
+     * @param null|mixed[] $rules
      *
      * @return void
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
      */
     protected function validateAttributes($object, ?array $rules = null): void
     {
-        if (!\is_object($object)) {
+        if (\is_object($object) === false) {
             throw new ValidationNotAnObjectException('Attributes can only be validated on an object');
         }
 
@@ -136,7 +138,7 @@ abstract class BaseGenerator implements GeneratorInterface
     /**
      * Add lines for given objects.
      *
-     * @param array $objects
+     * @param mixed[] $objects
      *
      * @return void
      *
@@ -147,7 +149,7 @@ abstract class BaseGenerator implements GeneratorInterface
     protected function writeLinesForObjects(array $objects): void
     {
         foreach ($objects as $object) {
-            /** @var \EoneoPay\BankFiles\Generators\BaseObject */
+            /** @var \EoneoPay\BankFiles\Generators\BaseObject $object */
             $this->validateAttributes($object, $object->getValidationRules());
             $this->writeLine($object->getAttributesAsLine());
         }
@@ -156,7 +158,7 @@ abstract class BaseGenerator implements GeneratorInterface
     /**
      * Process rule against a value
      *
-     * @param array $errors The errors array to set errors to
+     * @param mixed[] $errors The errors array to set errors to
      * @param string $rule The rule to process
      * @param string $attribute The attribute the value relates to
      * @param mixed $value The value from the attribute
@@ -170,13 +172,14 @@ abstract class BaseGenerator implements GeneratorInterface
         switch ($rule) {
             case self::VALIDATION_RULE_BSB:
                 // 123-456 length must be 7 characters with '-' in the 4th position
-                if (!\preg_match(self::$validationRules[$rule], $value)) {
+                if (\preg_match(self::$validationRules[$rule], $value) === 0) {
                     $errors[] = \compact('attribute', 'value', 'rule');
                 }
                 break;
 
             case self::VALIDATION_RULE_DATE:
-                if (!DateTime::createFromFormat('dmy', $value) && !DateTime::createFromFormat('Ymd', $value)) {
+                if (DateTime::createFromFormat('dmy', $value) === false &&
+                    DateTime::createFromFormat('Ymd', $value) === false) {
                     $errors[] = \compact('attribute', 'value', 'rule');
                 }
                 break;

@@ -7,5 +7,5 @@ use Exception;
 
 class InvalidSignFieldException extends Exception
 {
-    //
+
 }

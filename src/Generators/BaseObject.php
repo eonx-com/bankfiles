@@ -10,7 +10,7 @@ abstract class BaseObject extends AbstractDataBag
     /**
      * BaseResult constructor.
      *
-     * @param array|null $data
+     * @param mixed[]|null $data
      */
     public function __construct(?array $data = null)
     {
@@ -20,14 +20,14 @@ abstract class BaseObject extends AbstractDataBag
     /**
      * Get validation rules.
      *
-     * @return array
+     * @return mixed[]
      */
     abstract public function getValidationRules(): array;
 
     /**
      * Return all the attributes
      *
-     * @return array
+     * @return mixed[]
      */
     public function getAttributes(): array
     {
@@ -51,7 +51,7 @@ abstract class BaseObject extends AbstractDataBag
                 \array_unshift($paddingRules[$attribute], $value);
 
                 // Ensure first attribute is a string
-                if (!\is_string($paddingRules[$attribute][0])) {
+                if (\is_string($paddingRules[$attribute][0]) === false) {
                     $paddingRules[$attribute][0] = (string)$paddingRules[$attribute][0];
                 }
 
@@ -83,7 +83,7 @@ abstract class BaseObject extends AbstractDataBag
      * Get attributes padding configuration as [<attribute> => [<length>, <string>, <type>]].
      * @see http://php.net/manual/en/function.str-pad.php
      *
-     * @return array
+     * @return mixed[]
      */
     abstract protected function getAttributesPaddingRules(): array;
 

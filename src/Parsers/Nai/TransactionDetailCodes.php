@@ -5,7 +5,7 @@ namespace EoneoPay\BankFiles\Parsers\Nai;
 
 trait TransactionDetailCodes
 {
-    /** @var array $transactionCodes */
+    /** @var mixed[] $transactionCodes */
     private static $transactionCodes = [
         108 => ['cdrd' => 'CR', 'description' => 'Deposit', 'particulars' => ''],
         175 => ['cdrd' => 'CR', 'description' => 'Cheques', 'particulars' => 'Cash/Cheques'],
@@ -80,7 +80,7 @@ trait TransactionDetailCodes
      *
      * @param string $code
      *
-     * @return array|null
+     * @return mixed[]|null
      */
     public function getTransactionCodeDetails(string $code): ?array
     {

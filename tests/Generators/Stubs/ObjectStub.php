@@ -10,7 +10,7 @@ class ObjectStub extends BaseObject
     /**
      * Get validation rules.
      *
-     * @return array
+     * @return mixed[]
      */
     public function getValidationRules(): array
     {
@@ -21,7 +21,7 @@ class ObjectStub extends BaseObject
      * Get attributes padding configuration as [<attribute> => [<length>, <string>, <type>]].
      * @see http://php.net/manual/en/function.str-pad.php
      *
-     * @return array
+     * @return mixed[]
      */
     protected function getAttributesPaddingRules(): array
     {
@@ -31,7 +31,7 @@ class ObjectStub extends BaseObject
     /**
      * Return object attributes.
      *
-     * @return array
+     * @return string[]
      */
     protected function initAttributes(): array
     {
