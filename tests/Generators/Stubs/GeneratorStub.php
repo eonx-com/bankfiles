@@ -48,8 +48,9 @@ class GeneratorStub extends BaseGenerator
     protected function generate(): void
     {
         $this->writeLinesForObjects($this->transactions);
-        /** @noinspection PhpParamsInspection Intentionally set to array to generate exception */
-        $this->validateAttributes($this->descriptiveRecord, []);
+        /** @var \EoneoPay\BankFiles\Generators\Aba\Objects\DescriptiveRecord $descriptiveRecord */
+        $descriptiveRecord = $this->descriptiveRecord;
+        $this->validateAttributes($descriptiveRecord, []);
     }
 
     /**

@@ -46,7 +46,7 @@ class ValidationFailedException extends ValidationException
     /**
      * Get validation errors as string representation.
      *
-     * @param array|null $errors
+     * @param mixed[]|null $errors
      *
      * @return string
      */

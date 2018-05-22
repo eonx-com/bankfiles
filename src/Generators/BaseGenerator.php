@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace EoneoPay\BankFiles\Generators;
 
 use DateTime;
+use EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException;
 use EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException;
 use EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException;
-use EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException;
 use EoneoPay\BankFiles\Generators\Interfaces\GeneratorInterface;
 
 abstract class BaseGenerator implements GeneratorInterface

@@ -84,11 +84,7 @@ class Generator extends BaseGenerator
             }
         }
 
-        $objects[] = $this->fileTotalRecord ?? $this->createFileTotalRecord(
-                \count($objects) - 1,
-                $creditTotal,
-                $debitTotal
-            );
+        $objects[] = $this->createFileTotalRecord(\count($objects) - 1, $creditTotal, $debitTotal);
 
         $this->writeLinesForObjects($objects);
     }
@@ -114,7 +110,11 @@ class Generator extends BaseGenerator
      */
     private function createFileTotalRecord(int $count, int $creditTotal, int $debitTotal): FileTotalRecord
     {
-        return new FileTotalRecord([
+        if ($this->fileTotalRecord !== null) {
+            return $this->fileTotalRecord;
+        }
+
+        return $this->fileTotalRecord = new FileTotalRecord([
             'fileUserCountOfRecordsType' => $count,
             'fileUserCreditTotalAmount' => $creditTotal,
             'fileUserDebitTotalAmount' => $debitTotal,
