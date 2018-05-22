@@ -8,16 +8,16 @@ use Throwable;
 
 class ValidationFailedException extends Exception
 {
-    /** @var array $errors */
+    /** @var mixed[] $errors */
     private $errors;
 
     /**
      * ValidationFailedException constructor.
      *
-     * @param array $errors
+     * @param mixed[] $errors
      * @param null|string $message
      * @param int|null $code
-     * @param null|Throwable $previous
+     * @param null|\Throwable $previous
      */
     public function __construct(array $errors, ?string $message = null, ?int $code = null, ?Throwable $previous = null)
     {
@@ -30,7 +30,7 @@ class ValidationFailedException extends Exception
     /**
      * Get validation errors.
      *
-     * @return array
+     * @return mixed[]
      */
     public function getErrors(): array
     {

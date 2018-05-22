@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\BankFiles\Generators\Aba;
 
 use EoneoPay\BankFiles\Generators\Aba\Generator;
-use EoneoPay\BankFiles\Generators\Aba\Objects\Transaction;
 use EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException;
 use EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException;
 use Tests\EoneoPay\BankFiles\Generators\Aba\TestCase as AbaTestCase;
@@ -88,7 +87,7 @@ class GeneratorTest extends AbaTestCase
      *
      * @return void
      */
-    public function testShouldTrowValidationExceptionIfWrongBSBFormat(): void
+    public function testShouldThrowValidationExceptionIfWrongBSBFormat(): void
     {
         $expected = [
             'attribute' => 'bsbNumber',
@@ -102,7 +101,7 @@ class GeneratorTest extends AbaTestCase
         $trans->setAttribute('bsbNumber', '1112333');
         try {
             (new Generator($this->createDescriptiveRecord(), [$trans]))->getContents();
-        } /** @noinspection PhpRedundantCatchClauseInspection */ catch (ValidationFailedException $exception) {
+        } /** @noinspection PhpRedundantCatchClause Inspection */ catch (ValidationFailedException $exception) {
             self::assertEquals($expected, $exception->getErrors()[0]);
         }
 
@@ -125,7 +124,7 @@ class GeneratorTest extends AbaTestCase
 
         $transactions[] = $this->createTransaction();
         $transactions[] = $this->createTransaction();
-        /** @var Transaction $trans */
+        /** @var \EoneoPay\BankFiles\Generators\Aba\Objects\Transaction $trans */
         $trans = $transactions[0];
 
         $fileTotalRecord = $this->createFileTotalRecord();

@@ -16,7 +16,7 @@ class TestCase extends PHPUnitTestCase
      * @param string $class
      * @param string $method
      *
-     * @return ReflectionMethod
+     * @return \ReflectionMethod
      *
      * @throws \ReflectionException
      */
@@ -36,7 +36,7 @@ class TestCase extends PHPUnitTestCase
      * @param string $class
      * @param string $property
      *
-     * @return ReflectionProperty
+     * @return \ReflectionProperty
      *
      * @throws \ReflectionException
      */

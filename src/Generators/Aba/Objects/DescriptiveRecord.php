@@ -11,7 +11,7 @@ class DescriptiveRecord extends BaseObject
     /**
      * BaseResult constructor.
      *
-     * @param array|null $data
+     * @param mixed[]|null $data
      */
     public function __construct(?array $data = null)
     {
@@ -21,7 +21,7 @@ class DescriptiveRecord extends BaseObject
     /**
      * Get validation rules.
      *
-     * @return array
+     * @return string[]
      */
     public function getValidationRules(): array
     {
@@ -37,7 +37,7 @@ class DescriptiveRecord extends BaseObject
      * Get attributes padding configuration as [<attribute> => [<length>, <string>, <type>]].
      * @see http://php.net/manual/en/function.str-pad.php
      *
-     * @return array
+     * @return mixed[]
      */
     protected function getAttributesPaddingRules(): array
     {
@@ -46,7 +46,7 @@ class DescriptiveRecord extends BaseObject
             'blank2' => [7],
             'blank3' => [40],
             'nameOfUserSupplyingFile' => [26],
-            'numberOfUserSupplyingFile' => [6, '0', STR_PAD_LEFT],
+            'numberOfUserSupplyingFile' => [6, '0', \STR_PAD_LEFT],
             'descriptionOfEntries' => [12]
         ];
     }
@@ -54,7 +54,7 @@ class DescriptiveRecord extends BaseObject
     /**
      * Return object attributes.
      *
-     * @return array
+     * @return string[]
      */
     protected function initAttributes(): array
     {

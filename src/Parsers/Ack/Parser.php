@@ -13,7 +13,7 @@ use EoneoPay\Utils\XmlConverter;
 
 class Parser extends BaseParser
 {
-    /** @var PaymentAcknowledgement $acknowledgement */
+    /** @var \EoneoPay\BankFiles\Parsers\Ack\Results\PaymentAcknowledgement $acknowledgement */
     private $acknowledgement;
 
     /**
@@ -43,7 +43,7 @@ class Parser extends BaseParser
     /**
      * Return PaymentAcknowledgement
      *
-     * @return PaymentAcknowledgement
+     * @return \EoneoPay\BankFiles\Parsers\Ack\Results\PaymentAcknowledgement
      */
     public function getPaymentAcknowledgement(): PaymentAcknowledgement
     {

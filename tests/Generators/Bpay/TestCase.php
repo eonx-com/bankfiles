@@ -12,7 +12,7 @@ class TestCase extends GeneratorTestCase
     /**
      * Create a Header object
      *
-     * @return Header
+     * @return \EoneoPay\BankFiles\Generators\Bpay\Objects\Header
      */
     protected function createHeader(): Header
     {
@@ -26,7 +26,7 @@ class TestCase extends GeneratorTestCase
     /**
      * Create a Transaction object
      *
-     * @return Transaction
+     * @return \EoneoPay\BankFiles\Generators\Bpay\Objects\Transaction
      */
     protected function createTransaction(): Transaction
     {

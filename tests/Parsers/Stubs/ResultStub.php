@@ -14,7 +14,7 @@ class ResultStub extends BaseResult
     /**
      * Return object attributes.
      *
-     * @return array
+     * @return string[]
      */
     protected function initAttributes(): array
     {

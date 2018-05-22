@@ -14,6 +14,5 @@ class ParserStub extends BaseParser
      */
     public function process(): void
     {
-        //
     }
 }

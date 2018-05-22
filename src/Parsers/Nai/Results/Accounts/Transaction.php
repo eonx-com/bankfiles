@@ -21,7 +21,7 @@ class Transaction extends BaseResult
     /**
      * Set Account.
      *
-     * @param Account $account
+     * @param \EoneoPay\BankFiles\Parsers\Nai\Results\Account $account
      *
      * @return self
      */
@@ -35,7 +35,7 @@ class Transaction extends BaseResult
     /**
      * Return object attributes.
      *
-     * @return array
+     * @return string[]
      */
     protected function initAttributes(): array
     {

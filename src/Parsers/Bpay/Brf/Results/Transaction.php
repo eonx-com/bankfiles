@@ -35,7 +35,7 @@ class Transaction extends BaseResult
     /**
      * Convert to DateTime object and return
      *
-     * @return DateTime
+     * @return \DateTime
      */
     public function getPaymentDate(): DateTime
     {
@@ -45,7 +45,7 @@ class Transaction extends BaseResult
     /**
      * Convert to DateTime object and return
      *
-     * @return DateTime
+     * @return \DateTime
      */
     public function getSettlementDate(): DateTime
     {
@@ -55,7 +55,7 @@ class Transaction extends BaseResult
     /**
      * Return object attributes.
      *
-     * @return array
+     * @return string[]
      */
     protected function initAttributes(): array
     {

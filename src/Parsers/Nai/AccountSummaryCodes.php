@@ -5,7 +5,7 @@ namespace EoneoPay\BankFiles\Parsers\Nai;
 
 trait AccountSummaryCodes
 {
-    /** @var array $codeSummary */
+    /** @var string[] $codeSummary */
     private static $codeSummary = [
         '001' => 'Customer number',
         '003' => 'Number of segments for the account',

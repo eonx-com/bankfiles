@@ -11,7 +11,7 @@ class FileTotalRecord extends BaseObject
     /**
      * BaseResult constructor.
      *
-     * @param array|null $data
+     * @param mixed[]|null $data
      */
     public function __construct(?array $data = null)
     {
@@ -21,7 +21,7 @@ class FileTotalRecord extends BaseObject
     /**
      * Get validation rules.
      *
-     * @return array
+     * @return string[]
      */
     public function getValidationRules(): array
     {
@@ -37,7 +37,7 @@ class FileTotalRecord extends BaseObject
      * Get attributes padding configuration as [<attribute> => [<length>, <string>, <type>]].
      * @see http://php.net/manual/en/function.str-pad.php
      *
-     * @return array
+     * @return mixed[]
      */
     protected function getAttributesPaddingRules(): array
     {
@@ -45,17 +45,17 @@ class FileTotalRecord extends BaseObject
             'blank1' => [12],
             'blank2' => [24],
             'blank3' => [40],
-            'fileUserCountOfRecordsType' => [6, '0', STR_PAD_LEFT],
-            'fileUserNetTotalAmount' => [10, '0', STR_PAD_LEFT],
-            'fileUserCreditTotalAmount' => [10, '0', STR_PAD_LEFT],
-            'fileUserDebitTotalAmount' => [10, '0', STR_PAD_LEFT]
+            'fileUserCountOfRecordsType' => [6, '0', \STR_PAD_LEFT],
+            'fileUserNetTotalAmount' => [10, '0', \STR_PAD_LEFT],
+            'fileUserCreditTotalAmount' => [10, '0', \STR_PAD_LEFT],
+            'fileUserDebitTotalAmount' => [10, '0', \STR_PAD_LEFT]
         ];
     }
 
     /**
      * Return object attributes.
      *
-     * @return array
+     * @return string[]
      */
     protected function initAttributes(): array
     {

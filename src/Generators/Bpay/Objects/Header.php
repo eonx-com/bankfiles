@@ -11,7 +11,7 @@ class Header extends BaseObject
     /**
      * Get validation rules.
      *
-     * @return array
+     * @return string[]
      */
     public function getValidationRules(): array
     {
@@ -25,7 +25,7 @@ class Header extends BaseObject
      * Get attributes padding configuration as [<attribute> => [<length>, <string>, <type>]].
      * @see http://php.net/manual/en/function.str-pad.php
      *
-     * @return array
+     * @return mixed[]|array[int]
      */
     protected function getAttributesPaddingRules(): array
     {
@@ -39,7 +39,7 @@ class Header extends BaseObject
     /**
      * Return object attributes.
      *
-     * @return array
+     * @return string[]
      */
     protected function initAttributes(): array
     {

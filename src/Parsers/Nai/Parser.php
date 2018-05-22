@@ -30,51 +30,51 @@ class Parser extends AbstractLineByLineParser
     private const GROUP_TRAILER = '98';
     private const TRANSACTION_DETAIL = '16';
 
-    /** @var array $accountBlocks */
+    /** @var mixed[] $accountBlocks */
     private $accountBlocks = [];
 
-    /**@var array $accounts */
+    /**@var mixed[] $accounts */
     private $accounts = [];
 
-    /** @var array $errors */
+    /** @var mixed[] $errors */
     private $errors = [];
 
-    /** @var FileHeader $fileHeader */
+    /** @var \EoneoPay\BankFiles\Parsers\Nai\Results\FileHeader $fileHeader */
     private $fileHeader;
 
-    /** @var array $fileHeaderContents */
+    /** @var mixed[] $fileHeaderContents */
     private $fileHeaderContents = [];
 
-    /** @var FileTrailer $groupTrailer */
+    /** @var \EoneoPay\BankFiles\Parsers\Nai\Results\FileTrailer $groupTrailer */
     private $fileTrailer;
 
-    /** @var array $fileTrailerContents */
+    /** @var mixed[] $fileTrailerContents */
     private $fileTrailerContents;
 
-    /** @var GroupHeader $groupHeader */
+    /** @var \EoneoPay\BankFiles\Parsers\Nai\Results\GroupHeader $groupHeader */
     private $groupHeader;
 
-    /** @var array $groupHeaderContents */
+    /** @var mixed[] $groupHeaderContents */
     private $groupHeaderContents = [];
 
-    /** @var GroupTrailer $groupTrailer */
+    /** @var \EoneoPay\BankFiles\Parsers\Nai\Results\GroupTrailer $groupTrailer */
     private $groupTrailer;
 
-    /** @var array $groupTrailerContents */
+    /** @var mixed[] $groupTrailerContents */
     private $groupTrailerContents;
 
     /** @var string|null $previousCode */
     private $previousCode;
 
-    /** @var Collection $transactions */
+    /** @var \EoneoPay\Utils\Collection $transactions */
     private $transactions;
 
     /**
      * Format account identifier transactions and add code summary
      *
-     * @param array $transactionCodes
+     * @param mixed[] $transactionCodes
      *
-     * @return array
+     * @return mixed[]
      */
     public function formatTransactionCodes(array $transactionCodes): array
     {
@@ -114,7 +114,7 @@ class Parser extends AbstractLineByLineParser
     /**
      * Return the file header
      *
-     * @return FileHeader
+     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\FileHeader
      */
     public function getFileHeader(): FileHeader
     {
@@ -124,7 +124,7 @@ class Parser extends AbstractLineByLineParser
     /**
      * Return file trailer
      *
-     * @return FileTrailer
+     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\FileTrailer
      */
     public function getFileTrailer(): FileTrailer
     {
@@ -134,7 +134,7 @@ class Parser extends AbstractLineByLineParser
     /**
      * Return the group header
      *
-     * @return GroupHeader
+     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\GroupHeader
      */
     public function getGroupHeader(): GroupHeader
     {
@@ -144,7 +144,7 @@ class Parser extends AbstractLineByLineParser
     /**
      * Return group trailer
      *
-     * @return GroupTrailer
+     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\GroupTrailer
      */
     public function getGroupTrailer(): GroupTrailer
     {
@@ -238,11 +238,11 @@ class Parser extends AbstractLineByLineParser
     private function extractTransactions(): self
     {
         $this->transactions = (new Collection($this->accountBlocks))->map(function ($account) {
-            /** @var Account $account */
+            /** @var \EoneoPay\BankFiles\Parsers\Nai\Results\Account $account */
             $transactions = $account->getTransactions();
 
             return $transactions->map(function ($transaction) use ($account) {
-                /** @var Transaction $transaction */
+                /** @var \EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Transaction $transaction */
                 return $transaction->setAccount($account);
             });
         })->collapse();
@@ -255,7 +255,7 @@ class Parser extends AbstractLineByLineParser
      *
      * @param string $accountTrailer
      *
-     * @return Trailer
+     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Trailer
      */
     private function parseAccountTrailer(string $accountTrailer): Trailer
     {
@@ -483,7 +483,7 @@ class Parser extends AbstractLineByLineParser
      *
      * @param string $identifier
      *
-     * @return Identifier
+     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Identifier
      */
     private function parseIdentifier(string $identifier): Identifier
     {
@@ -512,9 +512,9 @@ class Parser extends AbstractLineByLineParser
     /**
      * Parse transaction details
      *
-     * @param array $transactionDetails
+     * @param mixed[] $transactionDetails
      *
-     * @return array
+     * @return mixed[]
      */
     private function parseTransaction(array $transactionDetails): array
     {

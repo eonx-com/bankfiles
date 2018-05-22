@@ -20,7 +20,7 @@ class FileHeader extends BaseResult
     /**
      * Convert to DateTime object and return
      *
-     * @return DateTime
+     * @return \DateTime
      *
      * @SuppressWarnings(PHPMD.StaticAccess) DateTime requires static access to createFromFormat()
      */
@@ -35,7 +35,7 @@ class FileHeader extends BaseResult
     /**
      * Return object attributes.
      *
-     * @return array
+     * @return string[]
      */
     protected function initAttributes(): array
     {

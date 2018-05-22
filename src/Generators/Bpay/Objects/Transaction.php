@@ -18,7 +18,7 @@ class Transaction extends BaseObject
     /**
      * Get validation rules.
      *
-     * @return array
+     * @return string[]
      */
     public function getValidationRules(): array
     {
@@ -35,14 +35,14 @@ class Transaction extends BaseObject
      * Get attributes padding configuration as [<attribute> => [<length>, <string>, <type>]].
      * @see http://php.net/manual/en/function.str-pad.php
      *
-     * @return array
+     * @return mixed[]
      */
     protected function getAttributesPaddingRules(): array
     {
         return [
-            'billerCode' => [10, '0', STR_PAD_LEFT],
+            'billerCode' => [10, '0', \STR_PAD_LEFT],
             'customerReferenceNumber' => [20],
-            'amount' => [13, '0', STR_PAD_LEFT],
+            'amount' => [13, '0', \STR_PAD_LEFT],
             'lodgementReference1' => [10],
             'lodgementReference2' => [20],
             'lodgementReference3' => [50],
@@ -53,7 +53,7 @@ class Transaction extends BaseObject
     /**
      * Return object attributes.
      *
-     * @return array
+     * @return string[]
      */
     protected function initAttributes(): array
     {
