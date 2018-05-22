@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\BankFiles\Generators;
 
-use EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException;
+use EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException;
 use Tests\EoneoPay\BankFiles\Generators\Stubs\GeneratorStub;
 
 class BaseGeneratorTest extends TestCase
@@ -12,12 +12,13 @@ class BaseGeneratorTest extends TestCase
      * Should throw exception if target is not an object
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
      */
     public function testShouldThrowExceptionIfTargetIsNotAnObject(): void
     {
-        $this->expectException(ValidationNotAnObjectException::class);
+        $this->expectException(InvalidArgumentException::class);
 
-        new GeneratorStub([]);
+        new GeneratorStub([], ['for-coverage']);
     }
 }

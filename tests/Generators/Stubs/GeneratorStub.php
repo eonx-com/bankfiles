@@ -13,20 +13,27 @@ class GeneratorStub extends BaseGenerator
     private $descriptiveRecord;
 
     /**
+     * @var mixed[]
+     */
+    private $transactions;
+
+    /**
      * StubGenerator constructor.
      *
      * @param mixed[] $descriptiveRecord
+     * @param mixed[] $transactions
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
      */
-    public function __construct(array $descriptiveRecord)
+    public function __construct(array $descriptiveRecord, ?array $transactions = null)
     {
         $this->descriptiveRecord = $descriptiveRecord;
-
-        $this->validateLineLengths();
+        $this->transactions = $transactions ?? [];
 
         $this->generate();
+        $this->validateLineLengths();
     }
 
     /**
@@ -35,10 +42,12 @@ class GeneratorStub extends BaseGenerator
      * @return void
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
      */
     protected function generate(): void
     {
+        $this->writeLinesForObjects($this->transactions);
         /** @noinspection PhpParamsInspection Intentionally set to array to generate exception */
         $this->validateAttributes($this->descriptiveRecord, []);
     }

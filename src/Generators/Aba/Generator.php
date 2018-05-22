@@ -7,11 +7,12 @@ use EoneoPay\BankFiles\Generators\Aba\Objects\DescriptiveRecord;
 use EoneoPay\BankFiles\Generators\Aba\Objects\FileTotalRecord;
 use EoneoPay\BankFiles\Generators\Aba\Objects\Transaction;
 use EoneoPay\BankFiles\Generators\BaseGenerator;
+use EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException;
 
 class Generator extends BaseGenerator
 {
     /**
-     * @var \EoneoPay\BankFiles\Generators\Aba\Objects\DescriptiveRecord|null
+     * @var \EoneoPay\BankFiles\Generators\Aba\Objects\DescriptiveRecord
      */
     private $descriptiveRecord;
 
@@ -21,7 +22,7 @@ class Generator extends BaseGenerator
     private $fileTotalRecord;
 
     /**
-     * @var mixed[]|null
+     * @var mixed[]
      */
     private $transactions;
 
@@ -29,16 +30,22 @@ class Generator extends BaseGenerator
      * Generator constructor.
      *
      * @param \EoneoPay\BankFiles\Generators\Aba\Objects\DescriptiveRecord $descriptiveRecord
-     * @param mixed[]|null $transactions
-     * @param \EoneoPay\BankFiles\Generators\Aba\Objects\FileTotalRecord $fileTotalRecord
+     * @param mixed[] $transactions
+     * @param \EoneoPay\BankFiles\Generators\Aba\Objects\FileTotalRecord|null $fileTotalRecord
+     *
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
     public function __construct(
-        ?DescriptiveRecord $descriptiveRecord = null,
-        ?array $transactions = null,
+        DescriptiveRecord $descriptiveRecord,
+        array $transactions,
         ?FileTotalRecord $fileTotalRecord = null
     ) {
+        if (empty($transactions)) {
+            throw new InvalidArgumentException('No transactions provided.');
+        }
+
         $this->descriptiveRecord = $descriptiveRecord;
-        $this->transactions = $transactions ?? [];
+        $this->transactions = $transactions;
         $this->fileTotalRecord = $fileTotalRecord;
     }
 
@@ -49,7 +56,7 @@ class Generator extends BaseGenerator
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
     protected function generate(): void
     {
@@ -58,11 +65,15 @@ class Generator extends BaseGenerator
         $creditTotal = 0;
         $debitTotal = 0;
 
-        // Cast transactions to array
-        $transactions = (array)$this->transactions;
+        foreach ($this->transactions as $transaction) {
+            if (($transaction instanceof Transaction) === false) {
+                throw new InvalidArgumentException(\sprintf(
+                    'Transaction must be %s, %s given.',
+                    Transaction::class,
+                    \gettype($transaction)
+                ));
+            }
 
-        foreach ($transactions as $transaction) {
-            /** @var \EoneoPay\BankFiles\Generators\Aba\Objects\Transaction $transaction */
             $objects[] = $transaction;
 
             if ((int)$transaction->getTransactionCode() === Transaction::CODE_GENERAL_CREDIT) {
@@ -74,10 +85,10 @@ class Generator extends BaseGenerator
         }
 
         $objects[] = $this->fileTotalRecord ?? $this->createFileTotalRecord(
-            \count($transactions),
-            $creditTotal,
-            $debitTotal
-        );
+                \count($objects) - 1,
+                $creditTotal,
+                $debitTotal
+            );
 
         $this->writeLinesForObjects($objects);
     }

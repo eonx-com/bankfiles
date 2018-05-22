@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\BankFiles\Generators\Aba;
 
 use EoneoPay\BankFiles\Generators\Aba\Generator;
+use EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException;
 use EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException;
 use EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException;
 use Tests\EoneoPay\BankFiles\Generators\Aba\TestCase as AbaTestCase;
@@ -11,16 +12,46 @@ use Tests\EoneoPay\BankFiles\Generators\Aba\TestCase as AbaTestCase;
 class GeneratorTest extends AbaTestCase
 {
     /**
+     * Generator should throw exception when no transactions given.
+     *
+     * @return void
+     *
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
+     */
+    public function testEmptyTransactionsException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        new Generator($this->createDescriptiveRecord(), []);
+    }
+
+    /**
+     * Generator should throw exception when invalid transaction given.
+     *
+     * @return void
+     *
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
+     */
+    public function testInvalidTransactionException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        (new Generator($this->createDescriptiveRecord(), ['invalid']))->getContents();
+    }
+
+    /**
      * Should return contents as string with descriptive record in it
      *
      * @group Generator-Aba
      *
      * @return void
+     *
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
     public function testShouldReturnContents(): void
     {
         $descriptiveRecord = $this->createDescriptiveRecord();
-        $generator = new Generator($descriptiveRecord);
+        $generator = new Generator($descriptiveRecord, [$this->createTransaction()]);
 
         self::assertNotEmpty($generator->getContents());
         self::assertContains($descriptiveRecord->getAttributesAsLine(), $generator->getContents());
@@ -32,6 +63,8 @@ class GeneratorTest extends AbaTestCase
      * @group Generator-Aba
      *
      * @return void
+     *
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
     public function testShouldThrowExceptionIfDescriptiveRecordLineExceeds(): void
     {
@@ -40,7 +73,7 @@ class GeneratorTest extends AbaTestCase
         $descriptiveRecord = $this->createDescriptiveRecord();
         $descriptiveRecord->setAttribute('nameOfUserSupplyingFile', \str_pad('', 41));
 
-        (new Generator($descriptiveRecord))->getContents();
+        (new Generator($descriptiveRecord, [$this->createTransaction()]))->getContents();
     }
 
     /**
@@ -49,13 +82,14 @@ class GeneratorTest extends AbaTestCase
      * @group Generator-Aba
      *
      * @return void
+     *
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
     public function testShouldThrowExceptionIfTransactionLineExceeds(): void
     {
         $this->expectException(LengthMismatchesException::class);
 
         $transaction = $this->createTransaction();
-
         $transaction->setAttribute('amount', '00000012555');
 
         (new Generator($this->createDescriptiveRecord(), [$transaction]))->getContents();
@@ -67,6 +101,8 @@ class GeneratorTest extends AbaTestCase
      * @group Generator-Aba
      *
      * @return void
+     *
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
     public function testShouldThrowExceptionIfValidationFails(): void
     {
@@ -77,7 +113,7 @@ class GeneratorTest extends AbaTestCase
             ->setAttribute('numberOfUserSupplyingFile', '49262x')
             ->setAttribute('dateToBeProcessed', '10081Q');
 
-        (new Generator($descriptiveRecord))->getContents();
+        (new Generator($descriptiveRecord, [$this->createTransaction()]))->getContents();
     }
 
     /**
@@ -86,6 +122,8 @@ class GeneratorTest extends AbaTestCase
      * @group Generator-Aba
      *
      * @return void
+     *
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
     public function testShouldThrowValidationExceptionIfWrongBSBFormat(): void
     {
@@ -96,9 +134,9 @@ class GeneratorTest extends AbaTestCase
         ];
 
         $trans = $this->createTransaction();
-
         // without '-'
         $trans->setAttribute('bsbNumber', '1112333');
+
         try {
             (new Generator($this->createDescriptiveRecord(), [$trans]))->getContents();
         } /** @noinspection PhpRedundantCatchClause Inspection */ catch (ValidationFailedException $exception) {
@@ -117,6 +155,7 @@ class GeneratorTest extends AbaTestCase
      * @group Generator-Aba
      *
      * @return void
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
     public function testValuesShouldBePresentInTheContent(): void
     {
