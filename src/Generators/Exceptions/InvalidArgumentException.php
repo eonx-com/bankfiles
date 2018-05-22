@@ -5,7 +5,7 @@ namespace EoneoPay\BankFiles\Generators\Exceptions;
 
 use EoneoPay\Utils\Exceptions\RuntimeException;
 
-class LengthMismatchesException extends RuntimeException
+class InvalidArgumentException extends RuntimeException
 {
     /**
      * Get Error code.

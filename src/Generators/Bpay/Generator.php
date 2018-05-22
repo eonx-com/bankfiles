@@ -6,6 +6,8 @@ namespace EoneoPay\BankFiles\Generators\Bpay;
 use EoneoPay\BankFiles\Generators\BaseGenerator;
 use EoneoPay\BankFiles\Generators\Bpay\Objects\Header;
 use EoneoPay\BankFiles\Generators\Bpay\Objects\Trailer;
+use EoneoPay\BankFiles\Generators\Bpay\Objects\Transaction;
+use EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException;
 
 class Generator extends BaseGenerator
 {
@@ -20,7 +22,7 @@ class Generator extends BaseGenerator
     private $trailer;
 
     /**
-     * @var mixed[]|null
+     * @var mixed[]
      */
     private $transactions;
 
@@ -28,13 +30,19 @@ class Generator extends BaseGenerator
      * Generator constructor.
      *
      * @param \EoneoPay\BankFiles\Generators\Bpay\Objects\Header $header
-     * @param mixed[]|null $transactions
+     * @param mixed[] $transactions
      * @param \EoneoPay\BankFiles\Generators\Bpay\Objects\Trailer|null $trailer
+     *
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
-    public function __construct(Header $header, ?array $transactions = null, ?Trailer $trailer = null)
+    public function __construct(Header $header, array $transactions, ?Trailer $trailer = null)
     {
+        if (empty($transactions)) {
+            throw new InvalidArgumentException('No transactions provided.');
+        }
+
         $this->header = $header;
-        $this->transactions = $transactions ?? [];
+        $this->transactions = $transactions;
         $this->trailer = $trailer;
     }
 
@@ -45,7 +53,7 @@ class Generator extends BaseGenerator
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
     protected function generate(): void
     {
@@ -53,15 +61,22 @@ class Generator extends BaseGenerator
         $totalAmount = 0;
 
         // Ensure transactions is always an array
-        $transactions = (array)$this->transactions;
+        $transactions = $this->transactions;
 
         foreach ($transactions as $transaction) {
-            /** @var \EoneoPay\BankFiles\Generators\Bpay\Objects\Transaction $transaction */
+            if (($transaction instanceof Transaction) === false) {
+                throw new InvalidArgumentException(\sprintf(
+                    'Transaction must be %s, %s given.',
+                    Transaction::class,
+                    \gettype($transaction)
+                ));
+            }
+
             $objects[] = $transaction;
             $totalAmount += (int)$transaction->getAmount();
         }
 
-        $objects[] = $this->trailer ?? $this->createTrailer(\count($transactions), $totalAmount);
+        $objects[] = $this->trailer ?? $this->createTrailer(\count($objects) - 1, $totalAmount);
 
         $this->writeLinesForObjects($objects);
     }

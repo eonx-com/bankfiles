@@ -4,15 +4,33 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\BankFiles\Generators\Bpay;
 
 use EoneoPay\BankFiles\Generators\Bpay\Generator;
+use EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException;
+use EoneoPay\BankFiles\Generators\Interfaces\GeneratorInterface;
 
 class GeneratorTest extends TestCase
 {
+    /**
+     * Generator should throw exception when no transactions given.
+     *
+     * @return void
+     *
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
+     */
+    public function testEmptyTransactionsException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        new Generator($this->createHeader(), []);
+    }
+
     /**
      * Generated data should be present in the content
      *
      * @group Generator-Bpay
      *
      * @return void
+     *
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
     public function testGeneratedDataShouldBeInTheContent(): void
     {
@@ -29,5 +47,21 @@ class GeneratorTest extends TestCase
 
         self::assertContains($header->getAttributesAsLine(), $generator->getContents());
         self::assertContains($trans1->getAttributesAsLine(), $generator->getContents());
+    }
+
+    /**
+     * Generator should throw exception when invalid transaction given.
+     *
+     * @return void
+     *
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
+     */
+    public function testInvalidTransactionException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        (new Generator($this->createHeader(), ['invalid']))
+            ->setBreakLines(GeneratorInterface::BREAK_LINE_WINDOWS)
+            ->getContents();
     }
 }

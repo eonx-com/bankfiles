@@ -3,14 +3,11 @@ declare(strict_types=1);
 
 namespace EoneoPay\BankFiles\Generators\Exceptions;
 
-use Exception;
+use EoneoPay\Utils\Exceptions\ValidationException;
 use Throwable;
 
-class ValidationFailedException extends Exception
+class ValidationFailedException extends ValidationException
 {
-    /** @var mixed[] $errors */
-    private $errors;
-
     /**
      * ValidationFailedException constructor.
      *
@@ -21,33 +18,44 @@ class ValidationFailedException extends Exception
      */
     public function __construct(array $errors, ?string $message = null, ?int $code = null, ?Throwable $previous = null)
     {
-        $this->errors = $errors;
-        $message = \sprintf('%s. %s', $message ?? '', $this->getErrorsToString());
+        $message = \sprintf('%s. %s', $message ?? '', $this->getErrorsToString($errors));
 
-        parent::__construct($message, $code ?? 0, $previous);
+        parent::__construct($message, $code, $previous, $errors);
     }
 
     /**
-     * Get validation errors.
+     * Get Error code.
      *
-     * @return mixed[]
+     * @return int
      */
-    public function getErrors(): array
+    public function getErrorCode(): int
     {
-        return $this->errors;
+        return self::DEFAULT_ERROR_CODE_VALIDATION;
+    }
+
+    /**
+     * Get Error sub-code.
+     *
+     * @return int
+     */
+    public function getErrorSubCode(): int
+    {
+        return self::DEFAULT_ERROR_SUB_CODE;
     }
 
     /**
      * Get validation errors as string representation.
      *
+     * @param mixed[]|null $errors
+     *
      * @return string
      */
-    public function getErrorsToString(): string
+    public function getErrorsToString(?array $errors = null): string
     {
         $pattern = '[attribute => %s, value => %s, rule => %s]';
         $errorsToString = '';
 
-        foreach ($this->errors as $error) {
+        foreach ($errors ?? $this->getErrors() as $error) {
             $errorsToString .= \sprintf($pattern, $error['attribute'], $error['value'], $error['rule']);
         }
 

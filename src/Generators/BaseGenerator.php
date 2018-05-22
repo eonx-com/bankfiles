@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace EoneoPay\BankFiles\Generators;
 
 use DateTime;
+use EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException;
 use EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException;
 use EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException;
-use EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException;
 use EoneoPay\BankFiles\Generators\Interfaces\GeneratorInterface;
 
 abstract class BaseGenerator implements GeneratorInterface
@@ -93,25 +93,20 @@ abstract class BaseGenerator implements GeneratorInterface
     /**
      * Validate object attributes
      *
-     * @param object $object
+     * @param \EoneoPay\BankFiles\Generators\BaseObject $object
      * @param null|mixed[] $rules
      *
      * @return void
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
      */
-    protected function validateAttributes($object, ?array $rules = null): void
+    protected function validateAttributes(BaseObject $object, ?array $rules = null): void
     {
-        if (\is_object($object) === false) {
-            throw new ValidationNotAnObjectException('Attributes can only be validated on an object');
-        }
-
         $errors = [];
 
-        foreach ((array)$rules as $attribute => $rule) {
+        foreach ($rules ?? [] as $attribute => $rule) {
             $this->processRule($errors, $rule, $attribute, (string)$object->{'get' . \ucfirst($attribute)}());
         }
 
@@ -142,14 +137,21 @@ abstract class BaseGenerator implements GeneratorInterface
      *
      * @return void
      *
-     * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationNotAnObjectException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
     protected function writeLinesForObjects(array $objects): void
     {
         foreach ($objects as $object) {
-            /** @var \EoneoPay\BankFiles\Generators\BaseObject $object */
+            if (($object instanceof BaseObject) === false) {
+                throw new InvalidArgumentException(\sprintf(
+                    'Object must be %s, %s given.',
+                    BaseObject::class,
+                    \gettype($object)
+                ));
+            }
+
             $this->validateAttributes($object, $object->getValidationRules());
             $this->writeLine($object->getAttributesAsLine());
         }
