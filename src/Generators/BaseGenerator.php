@@ -168,9 +168,15 @@ abstract class BaseGenerator implements GeneratorInterface
      * @return void
      *
      * @SuppressWarnings(PHPMD.StaticAccess) DateTime requires static access to createFromFormat()
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity) Planned to externalise validation
      */
     private function processRule(array &$errors, string $rule, string $attribute, $value): void
     {
+        if ($value === null || (\is_string($value) && $value === '') || (\is_array($value) && empty($value))) {
+            $errors[] = \array_merge(\compact('attribute', 'value'), ['rule' => 'required']);
+            return;
+        }
+
         switch ($rule) {
             case self::VALIDATION_RULE_BSB:
                 // 123-456 length must be 7 characters with '-' in the 4th position

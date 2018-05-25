@@ -41,7 +41,8 @@ class Transaction extends BaseObject
             'traceBsb' => GeneratorInterface::VALIDATION_RULE_BSB,
             'traceAccountNumber' => GeneratorInterface::VALIDATION_RULE_ALPHA,
             'nameOfRemitter' => GeneratorInterface::VALIDATION_RULE_ALPHA,
-            'amountOfWithholdingTax' => GeneratorInterface::VALIDATION_RULE_NUMERIC
+            'amountOfWithholdingTax' => GeneratorInterface::VALIDATION_RULE_NUMERIC,
+            'transactionCode' => GeneratorInterface::class
         ];
     }
 
