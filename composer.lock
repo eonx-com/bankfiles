@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/loyaltycorp/utils.git",
-                "reference": "26619789553b5c4c04f2a8d06d1961dbddab3586"
+                "reference": "a3455c532edd628ce5f950ec2c123334385621ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/loyaltycorp/utils/zipball/26619789553b5c4c04f2a8d06d1961dbddab3586",
-                "reference": "26619789553b5c4c04f2a8d06d1961dbddab3586",
+                "url": "https://api.github.com/repos/loyaltycorp/utils/zipball/a3455c532edd628ce5f950ec2c123334385621ce",
+                "reference": "a3455c532edd628ce5f950ec2c123334385621ce",
                 "shasum": ""
             },
             "require": {
@@ -57,7 +57,7 @@
                 "helpers",
                 "utilities"
             ],
-            "time": "2018-05-17T02:24:23+00:00"
+            "time": "2018-05-24T22:22:11+00:00"
         }
     ],
     "packages-dev": [

@@ -12,6 +12,23 @@ use Tests\EoneoPay\BankFiles\Generators\Aba\TestCase as AbaTestCase;
 class GeneratorTest extends AbaTestCase
 {
     /**
+     * Generator should throw exception when required attributes not set.
+     *
+     * @return void
+     *
+     * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
+     */
+    public function testAttributesWithDefinedRuleAreRequiredException(): void
+    {
+        $this->expectException(ValidationFailedException::class);
+
+        $transaction = $this->createTransaction();
+        $transaction->setAttribute('transactionCode', null);
+
+        (new Generator($this->createDescriptiveRecord(), [$transaction]))->getContents();
+    }
+
+    /**
      * Generator should throw exception when no transactions given.
      *
      * @return void
