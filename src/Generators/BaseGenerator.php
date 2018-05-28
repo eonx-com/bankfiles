@@ -14,7 +14,7 @@ abstract class BaseGenerator implements GeneratorInterface
     /**
      * @var string
      */
-    protected $breakLine = self::BREAK_LINE_UNIX;
+    protected $breakLine = self::BREAK_LINE_WINDOWS;
 
     /**
      * @var string
