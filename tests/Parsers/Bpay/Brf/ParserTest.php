@@ -19,10 +19,7 @@ class ParserTest extends TestCase
      */
     public function testShouldReturnErrors(): void
     {
-        $filename = \realpath(__DIR__ . '/data') . '/sample.BRF';
-        $content = \file_get_contents($filename);
-
-        $brfParser = new Parser($content);
+        $brfParser = new Parser($this->getSampleFileContents('sample.BRF'));
 
         /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(Collection::class, $brfParser->getErrors());
@@ -37,10 +34,7 @@ class ParserTest extends TestCase
      */
     public function testShouldReturnHeader(): void
     {
-        $filename = \realpath(__DIR__ . '/data') . '/sample.BRF';
-        $content = \file_get_contents($filename);
-
-        $brfParser = new Parser($content);
+        $brfParser = new Parser($this->getSampleFileContents('sample.BRF'));
 
         /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(Header::class, $brfParser->getHeader());
@@ -53,10 +47,7 @@ class ParserTest extends TestCase
      */
     public function testShouldReturnTrailer(): void
     {
-        $filename = \realpath(__DIR__ . '/data') . '/sample.BRF';
-        $content = \file_get_contents($filename);
-
-        $brfParser = new Parser($content);
+        $brfParser = new Parser($this->getSampleFileContents('sample.BRF'));
 
         /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(Trailer::class, $brfParser->getTrailer());
@@ -71,10 +62,7 @@ class ParserTest extends TestCase
      */
     public function testShouldReturnTransaction(): void
     {
-        $filename = \realpath(__DIR__ . '/data') . '/sample.BRF';
-        $content = \file_get_contents($filename);
-
-        $brfParser = new Parser($content);
+        $brfParser = new Parser($this->getSampleFileContents('sample.BRF'));
 
         $transactions = $brfParser->getTransactions();
 
@@ -87,5 +75,17 @@ class ParserTest extends TestCase
         if ($firstTransactionItem) {
             self::assertInstanceOf(Transaction::class, $firstTransactionItem);
         }
+    }
+
+    /**
+     * Get sample file contents.
+     *
+     * @param string $file
+     *
+     * @return string
+     */
+    private function getSampleFileContents(string $file): string
+    {
+        return \file_get_contents(\realpath(__DIR__) . '/data/' . $file);
     }
 }

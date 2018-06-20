@@ -22,10 +22,7 @@ class ParserTest extends TestCase
      */
     public function testAccountShouldBeEqualToTransactionsAccount(): void
     {
-        $filename = \realpath(__DIR__ . '/data') . '/sample.NAI';
-        $content = \file_get_contents($filename);
-
-        $parser = new Parser($content);
+        $parser = new Parser($this->getSampleFileContents('sample.NAI'));
 
         self::assertEquals($parser->getAccounts()->last(), $parser->getTransactions()->last()->getAccount());
     }
@@ -39,10 +36,7 @@ class ParserTest extends TestCase
      */
     public function testShouldReturnAccount(): void
     {
-        $filename = \realpath(__DIR__ . '/data') . '/sample.NAI';
-        $content = \file_get_contents($filename);
-
-        $parser = new Parser($content);
+        $parser = new Parser($this->getSampleFileContents('sample.NAI'));
 
         /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(Collection::class, $parser->getAccounts());
@@ -57,10 +51,7 @@ class ParserTest extends TestCase
      */
     public function testShouldReturnErrors(): void
     {
-        $filename = \realpath(__DIR__ . '/data') . '/sample.NAI';
-        $content = \file_get_contents($filename);
-
-        $parser = new Parser($content);
+        $parser = new Parser($this->getSampleFileContents('sample.NAI'));
 
         /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(Collection::class, $parser->getErrors());
@@ -75,10 +66,7 @@ class ParserTest extends TestCase
      */
     public function testShouldReturnFileHeader(): void
     {
-        $filename = \realpath(__DIR__ . '/data') . '/sample.NAI';
-        $content = \file_get_contents($filename);
-
-        $parser = new Parser($content);
+        $parser = new Parser($this->getSampleFileContents('sample.NAI'));
 
         /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(FileHeader::class, $parser->getFileHeader());
@@ -93,10 +81,7 @@ class ParserTest extends TestCase
      */
     public function testShouldReturnFileTrailer(): void
     {
-        $filename = \realpath(__DIR__ . '/data') . '/sample.NAI';
-        $content = \file_get_contents($filename);
-
-        $parser = new Parser($content);
+        $parser = new Parser($this->getSampleFileContents('sample.NAI'));
 
         /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(FileTrailer::class, $parser->getFileTrailer());
@@ -111,10 +96,7 @@ class ParserTest extends TestCase
      */
     public function testShouldReturnGroupHeader(): void
     {
-        $filename = \realpath(__DIR__ . '/data') . '/sample.NAI';
-        $content = \file_get_contents($filename);
-
-        $parser = new Parser($content);
+        $parser = new Parser($this->getSampleFileContents('sample.NAI'));
 
         /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(GroupHeader::class, $parser->getGroupHeader());
@@ -129,10 +111,7 @@ class ParserTest extends TestCase
      */
     public function testShouldReturnGroupTrailer(): void
     {
-        $filename = \realpath(__DIR__ . '/data') . '/sample.NAI';
-        $content = \file_get_contents($filename);
-
-        $parser = new Parser($content);
+        $parser = new Parser($this->getSampleFileContents('sample.NAI'));
 
         /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(GroupTrailer::class, $parser->getGroupTrailer());
@@ -147,12 +126,21 @@ class ParserTest extends TestCase
      */
     public function testShouldReturnTransactions(): void
     {
-        $filename = \realpath(__DIR__ . '/data') . '/sample.NAI';
-        $content = \file_get_contents($filename);
-
-        $parser = new Parser($content);
+        $parser = new Parser($this->getSampleFileContents('sample.NAI'));
 
         /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(Collection::class, $parser->getTransactions());
+    }
+
+    /**
+     * Get sample file contents.
+     *
+     * @param string $file
+     *
+     * @return string
+     */
+    private function getSampleFileContents(string $file): string
+    {
+        return \file_get_contents(\realpath(__DIR__) . '/data/' . $file);
     }
 }
