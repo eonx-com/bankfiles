@@ -28,7 +28,7 @@ class ParserTest extends TestCase
 
         $parser = new Parser($content);
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
+        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(Collection::class, $parser->getIssues());
 
         // PaymentId is not in the xml
@@ -52,12 +52,12 @@ class ParserTest extends TestCase
 
         $parser = new Parser($content);
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
+        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(Collection::class, $parser->getIssues());
         self::assertInstanceOf(Issue::class, $parser->getIssues()->first());
         self::assertInternalType('array', $parser->getIssues()->first()->getAttributes());
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
+        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(PaymentAcknowledgement::class, $parser->getPaymentAcknowledgement());
         self::assertInstanceOf(Collection::class, $parser->getPaymentAcknowledgement()->getIssues());
         self::assertInstanceOf(Issue::class, $parser->getPaymentAcknowledgement()->getIssues()->first());

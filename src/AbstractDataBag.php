@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace EoneoPay\BankFiles;
 
+use EoneoPay\Utils\Str;
+
 abstract class AbstractDataBag
 {
     /**
@@ -42,7 +44,7 @@ abstract class AbstractDataBag
     public function __call(string $method, array $parameters)
     {
         $type = \strtolower(\substr($method, 0, 3));
-        $attribute = \lcfirst(\substr($method, 3));
+        $attribute = (new Str())->camel(\substr($method, 3));
 
         if ($type === 'get' && isset($this->data[$attribute])) {
             return $this->data[$attribute];

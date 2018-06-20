@@ -17,6 +17,6 @@ class Error extends BaseResult
      */
     protected function initAttributes(): array
     {
-        return ['line'];
+        return ['line', 'lineNumber'];
     }
 }
