@@ -7,6 +7,7 @@ use EoneoPay\BankFiles\Parsers\BaseResult;
 
 /**
  * @method string getLine()
+ * @method int getLineNumber()
  */
 class Error extends BaseResult
 {
