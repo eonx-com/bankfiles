@@ -44,7 +44,7 @@ class ParserTest extends TestCase
 
         $parser = new Parser($content);
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
+        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(Collection::class, $parser->getAccounts());
     }
 
@@ -62,7 +62,7 @@ class ParserTest extends TestCase
 
         $parser = new Parser($content);
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
+        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(Collection::class, $parser->getErrors());
     }
 
@@ -80,7 +80,7 @@ class ParserTest extends TestCase
 
         $parser = new Parser($content);
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
+        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(FileHeader::class, $parser->getFileHeader());
     }
 
@@ -98,7 +98,7 @@ class ParserTest extends TestCase
 
         $parser = new Parser($content);
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
+        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(FileTrailer::class, $parser->getFileTrailer());
     }
 
@@ -116,7 +116,7 @@ class ParserTest extends TestCase
 
         $parser = new Parser($content);
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
+        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(GroupHeader::class, $parser->getGroupHeader());
     }
 
@@ -134,7 +134,7 @@ class ParserTest extends TestCase
 
         $parser = new Parser($content);
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
+        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(GroupTrailer::class, $parser->getGroupTrailer());
     }
 
@@ -152,7 +152,7 @@ class ParserTest extends TestCase
 
         $parser = new Parser($content);
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
+        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(Collection::class, $parser->getTransactions());
     }
 }

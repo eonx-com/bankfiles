@@ -25,11 +25,11 @@ class GroupTrailerTest extends TestCase
             'groupControlTotalB' => $value
         ]);
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
+        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInternalType('float', $groupTrailer->getGroupControlTotalA());
         self::assertEquals($expected, $groupTrailer->getGroupControlTotalA());
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
+        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInternalType('float', $groupTrailer->getGroupControlTotalB());
         self::assertEquals($expected, $groupTrailer->getGroupControlTotalB());
     }

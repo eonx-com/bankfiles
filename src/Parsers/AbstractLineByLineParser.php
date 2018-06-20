@@ -20,11 +20,12 @@ abstract class AbstractLineByLineParser extends BaseParser
     /**
      * Process line and parse data
      *
+     * @param int $lineNumber
      * @param string $line
      *
      * @return void
      */
-    abstract public function processLine(string $line): void;
+    abstract protected function processLine(int $lineNumber, string $line): void;
 
     /**
      * Process parsing
@@ -34,9 +35,17 @@ abstract class AbstractLineByLineParser extends BaseParser
     protected function process(): void
     {
         $contents = \explode(\PHP_EOL, $this->contents);
+        $lineNumber = 1;
 
         foreach ($contents as $line) {
-            $this->processLine($line);
+            $line = \trim($line);
+
+            if ($line === '') {
+                continue;
+            }
+
+            $this->processLine($lineNumber, $line);
+            $lineNumber++;
         }
     }
 }

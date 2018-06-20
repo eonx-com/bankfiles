@@ -164,11 +164,12 @@ class Parser extends AbstractLineByLineParser
     /**
      * Process line and parse data
      *
+     * @param int $lineNumber
      * @param string $line
      *
      * @return void
      */
-    public function processLine(string $line): void
+    protected function processLine(int $lineNumber, string $line): void
     {
         $line = $this->sanitiseLine($line);
 
@@ -208,7 +209,7 @@ class Parser extends AbstractLineByLineParser
                 break;
             default:
                 $this->previousCode = null;
-                $this->errors[] = new Error(['line' => $line]);
+                $this->errors[] = new Error(['line' => $line, 'lineNumber' => $lineNumber]);
                 break;
         }
     }

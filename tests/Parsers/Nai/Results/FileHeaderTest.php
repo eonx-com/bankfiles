@@ -28,7 +28,7 @@ class FileHeaderTest extends TestCase
             'fileCreationDate' => $date
         ]);
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
+        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(DateTime::class, $fileHeader->getFileCreationDate());
         self::assertEquals($expected, $fileHeader->getFileCreationDate());
     }

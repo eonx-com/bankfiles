@@ -34,7 +34,7 @@ class TransactionTest extends TestCase
     {
         $transaction = new Transaction(['paymentDate' => '20160426']);
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
+        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(DateTime::class, $transaction->getPaymentDate());
     }
 
@@ -49,7 +49,7 @@ class TransactionTest extends TestCase
     {
         $transaction = new Transaction(['settlementDate' => '20160426']);
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion neecessary for exact instance type */
+        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(DateTime::class, $transaction->getSettlementDate());
     }
 }

@@ -72,16 +72,13 @@ class Parser extends AbstractLineByLineParser
     /**
      * Process line and parse data
      *
+     * @param int $lineNumber
      * @param string $line
      *
      * @return void
      */
-    public function processLine(string $line): void
+    protected function processLine(int $lineNumber, string $line): void
     {
-        if ($line === '') {
-            return;
-        }
-
         $code = \substr($line, 0, 2);
 
         switch ($code) {
@@ -98,9 +95,7 @@ class Parser extends AbstractLineByLineParser
                 break;
 
             default:
-                $this->errors[] = new Error([
-                    'line' => $line
-                ]);
+                $this->errors[] = new Error(['line' => $line, 'lineNumber' => $lineNumber]);
                 break;
         }
     }
