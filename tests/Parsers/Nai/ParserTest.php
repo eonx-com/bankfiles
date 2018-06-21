@@ -8,6 +8,7 @@ use EoneoPay\BankFiles\Parsers\Nai\Results\FileHeader;
 use EoneoPay\BankFiles\Parsers\Nai\Results\FileTrailer;
 use EoneoPay\BankFiles\Parsers\Nai\Results\GroupHeader;
 use EoneoPay\BankFiles\Parsers\Nai\Results\GroupTrailer;
+use EoneoPay\BankFiles\Parsers\Nai\TransactionDetailCodes;
 use EoneoPay\Utils\Collection;
 use Tests\EoneoPay\BankFiles\Parsers\TestCase;
 
@@ -130,6 +131,19 @@ class ParserTest extends TestCase
 
         /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(Collection::class, $parser->getTransactions());
+    }
+
+    /**
+     * Transaction codes detail trait should return null if code is invalid.
+     *
+     * @throws \ReflectionException
+     */
+    public function testTransactionCodesTraitReturnNullWhenInvalidCode(): void
+    {
+        /** @var \EoneoPay\BankFiles\Parsers\Nai\TransactionDetailCodes $trait */
+        $trait = $this->getObjectForTrait(TransactionDetailCodes::class);
+
+        self::assertNull($trait->getTransactionCodeDetails('invalid'));
     }
 
     /**

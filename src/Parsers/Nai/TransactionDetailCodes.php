@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace EoneoPay\BankFiles\Parsers\Nai;
 
+use EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Transactions\Details;
+
 trait TransactionDetailCodes
 {
     /** @var mixed[] $transactionCodes */
@@ -80,10 +82,20 @@ trait TransactionDetailCodes
      *
      * @param string $code
      *
-     * @return mixed[]|null
+     * @return null|\EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Transactions\Details
      */
-    public function getTransactionCodeDetails(string $code): ?array
+    public function getTransactionCodeDetails(string $code): ?Details
     {
-        return static::$transactionCodes[(int)$code] ?? null;
+        if (isset(static::$transactionCodes[(int)$code]) === false) {
+            return null;
+        }
+
+        $details = static::$transactionCodes[(int)$code];
+
+        return new Details([
+            'description' => $details['description'],
+            'particulars' => $details['particulars'],
+            'type' => $details['cdrd']
+        ]);
     }
 }
