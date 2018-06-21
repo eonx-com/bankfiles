@@ -7,14 +7,14 @@ use EoneoPay\BankFiles\Parsers\BaseResult;
 use EoneoPay\BankFiles\Parsers\Nai\Results\Account;
 
 /**
- * @method Account getAccount()
+ * @method \EoneoPay\BankFiles\Parsers\Nai\Results\Account getAccount()
  * @method string getAmount()
  * @method string getCode()
  * @method string getFundsType()
  * @method string getReferenceNumber()
  * @method string getText()
  * @method string getTransactionCode()
- * @method array getTransactionDetails()
+ * @method \EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Transactions\Details getTransactionDetails()
  */
 class Transaction extends BaseResult
 {
