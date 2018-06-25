@@ -4,23 +4,12 @@ declare(strict_types=1);
 namespace EoneoPay\BankFiles\Parsers\Nai;
 
 use EoneoPay\BankFiles\Parsers\AbstractLineByLineParser;
-use EoneoPay\BankFiles\Parsers\Nai\Results\Account;
-use EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Identifier;
-use EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Trailer;
-use EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Transaction;
-use EoneoPay\BankFiles\Parsers\Nai\Results\Error;
-use EoneoPay\BankFiles\Parsers\Nai\Results\FileHeader;
-use EoneoPay\BankFiles\Parsers\Nai\Results\FileTrailer;
-use EoneoPay\BankFiles\Parsers\Nai\Results\GroupHeader;
-use EoneoPay\BankFiles\Parsers\Nai\Results\GroupTrailer;
-use EoneoPay\Utils\Collection;
-use EoneoPay\Utils\Interfaces\CollectionInterface;
+use EoneoPay\BankFiles\Parsers\Nai\Results\File;
+use EoneoPay\BankFiles\Parsers\Nai\Results\ResultsContext;
+use EoneoPay\Utils\Str;
 
 class Parser extends AbstractLineByLineParser
 {
-    use AccountSummaryCodes;
-    use TransactionDetailCodes;
-
     private const ACCOUNT_IDENTIFIER = '03';
     private const ACCOUNT_TRAILER = '49';
     private const CONTINUATION = '88';
@@ -30,135 +19,132 @@ class Parser extends AbstractLineByLineParser
     private const GROUP_TRAILER = '98';
     private const TRANSACTION_DETAIL = '16';
 
-    /** @var mixed[] $accountBlocks */
-    private $accountBlocks = [];
-
-    /**@var mixed[] $accounts */
+    /**
+     * @var mixed[]
+     */
     private $accounts = [];
 
-    /** @var mixed[] $errors */
+    /**
+     * @var int|null
+     */
+    private $currentAccount;
+
+    /**
+     * @var int
+     */
+    private $currentGroup;
+
+    /**
+     * @var int
+     */
+    private $currentLineNumber;
+
+    /**
+     * @var int|null
+     */
+    private $currentTransaction;
+
+    /**
+     * @var mixed[]
+     */
     private $errors = [];
 
-    /** @var \EoneoPay\BankFiles\Parsers\Nai\Results\FileHeader $fileHeader */
-    private $fileHeader;
+    /**
+     * @var mixed[]
+     */
+    private $file = [];
 
-    /** @var mixed[] $fileHeaderContents */
-    private $fileHeaderContents = [];
+    /**
+     * @var mixed[]
+     */
+    private $groups = [];
 
-    /** @var \EoneoPay\BankFiles\Parsers\Nai\Results\FileTrailer $groupTrailer */
-    private $fileTrailer;
-
-    /** @var mixed[] $fileTrailerContents */
-    private $fileTrailerContents;
-
-    /** @var \EoneoPay\BankFiles\Parsers\Nai\Results\GroupHeader $groupHeader */
-    private $groupHeader;
-
-    /** @var mixed[] $groupHeaderContents */
-    private $groupHeaderContents = [];
-
-    /** @var \EoneoPay\BankFiles\Parsers\Nai\Results\GroupTrailer $groupTrailer */
-    private $groupTrailer;
-
-    /** @var mixed[] $groupTrailerContents */
-    private $groupTrailerContents;
-
-    /** @var string|null $previousCode */
+    /**
+     * @var string
+     */
     private $previousCode;
 
-    /** @var \EoneoPay\Utils\Collection $transactions */
-    private $transactions;
+    /**
+     * @var bool
+     */
+    private $previousFull = true;
 
     /**
-     * Format account identifier transactions and add code summary
-     *
-     * @param mixed[] $transactionCodes
-     *
-     * @return mixed[]
+     * @var \EoneoPay\BankFiles\Parsers\Nai\Results\ResultsContext
      */
-    public function formatTransactionCodes(array $transactionCodes): array
+    private $resultsContext;
+
+    /**
+     * @var mixed[]
+     */
+    private $transactions = [];
+
+    /**
+     * Get accounts.
+     *
+     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\Account[]
+     */
+    public function getAccounts(): array
     {
-        foreach ($transactionCodes as $key => $codes) {
-            [$code, $amount] = $codes;
-
-            $transactionCodes[$key] = [
-                'code' => $code,
-                'description' => $this->getCodeSummary($code),
-                'amount' => $amount
-            ];
-        }
-
-        return $transactionCodes;
+        return $this->resultsContext->getAccounts();
     }
 
     /**
-     * Return account blocks
+     * Get errors.
      *
-     * @return \EoneoPay\Utils\Interfaces\CollectionInterface
+     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\Error[]
      */
-    public function getAccounts(): CollectionInterface
+    public function getErrors(): array
     {
-        return new Collection($this->accountBlocks);
+        return $this->resultsContext->getErrors();
     }
 
     /**
-     * Return errors
+     * Get file.
      *
-     * @return \EoneoPay\Utils\Interfaces\CollectionInterface
+     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\File|null
      */
-    public function getErrors(): CollectionInterface
+    public function getFile(): ?File
     {
-        return new Collection($this->errors);
+        return $this->resultsContext->getFile();
     }
 
     /**
-     * Return the file header
+     * Get groups.
      *
-     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\FileHeader
+     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\Group[]
      */
-    public function getFileHeader(): FileHeader
+    public function getGroups(): array
     {
-        return $this->fileHeader;
+        return $this->resultsContext->getGroups();
     }
 
     /**
-     * Return file trailer
+     * Get transactions.
      *
-     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\FileTrailer
+     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\Transaction[]
      */
-    public function getFileTrailer(): FileTrailer
+    public function getTransactions(): array
     {
-        return $this->fileTrailer;
+        return $this->resultsContext->getTransactions();
     }
 
     /**
-     * Return the group header
+     * Parse given contents and instantiate results context.
      *
-     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\GroupHeader
+     * @return void
      */
-    public function getGroupHeader(): GroupHeader
+    protected function process(): void
     {
-        return $this->groupHeader;
-    }
+        parent::process();
 
-    /**
-     * Return group trailer
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\GroupTrailer
-     */
-    public function getGroupTrailer(): GroupTrailer
-    {
-        return $this->groupTrailer;
-    }
-
-    /**
-     * Return the collection of transactions
-     *
-     * @return \EoneoPay\Utils\Interfaces\CollectionInterface
-     */
-    public function getTransactions(): CollectionInterface
-    {
-        return $this->transactions;
+        $this->resultsContext = new ResultsContext(
+            $this->accounts,
+            $this->errors,
+            $this->file,
+            $this->groups,
+            $this->transactions
+        );
     }
 
     /**
@@ -168,410 +154,67 @@ class Parser extends AbstractLineByLineParser
      * @param string $line
      *
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity) Inherited from file complexity
      */
     protected function processLine(int $lineNumber, string $line): void
     {
-        $line = $this->sanitiseLine($line);
-
         $code = \substr($line, 0, 2);
 
+        // Set current line number
+        $this->currentLineNumber = $lineNumber;
+
+        // If current code not valid, create error and skip to next line
+        if ($this->isCodeValid($code) === false) {
+            $this->addError($line);
+
+            return;
+        }
+
+        $line = $this->sanitiseLine($line);
+
+        // If continuation, update previous and skip to next line
+        if ($code === self::CONTINUATION) {
+            $this->continuePrevious($line);
+
+            return;
+        }
+
+        // Current code becomes then previous one for next continuation
+        $this->previousCode = $code;
+
         switch ($code) {
-            case self::CONTINUATION:
-                $this->process88($line);
-                break;
-            case self::FILE_HEADER:
-                $this->previousCode = self::FILE_HEADER;
-                $this->fileHeaderContents[] = $line;
-                break;
-            case self::GROUP_HEADER:
-                $this->previousCode = self::GROUP_HEADER;
-                $this->groupHeaderContents[] = $line;
-                break;
             case self::ACCOUNT_IDENTIFIER:
-                $this->previousCode = self::ACCOUNT_IDENTIFIER;
-                $this->accounts[] = $line;
-                break;
-            case self::TRANSACTION_DETAIL:
-                $this->previousCode = self::TRANSACTION_DETAIL;
-                $this->accounts[] = $line;
+                $this->currentAccount = ($this->currentAccount ?? 0) + 1;
+                $this->currentTransaction = null; // Reset current transaction for new account
+                $this->addAccountIdentifier($this->currentAccount, $line);
                 break;
             case self::ACCOUNT_TRAILER:
-                $this->previousCode = self::ACCOUNT_TRAILER;
-                $this->accounts[] = $line;
+                $this->addAccountTrailer($this->currentAccount ?? 0, $line);
                 break;
-            case self::GROUP_TRAILER:
-                $this->previousCode = self::GROUP_TRAILER;
-                $this->groupTrailerContents[] = $line;
+            case self::FILE_HEADER:
+                $this->file['header'] = $this->setItem($line);
                 break;
             case self::FILE_TRAILER:
-                $this->previousCode = self::FILE_TRAILER;
-                $this->fileTrailerContents[] = $line;
-                break;
-            default:
-                $this->previousCode = null;
-                $this->errors[] = new Error(['line' => $line, 'lineNumber' => $lineNumber]);
-                break;
-        }
-    }
-
-    /**
-     * Override Process method
-     *
-     * @return void
-     */
-    protected function process(): void
-    {
-        parent::process();
-
-        $this->parseFileHeader()
-            ->parseGroupHeader()
-            ->parseAccounts()
-            ->extractTransactions()
-            ->parseGroupTrailer()
-            ->parseFileTrailer();
-    }
-
-    /**
-     * Extract all transactions from all of the accounts and add its respective account as an attribute
-     *
-     * @return self
-     */
-    private function extractTransactions(): self
-    {
-        $this->transactions = (new Collection($this->accountBlocks))->map(function ($account) {
-            /** @var \EoneoPay\BankFiles\Parsers\Nai\Results\Account $account */
-            $transactions = $account->getTransactions();
-
-            return $transactions->map(function ($transaction) use ($account) {
-                /** @var \EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Transaction $transaction */
-                return $transaction->setAccount($account);
-            });
-        })->collapse();
-
-        return $this;
-    }
-
-    /**
-     * Parse account trailer
-     *
-     * @param string $accountTrailer
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Trailer
-     */
-    private function parseAccountTrailer(string $accountTrailer): Trailer
-    {
-        [$code, $accountControlTotalA, $accountControlTotalB] = \explode(',', $accountTrailer);
-
-        return new Trailer(\compact('code', 'accountControlTotalA', 'accountControlTotalB'));
-    }
-
-    /**
-     * Process an account trailer block
-     *
-     * @param int $start The position in the account to start from
-     * @param int $key The key of the current account
-     *
-     * @return void
-     */
-    private function parseAccountTrailerBlock(int $start, int $key): void
-    {
-        $block = \array_slice($this->accounts, $start, ($key + 1) - $start);
-
-        /**
-         * Now let's loop through the block and separate into 3 parts.
-         * 1. (03) Account identification and summary status
-         * 2. (16) Transaction detail
-         * 3. (49) Account trailer
-         */
-        $accountIdentifier = null;
-        $transactionDetails = [];
-        $accountTrailer = null;
-        $prevCode = null;
-        foreach ($block as $item) {
-            $code = \substr($item, 0, 2);
-
-            switch ($code) {
-                case self::ACCOUNT_IDENTIFIER:
-                    $prevCode = self::ACCOUNT_IDENTIFIER;
-                    $accountIdentifier .= $item;
-                    break;
-
-                case self::TRANSACTION_DETAIL:
-                    $prevCode = self::TRANSACTION_DETAIL;
-
-                    // Sometimes there are multiple transactions so let's put them in array
-                    $transactionDetails[] = $item;
-                    break;
-
-                case self::ACCOUNT_TRAILER:
-                    $prevCode = self::ACCOUNT_TRAILER;
-                    $accountTrailer .= $item;
-                    break;
-
-                default: // If no matching code, it means it's a continuation of the previous line
-                    if ($prevCode === self::ACCOUNT_IDENTIFIER) {
-                        $accountIdentifier .= $item;
-                    }
-
-                    if ($prevCode === self::TRANSACTION_DETAIL) {
-                        $transactionCount = \count($transactionDetails) - 1;
-                        $transactionDetails[$transactionCount] .= \substr($item, 1);
-                    }
-
-                    break;
-            }
-        }
-
-        $this->accountBlocks[] = new Account([
-            'identifier' => $this->parseIdentifier($accountIdentifier ?? ''),
-            'transactions' => $this->parseTransaction($transactionDetails),
-            'trailer' => $this->parseAccountTrailer($accountTrailer ?? '')
-        ]);
-    }
-
-    /**
-     * Parse accounts
-     *
-     * @return self
-     */
-    private function parseAccounts(): self
-    {
-        /**
-         * We know that account block is bounded by code 03 and 49
-         * Let's group them into array of blocks
-         */
-
-        $start = 0;
-        foreach ($this->accounts as $key => $line) {
-            $code = \substr($line, 0, 2);
-
-            if ($code === self::ACCOUNT_IDENTIFIER) {
-                $start = $key;
-            }
-
-            /**
-             * Slice the arrays bounded by code 03 and 49
-             * Put it in an array as a block
-             */
-            if ($code === self::ACCOUNT_TRAILER) {
-                $this->parseAccountTrailerBlock($start, $key);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Parse file header data
-     *
-     * @return self
-     */
-    private function parseFileHeader(): self
-    {
-        $line = \implode('', \array_values($this->fileHeaderContents));
-
-        [
-            $code,
-            $senderId,
-            $receiverId,
-            $fileCreationDate,
-            $fileCreationTime,
-            $fileSequenceNumber,
-            $physicalRecordLength,
-            $blockingFactor
-        ] = \explode(',', $line);
-
-        $this->fileHeader = new FileHeader(\compact(
-            'code',
-            'senderId',
-            'receiverId',
-            'fileCreationDate',
-            'fileCreationTime',
-            'fileSequenceNumber',
-            'physicalRecordLength',
-            'blockingFactor'
-        ));
-
-        return $this;
-    }
-
-    /**
-     * Parse file trailer
-     *
-     * @return self
-     */
-    private function parseFileTrailer(): self
-    {
-        $data = \implode('', $this->fileTrailerContents);
-
-        [
-            $code,
-            $fileControlTotalA,
-            $numberOfGroups,
-            $numberOfRecords,
-            $fileControlTotalB
-        ] = \explode(',', $data);
-
-        $this->fileTrailer = new FileTrailer(\compact(
-            'code',
-            'fileControlTotalA',
-            'numberOfGroups',
-            'numberOfRecords',
-            'fileControlTotalB'
-        ));
-
-        return $this;
-    }
-
-    /**
-     * Parse group header data
-     *
-     * @return self
-     */
-    private function parseGroupHeader(): self
-    {
-        $line = \implode('', \array_values($this->groupHeaderContents));
-
-        [
-            $code,
-            $ultimateReceiverId,
-            $originatorReceiverId,
-            $groupStatus,
-            $asOfDate,
-            $asOfTime
-        ] = \explode(',', $line);
-
-        $this->groupHeader = new GroupHeader(\compact(
-            'code',
-            'ultimateReceiverId',
-            'originatorReceiverId',
-            'groupStatus',
-            'asOfDate',
-            'asOfTime'
-        ));
-
-        return $this;
-    }
-
-    /**
-     * Parse the group trailer
-     *
-     * @return self
-     */
-    private function parseGroupTrailer(): self
-    {
-        $data = \implode('', $this->groupTrailerContents);
-
-        [
-            $code,
-            $groupControlTotalA,
-            $numberOfAccounts,
-            $groupControlTotalB
-        ] = \explode(',', $data);
-
-        $this->groupTrailer = new GroupTrailer(\compact(
-            'code',
-            'groupControlTotalA',
-            'numberOfAccounts',
-            'groupControlTotalB'
-        ));
-
-        return $this;
-    }
-
-    /**
-     * Parse account identifier
-     *
-     * @param string $identifier
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Identifier
-     */
-    private function parseIdentifier(string $identifier): Identifier
-    {
-        $data = \explode(',', $identifier);
-
-        // Get the first 3 elements
-        [$code, $accountNumber, $currencyCode] = $data;
-
-        /*
-         * So from 4th item onwards are Transaction code and Amount
-         * We can group them in pairs [transactionCode, Amount]
-         *
-         * But first let remove the first 3 elements
-        */
-        $transactionCodes = \array_slice($data, 3);
-        $transactionCodes = $this->formatTransactionCodes(\array_chunk($transactionCodes, 2));
-
-        return new Identifier([
-            'code' => $code,
-            'commercialAccountNumber' => $accountNumber,
-            'currencyCode' => $currencyCode,
-            'transactionCodes' => $transactionCodes
-        ]);
-    }
-
-    /**
-     * Parse transaction details
-     *
-     * @param mixed[] $transactionDetails
-     *
-     * @return mixed[]
-     */
-    private function parseTransaction(array $transactionDetails): array
-    {
-        $transactions = [];
-        foreach ($transactionDetails as $transaction) {
-            // Explode transaction into parts
-            [$code, $transactionCode, $amount, $fundsType, $referenceNumber, $text] = \explode(',', $transaction, 6);
-
-            $transactions[] = new Transaction([
-                'code' => $code,
-                'transactionCode' => $transactionCode,
-                'transactionDetails' => $this->getTransactionCodeDetails($transactionCode),
-                'amount' => $amount,
-                'fundsType' => $fundsType,
-                'referenceNumber' => $referenceNumber,
-                'text' => $text
-            ]);
-        }
-
-        return $transactions;
-    }
-
-    /**
-     * Parse code 88
-     *
-     * @param string $line
-     *
-     * @return void
-     */
-    private function process88(string $line): void
-    {
-        $line = (string)\substr($line, 2);
-
-        switch ($this->previousCode) {
-            case self::FILE_HEADER:
-                $this->fileHeaderContents[] = $line;
+                $this->file['trailer'] = $this->setItem($line);
                 break;
             case self::GROUP_HEADER:
-                $this->groupHeaderContents[] = $line;
-                break;
-            case self::ACCOUNT_IDENTIFIER:
-            case self::TRANSACTION_DETAIL:
-            case self::ACCOUNT_TRAILER:
-                $this->accounts[] .= $line;
+                $this->currentAccount = null; // Reset current account for new group
+                $this->currentGroup = \count($this->groups) + 1;
+                $this->addGroupHeader($this->currentGroup, $line);
                 break;
             case self::GROUP_TRAILER:
-                $this->groupTrailerContents[] = $line;
+                $this->addGroupTrailer($this->currentGroup ?? 0, $line);
                 break;
-            case self::FILE_TRAILER:
-                $this->fileTrailerContents[] = $line;
+            case self::TRANSACTION_DETAIL:
+                $this->currentTransaction = ($this->currentTransaction ?? 0) + 1;
+                $this->addTransaction($line);
                 break;
         }
     }
 
     /**
-     * Remove '/', leading and trailing spaces
+     * Check if record fits completely and remove slash.
      *
      * @param string $line
      *
@@ -579,6 +222,271 @@ class Parser extends AbstractLineByLineParser
      */
     private function sanitiseLine(string $line): string
     {
-        return \str_replace('/', '', \trim($line));
+        // Determine if record fits completely on the line
+        $this->previousFull = (new Str())->endsWith($line, '/');
+
+        // Remove slash add the end of the line
+        return \str_replace('/', '', $line);
+    }
+
+    /**
+     * Add header to given account.
+     *
+     * @param int $account
+     * @param string $identifier
+     *
+     * @return void
+     */
+    private function addAccountIdentifier(int $account, string $identifier): void
+    {
+        // If current group is null, it means that the file structure is wrong so error
+        if ($this->currentGroup === null) {
+            $this->addError($identifier);
+
+            return;
+        }
+
+        if (isset($this->accounts[$account]) === false) {
+            $this->accounts[$account] = ['group' => $this->currentGroup];
+        }
+
+        $this->accounts[$account]['identifier'] = $this->setItem($identifier);
+    }
+
+    /**
+     * Add trailer to given account.
+     *
+     * @param int $account
+     * @param string $trailer
+     *
+     * @return void
+     */
+    private function addAccountTrailer(int $account, string $trailer): void
+    {
+        // If account not already created it means that the file structure is wrong
+        if (isset($this->accounts[$account]) === false) {
+            $this->addError($trailer);
+
+            return;
+        }
+
+        $this->accounts[$account]['trailer'] = $this->setItem($trailer);
+    }
+
+    /**
+     * Add error.
+     *
+     * @param string $line
+     *
+     * @return void
+     */
+    private function addError(string $line): void
+    {
+        $this->errors[] = $this->setItem($line);
+    }
+
+    /**
+     * Add header to given group.
+     *
+     * @param int $group
+     * @param string $header
+     *
+     * @return void
+     */
+    private function addGroupHeader(int $group, string $header): void
+    {
+        if (isset($this->groups[$group]) === false) {
+            $this->groups[$group] = [];
+        }
+
+        $this->groups[$group]['header'] = $this->setItem($header);
+    }
+
+    /**
+     * Add trailer to given group.
+     *
+     * @param int $group
+     * @param string $trailer
+     *
+     * @return void
+     */
+    private function addGroupTrailer(int $group, string $trailer): void
+    {
+        // If group not already created it means that the file structure is wrong
+        if (isset($this->groups[$group]) === false) {
+            $this->addError($trailer);
+
+            return;
+        }
+
+        $this->groups[$group]['trailer'] = $this->setItem($trailer);
+    }
+
+    /**
+     * Add transaction.
+     *
+     * @param string $transaction
+     *
+     * @return void
+     */
+    private function addTransaction(string $transaction): void
+    {
+        // If current account is null, it means that the file structure is wrong so error
+        if ($this->currentAccount === null) {
+            $this->addError($transaction);
+
+            return;
+        }
+
+        $this->transactions[] = [
+            'account' => $this->currentAccount,
+            'line' => $transaction,
+            'line_number' => $this->currentLineNumber
+        ];
+    }
+
+    /**
+     * Continue account line for given index.
+     *
+     * @param string $index
+     * @param string $line
+     *
+     * @return void
+     */
+    private function continueAccount(string $index, string $line): void
+    {
+        if (isset($this->accounts[$this->currentAccount][$index]['line']) === false) {
+            $this->addError($line);
+
+            return;
+        }
+
+        $this->accounts[$this->currentAccount][$index]['line'] .= $line;
+    }
+
+    /**
+     * Continue file line for given index.
+     *
+     * @param string $index
+     * @param string $line
+     *
+     * @return void
+     */
+    private function continueFile(string $index, string $line): void
+    {
+        $this->file[$index]['line'] .= $line;
+    }
+
+    /**
+     * Continue group line for given index.
+     *
+     * @param string $index
+     * @param string $line
+     *
+     * @return void
+     */
+    private function continueGroup(string $index, string $line): void
+    {
+        if (isset($this->groups[$this->currentGroup][$index]['line']) === false) {
+            $this->addError($line);
+
+            return;
+        }
+
+        $this->groups[$this->currentGroup][$index]['line'] .= $line;
+    }
+
+    /**
+     * Continue previous line.
+     *
+     * @param string $line
+     *
+     * @return void
+     */
+    private function continuePrevious(string $line): void
+    {
+        // Remove 88, from the current line
+        $line = (string)\substr($line, 3);
+        // Add coma at the start of the line if previous record fits completely on the line
+        if ($this->previousFull) {
+            $line = ',' . $line;
+        }
+
+        switch ($this->previousCode) {
+            case self::ACCOUNT_IDENTIFIER:
+                $this->continueAccount('identifier', $line);
+                break;
+            case self::ACCOUNT_TRAILER:
+                $this->continueAccount('trailer', $line);
+                break;
+            case self::FILE_HEADER:
+                $this->continueFile('header', $line);
+                break;
+            case self::FILE_TRAILER:
+                $this->continueFile('trailer', $line);
+                break;
+            case self::GROUP_HEADER:
+                $this->continueGroup('header', $line);
+                break;
+            case self::GROUP_TRAILER:
+                $this->continueGroup('trailer', $line);
+                break;
+            case self::TRANSACTION_DETAIL:
+                $this->continueTransaction($line);
+                break;
+        }
+    }
+
+    /**
+     * Continue transaction line.
+     *
+     * @param string $line
+     *
+     * @return void
+     */
+    private function continueTransaction(string $line): void
+    {
+        if (isset($this->transactions[$this->currentTransaction]['line']) === false) {
+            $this->addError($line);
+
+            return;
+        }
+
+        $this->transactions[$this->currentTransaction]['line'] .= $line;
+    }
+
+    /**
+     * Check if given code is valid.
+     *
+     * @param string $code
+     *
+     * @return bool
+     */
+    private function isCodeValid(string $code): bool
+    {
+        $codes = [
+            self::ACCOUNT_IDENTIFIER,
+            self::ACCOUNT_TRAILER,
+            self::CONTINUATION,
+            self::FILE_HEADER,
+            self::FILE_TRAILER,
+            self::GROUP_HEADER,
+            self::GROUP_TRAILER,
+            self::TRANSACTION_DETAIL
+        ];
+
+        return \in_array($code, $codes, true);
+    }
+
+    /**
+     * Structure item content with line number.
+     *
+     * @param string $line
+     *
+     * @return mixed[]
+     */
+    private function setItem(string $line): array
+    {
+        return ['line' => $line, 'line_number' => $this->currentLineNumber];
     }
 }

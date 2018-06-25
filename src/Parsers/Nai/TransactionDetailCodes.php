@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace EoneoPay\BankFiles\Parsers\Nai;
 
-use EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Transactions\Details;
+use EoneoPay\BankFiles\Parsers\Nai\Results\Transactions\Details;
 
 trait TransactionDetailCodes
 {
@@ -82,7 +82,7 @@ trait TransactionDetailCodes
      *
      * @param string $code
      *
-     * @return null|\EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Transactions\Details
+     * @return null|\EoneoPay\BankFiles\Parsers\Nai\Results\Transactions\Details
      */
     public function getTransactionCodeDetails(string $code): ?Details
     {

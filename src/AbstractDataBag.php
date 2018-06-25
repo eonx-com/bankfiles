@@ -8,7 +8,7 @@ use EoneoPay\Utils\Str;
 abstract class AbstractDataBag
 {
     /**
-     * @var mixed[]
+     * @var string[]
      */
     protected $attributes;
 
@@ -56,7 +56,7 @@ abstract class AbstractDataBag
     /**
      * Return object attributes.
      *
-     * @return mixed[]
+     * @return string[]
      */
     abstract protected function initAttributes(): array;
 }

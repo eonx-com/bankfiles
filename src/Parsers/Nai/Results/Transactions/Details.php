@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Transactions;
+namespace EoneoPay\BankFiles\Parsers\Nai\Results\Transactions;
 
 use EoneoPay\BankFiles\Parsers\BaseResult;
 
@@ -15,7 +15,7 @@ class Details extends BaseResult
     /**
      * Return object attributes.
      *
-     * @return mixed[]
+     * @return string[]
      */
     protected function initAttributes(): array
     {
