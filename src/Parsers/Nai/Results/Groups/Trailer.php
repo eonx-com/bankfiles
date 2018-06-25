@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace EoneoPay\BankFiles\Parsers\Nai\Results;
+namespace EoneoPay\BankFiles\Parsers\Nai\Results\Groups;
 
 use EoneoPay\BankFiles\Parsers\BaseResult;
 use EoneoPay\BankFiles\Parsers\Nai\ControlTotal;
 
 /**
  * @method string getCode()
- * @method getNumberOfAccounts()
+ * @method string getNumberOfAccounts()
  */
-class GroupTrailer extends BaseResult
+class Trailer extends BaseResult
 {
     use ControlTotal;
 
@@ -44,8 +44,8 @@ class GroupTrailer extends BaseResult
         return [
             'code',
             'groupControlTotalA',
-            'numberOfAccounts',
-            'groupControlTotalB'
+            'groupControlTotalB',
+            'numberOfAccounts'
         ];
     }
 }

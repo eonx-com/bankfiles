@@ -14,12 +14,12 @@ trait ControlTotal
      */
     private function formatAmount(string $amount): float
     {
-        $length = \strlen($amount);
+        $length = \strlen($amount) - 2;
 
         return (float)\sprintf(
             '%d.%d',
-            (int)\substr($amount, 0, $length - 2),
-            (int)\substr($amount, $length - 2)
+            (int)\substr($amount, 0, $length),
+            (int)\substr($amount, $length)
         );
     }
 }

@@ -11,19 +11,10 @@ use EoneoPay\Utils\Interfaces\CollectionInterface;
  * @method string getCode()
  * @method string getCommercialAccountNumber()
  * @method string getCurrencyCode()
+ * @method mixed[] getTransactionCodes()
  */
 class Identifier extends BaseResult
 {
-    /**
-     * Return collection of transactions
-     *
-     * @return \EoneoPay\Utils\Interfaces\CollectionInterface
-     */
-    public function getTransactionCodes(): CollectionInterface
-    {
-        return new Collection($this->data['transactionCodes']);
-    }
-
     /**
      * Return object attributes.
      *

@@ -13,16 +13,26 @@ use EoneoPay\Utils\Interfaces\CollectionInterface;
  * @method Identifier getIdentifier()
  * @method Trailer getTrailer()
  */
-class Account extends BaseResult
+class Account extends AbstractNaiResult
 {
     /**
-     * Return collection of transactions
+     * Get group.
      *
-     * @return \EoneoPay\Utils\Interfaces\CollectionInterface
+     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\Group|null
      */
-    public function getTransactions(): CollectionInterface
+    public function getGroup(): ?Group
     {
-        return new Collection($this->data['transactions']);
+        return $this->context->getGroup($this->data['group']);
+    }
+
+    /**
+     * Get transactions.
+     *
+     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\Transaction[]
+     */
+    public function getTransactions(): array
+    {
+        return $this->context->getTransactionsForAccount($this->data['index']);
     }
 
     /**
@@ -33,8 +43,9 @@ class Account extends BaseResult
     protected function initAttributes(): array
     {
         return [
+            'group',
             'identifier',
-            'transactions',
+            'index',
             'trailer'
         ];
     }

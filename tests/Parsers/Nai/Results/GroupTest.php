@@ -3,18 +3,17 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\BankFiles\Parsers\Nai\Results;
 
-use EoneoPay\BankFiles\Parsers\Nai\Results\Account;
-use EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Identifier;
-use EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Trailer;
+use EoneoPay\BankFiles\Parsers\Nai\Results\Group;
+use EoneoPay\BankFiles\Parsers\Nai\Results\Groups\Header;
+use EoneoPay\BankFiles\Parsers\Nai\Results\Groups\Trailer;
 use EoneoPay\BankFiles\Parsers\Nai\Results\ResultsContext;
 use Mockery\MockInterface;
 use Tests\EoneoPay\BankFiles\Parsers\TestCase;
 
 /**
- * @covers \EoneoPay\BankFiles\Parsers\Nai\Results\AbstractNaiResult
- * @covers \EoneoPay\BankFiles\Parsers\Nai\Results\Account
+ * @covers \EoneoPay\BankFiles\Parsers\Nai\Results\Group
  */
-class AccountTest extends TestCase
+class GroupTest extends TestCase
 {
     /**
      * Result should return data as expected.
@@ -24,20 +23,19 @@ class AccountTest extends TestCase
     public function testGetDataAsExpected(): void
     {
         $data = [
-            'group' => 1,
-            'identifier' => new Identifier(),
+            'header' => new Header(),
             'index' => 2,
             'trailer' => new Trailer()
         ];
 
         $setExpectations = function (MockInterface $context) use ($data): void {
             $context
-                ->shouldReceive('getGroup')
+                ->shouldReceive('getFile')
                 ->once()
-                ->withArgs([$data['group']])
+                ->withNoArgs()
                 ->andReturn(null);
             $context
-                ->shouldReceive('getTransactionsForAccount')
+                ->shouldReceive('getAccountsForGroup')
                 ->once()
                 ->withArgs([$data['index']])
                 ->andReturn([]);
@@ -46,11 +44,11 @@ class AccountTest extends TestCase
         /** @var \EoneoPay\BankFiles\Parsers\Nai\Results\ResultsContext $context */
         $context = $this->getMockWithExpectations(ResultsContext::class, $setExpectations);
 
-        $account = new Account($context, $data);
+        $group = new Group($context, $data);
 
-        self::assertInstanceOf(Identifier::class, $account->getIdentifier());
-        self::assertNull($account->getGroup());
-        self::assertInternalType('array', $account->getTransactions());
-        self::assertInstanceOf(Trailer::class, $account->getTrailer());
+        self::assertInternalType('array', $group->getAccounts());
+        self::assertNull($group->getFile());
+        self::assertInstanceOf(Header::class, $group->getHeader());
+        self::assertInstanceOf(Trailer::class, $group->getTrailer());
     }
 }

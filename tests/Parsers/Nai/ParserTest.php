@@ -3,138 +3,73 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\BankFiles\Parsers\Nai;
 
+use EoneoPay\BankFiles\Parsers\Nai\ControlTotal;
 use EoneoPay\BankFiles\Parsers\Nai\Parser;
-use EoneoPay\BankFiles\Parsers\Nai\Results\FileHeader;
-use EoneoPay\BankFiles\Parsers\Nai\Results\FileTrailer;
-use EoneoPay\BankFiles\Parsers\Nai\Results\GroupHeader;
-use EoneoPay\BankFiles\Parsers\Nai\Results\GroupTrailer;
+use EoneoPay\BankFiles\Parsers\Nai\Results\File;
 use EoneoPay\BankFiles\Parsers\Nai\TransactionDetailCodes;
-use EoneoPay\Utils\Collection;
 use Tests\EoneoPay\BankFiles\Parsers\TestCase;
 
+/**
+ * @covers \EoneoPay\BankFiles\Parsers\Nai\Results\ResultsContext
+ * @covers \EoneoPay\BankFiles\Parsers\Nai\AccountSummaryCodes
+ * @covers \EoneoPay\BankFiles\Parsers\Nai\ControlTotal
+ * @covers \EoneoPay\BankFiles\Parsers\Nai\Parser
+ * @covers \EoneoPay\BankFiles\Parsers\Nai\TransactionDetailCodes
+ */
 class ParserTest extends TestCase
 {
     /**
-     * Account should be equal to transaction's account
-     *
-     * @group Nai-Parser-Accounts-Transactions
+     * ControlTotal should format amount as expected.
      *
      * @return void
+     *
+     * @throws \ReflectionException
      */
-    public function testAccountShouldBeEqualToTransactionsAccount(): void
+    public function testControlTotalTraitReturnFormattedAmount(): void
     {
-        $parser = new Parser($this->getSampleFileContents('sample.NAI'));
+        /** @var \EoneoPay\BankFiles\Parsers\Nai\ControlTotal $trait */
+        $trait = $this->getObjectForTrait(ControlTotal::class);
+        $formatAmount = $this->getProtectedMethod(\get_class($trait), 'formatAmount');
 
-        self::assertEquals($parser->getAccounts()->last(), $parser->getTransactions()->last()->getAccount());
+        self::assertInternalType('float', $formatAmount->invokeArgs($trait, ['100000']));
+        self::assertEquals((float)100, $formatAmount->invokeArgs($trait, ['10000']));
     }
 
     /**
-     * Should return collection of accounts
-     *
-     * @group Nai-Parser-Accounts
+     * Parser should handle structure errors as expected.
      *
      * @return void
      */
-    public function testShouldReturnAccount(): void
+    public function testParserHandleStructureErrorAsExpected(): void
     {
-        $parser = new Parser($this->getSampleFileContents('sample.NAI'));
+        $parser = new Parser($this->getSampleFileContents('structure_errors.NAI'));
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
-        self::assertInstanceOf(Collection::class, $parser->getAccounts());
+        self::assertCount(8, $parser->getErrors());
     }
 
     /**
-     * Should return Error class
-     *
-     * @group Nai-Parser-Errors
+     * Parser should parse sample file successfully.
      *
      * @return void
      */
-    public function testShouldReturnErrors(): void
+    public function testParserParsesSuccessfully(): void
     {
         $parser = new Parser($this->getSampleFileContents('sample.NAI'));
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
-        self::assertInstanceOf(Collection::class, $parser->getErrors());
-    }
-
-    /**
-     * Should return FileHeader class
-     *
-     * @group Nai-Parser
-     *
-     * @return void
-     */
-    public function testShouldReturnFileHeader(): void
-    {
-        $parser = new Parser($this->getSampleFileContents('sample.NAI'));
-
-        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
-        self::assertInstanceOf(FileHeader::class, $parser->getFileHeader());
-    }
-
-    /**
-     * Should return FileTrailer class
-     *
-     * @group Nai-Parser-File-Trailer
-     *
-     * @return void
-     */
-    public function testShouldReturnFileTrailer(): void
-    {
-        $parser = new Parser($this->getSampleFileContents('sample.NAI'));
-
-        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
-        self::assertInstanceOf(FileTrailer::class, $parser->getFileTrailer());
-    }
-
-    /**
-     * Should return GroupHeader class
-     *
-     * @group Nai-Parser-Group-Header
-     *
-     * @return void
-     */
-    public function testShouldReturnGroupHeader(): void
-    {
-        $parser = new Parser($this->getSampleFileContents('sample.NAI'));
-
-        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
-        self::assertInstanceOf(GroupHeader::class, $parser->getGroupHeader());
-    }
-
-    /**
-     * Should return GroupTrailer class
-     *
-     * @group Nai-Parser-Group-Trailer
-     *
-     * @return void
-     */
-    public function testShouldReturnGroupTrailer(): void
-    {
-        $parser = new Parser($this->getSampleFileContents('sample.NAI'));
-
-        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
-        self::assertInstanceOf(GroupTrailer::class, $parser->getGroupTrailer());
-    }
-
-    /**
-     * Should return collection of transactions of all accounts
-     *
-     * @group Nai-Parser-Accounts-Transactions
-     *
-     * @return void
-     */
-    public function testShouldReturnTransactions(): void
-    {
-        $parser = new Parser($this->getSampleFileContents('sample.NAI'));
-
-        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
-        self::assertInstanceOf(Collection::class, $parser->getTransactions());
+        self::assertInstanceOf(File::class, $parser->getFile());
+        /** @var \EoneoPay\BankFiles\Parsers\Nai\Results\File $file */
+        $file = $parser->getFile();
+        self::assertEquals('BNZA', $file->getHeader()->getReceiverId());
+        self::assertCount(1, $parser->getGroups());
+        self::assertCount(4, $parser->getAccounts());
+        self::assertCount(5, $parser->getTransactions());
+        self::assertCount(2, $parser->getErrors());
     }
 
     /**
      * Transaction codes detail trait should return null if code is invalid.
+     *
+     * @return void
      *
      * @throws \ReflectionException
      */
