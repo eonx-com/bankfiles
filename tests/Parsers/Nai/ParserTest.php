@@ -62,8 +62,12 @@ class ParserTest extends TestCase
         self::assertEquals('BNZA', $file->getHeader()->getReceiverId());
         self::assertCount(1, $parser->getGroups());
         self::assertCount(4, $parser->getAccounts());
-        self::assertCount(5, $parser->getTransactions());
+        self::assertCount(6, $parser->getTransactions());
         self::assertCount(2, $parser->getErrors());
+
+        $transactions = $parser->getTransactions();
+
+        self::assertSame('NEW MULTI TFRDEBIT 5148       PYMT-ID 00000000 492672', $transactions[5]->getText());
     }
 
     /**
