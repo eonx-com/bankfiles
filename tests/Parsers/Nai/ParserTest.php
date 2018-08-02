@@ -64,6 +64,12 @@ class ParserTest extends TestCase
         self::assertCount(4, $parser->getAccounts());
         self::assertCount(5, $parser->getTransactions());
         self::assertCount(2, $parser->getErrors());
+
+        $transactions = (new Parser($this->getSampleFileContents('sample2.NAI')))->getTransactions();
+
+        self::assertCount(20, $transactions);
+        self::assertSame('FLEXIPHONE-BILL PAYTOTAL BILL PAYMENT - BILLER 0000254169', $transactions[18]->getText());
+        self::assertSame('INTERNET MULTI TFRcredit-150317     PYMT-ID 93902532 492677', $transactions[19]->getText());
     }
 
     /**

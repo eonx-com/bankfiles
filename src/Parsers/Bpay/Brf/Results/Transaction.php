@@ -8,7 +8,7 @@ use EoneoPay\BankFiles\Parsers\BaseResult;
 
 /**
  * @method getBillerCode()
- * @method getReferenceNumber()
+ * @method getCustomerReferenceNumber()
  * @method getPaymentInstructionType()
  * @method getTransactionReferenceNumber()
  * @method getOriginalReferenceNumber()

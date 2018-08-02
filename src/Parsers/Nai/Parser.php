@@ -186,7 +186,6 @@ class Parser extends AbstractLineByLineParser
         switch ($code) {
             case self::ACCOUNT_IDENTIFIER:
                 $this->currentAccount = ($this->currentAccount ?? 0) + 1;
-                $this->currentTransaction = null; // Reset current transaction for new account
                 $this->addAccountIdentifier($this->currentAccount, $line);
                 break;
             case self::ACCOUNT_TRAILER:
@@ -338,7 +337,7 @@ class Parser extends AbstractLineByLineParser
             return;
         }
 
-        $this->transactions[] = [
+        $this->transactions[$this->currentTransaction] = [
             'account' => $this->currentAccount,
             'line' => $transaction,
             'line_number' => $this->currentLineNumber
