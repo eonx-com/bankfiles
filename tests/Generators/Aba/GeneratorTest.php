@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\EoneoPay\BankFiles\Generators\Aba;
 
 use EoneoPay\BankFiles\Generators\Aba\Generator;
+use EoneoPay\BankFiles\Generators\Aba\Objects\Transaction;
 use EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException;
 use EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException;
 use EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException;
@@ -180,7 +181,7 @@ class GeneratorTest extends AbaTestCase
         $descriptiveRecord = $this->createDescriptiveRecord();
 
         $transactions[] = $this->createTransaction();
-        $transactions[] = $this->createTransaction();
+        $transactions[] = $this->createTransaction(Transaction::CODE_GENERAL_DEBIT);
         /** @var \EoneoPay\BankFiles\Generators\Aba\Objects\Transaction $trans */
         $trans = $transactions[0];
 
