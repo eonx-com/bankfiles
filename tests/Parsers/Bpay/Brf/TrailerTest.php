@@ -114,6 +114,8 @@ class TrailerTest extends TestCase
      * @group \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Trailer
      *
      * @expectedException \EoneoPay\BankFiles\Parsers\Bpay\Brf\Exceptions\InvalidSignFieldException
+     *
+     * @return void
      */
     public function testShouldThrowExceptionIfSignedFileNotFound(): void
     {

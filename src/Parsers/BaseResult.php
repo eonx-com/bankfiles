@@ -10,5 +10,4 @@ use EoneoPay\BankFiles\AbstractDataBag;
  */
 abstract class BaseResult extends AbstractDataBag
 {
-
 }

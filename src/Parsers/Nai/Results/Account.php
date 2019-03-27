@@ -3,11 +3,8 @@ declare(strict_types=1);
 
 namespace EoneoPay\BankFiles\Parsers\Nai\Results;
 
-use EoneoPay\BankFiles\Parsers\BaseResult;
 use EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Identifier;
 use EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Trailer;
-use EoneoPay\Utils\Collection;
-use EoneoPay\Utils\Interfaces\CollectionInterface;
 
 /**
  * @method Identifier getIdentifier()

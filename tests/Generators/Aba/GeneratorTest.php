@@ -172,6 +172,7 @@ class GeneratorTest extends AbaTestCase
      * @group Generator-Aba
      *
      * @return void
+     *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
     public function testValuesShouldBePresentInTheContent(): void

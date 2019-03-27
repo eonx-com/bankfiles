@@ -16,6 +16,8 @@ class ParserTest extends TestCase
      * Should return error from the content
      *
      * @group Brf-Parser-Error
+     *
+     * @return void
      */
     public function testShouldReturnErrors(): void
     {
@@ -44,6 +46,8 @@ class ParserTest extends TestCase
      * Should return trailer from the content
      *
      * @group Brf-Parser-Trailer
+     *
+     * @return void
      */
     public function testShouldReturnTrailer(): void
     {

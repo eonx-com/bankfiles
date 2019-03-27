@@ -19,6 +19,7 @@ class ObjectStub extends BaseObject
 
     /**
      * Get attributes padding configuration as [<attribute> => [<length>, <string>, <type>]].
+     *
      * @see http://php.net/manual/en/function.str-pad.php
      *
      * @return mixed[]
