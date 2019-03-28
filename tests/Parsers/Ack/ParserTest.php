@@ -24,7 +24,7 @@ class ParserTest extends TestCase
     public function testShouldReturnIfNoIssues(): void
     {
         $filename = \realpath(__DIR__ . '/data/no_issues_sample.txt.ENC.PROCESSED.ACK');
-        $content = \file_get_contents($filename);
+        $content = \file_get_contents($filename ?: '') ?: '';
 
         $parser = new Parser($content);
 
@@ -48,7 +48,7 @@ class ParserTest extends TestCase
     public function testShouldReturnIssues(): void
     {
         $filename = \realpath(__DIR__ . '/data/sample.txt.ENC.PROCESSED.ACK');
-        $content = \file_get_contents($filename);
+        $content = \file_get_contents($filename ?: '') ?: '';
 
         $parser = new Parser($content);
 

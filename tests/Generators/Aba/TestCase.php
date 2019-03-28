@@ -45,14 +45,16 @@ class TestCase extends GeneratorTestCase
     /**
      * Create a Transaction object with default values
      *
+     * @param int|null $transactionCode Either Transaction::CODE_GENERAL_CREDIT or Transaction::CODE_GENERAL_DEBIT
+     *
      * @return \EoneoPay\BankFiles\Generators\Aba\Objects\Transaction
      */
-    protected function createTransaction(): Transaction
+    protected function createTransaction(?int $transactionCode = null): Transaction
     {
         return new Transaction([
             'bsbNumber' => '083-163',
             'accountNumber' => '1234356',
-            'transactionCode' => Transaction::CODE_GENERAL_CREDIT,
+            'transactionCode' => $transactionCode ?? Transaction::CODE_GENERAL_CREDIT,
             'amount' => '0000043452',
             'titleOfAccount' => 'TRUST ME',
             'lodgementReference' => '0049e2d7dd1288d086',

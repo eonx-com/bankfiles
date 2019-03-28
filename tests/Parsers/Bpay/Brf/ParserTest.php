@@ -16,6 +16,8 @@ class ParserTest extends TestCase
      * Should return error from the content
      *
      * @group Brf-Parser-Error
+     *
+     * @return void
      */
     public function testShouldReturnErrors(): void
     {
@@ -44,6 +46,8 @@ class ParserTest extends TestCase
      * Should return trailer from the content
      *
      * @group Brf-Parser-Trailer
+     *
+     * @return void
      */
     public function testShouldReturnTrailer(): void
     {
@@ -72,9 +76,7 @@ class ParserTest extends TestCase
         /** @var \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Transaction $firstTransactionItem */
         $firstTransactionItem = $transactions->first();
 
-        if ($firstTransactionItem) {
-            self::assertInstanceOf(Transaction::class, $firstTransactionItem);
-        }
+        self::assertInstanceOf(Transaction::class, $firstTransactionItem);
     }
 
     /**
@@ -86,6 +88,6 @@ class ParserTest extends TestCase
      */
     private function getSampleFileContents(string $file): string
     {
-        return \file_get_contents(\realpath(__DIR__) . '/data/' . $file);
+        return \file_get_contents(\realpath(__DIR__) . '/data/' . $file) ?: '';
     }
 }

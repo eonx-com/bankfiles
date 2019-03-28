@@ -6,6 +6,12 @@ namespace EoneoPay\BankFiles\Generators\Bpay\Objects;
 use EoneoPay\BankFiles\Generators\BaseObject;
 use EoneoPay\BankFiles\Generators\Interfaces\GeneratorInterface;
 
+/**
+ * @method string getRecordType()
+ * @method string getRestOfRecord()
+ * @method string getTotalFileValue()
+ * @method string getTotalNumberOfPayments()
+ */
 class Trailer extends BaseObject
 {
     /**
@@ -23,6 +29,7 @@ class Trailer extends BaseObject
 
     /**
      * Get attributes padding configuration as [<attribute> => [<length>, <string>, <type>]].
+     *
      * @see http://php.net/manual/en/function.str-pad.php
      *
      * @return mixed[]

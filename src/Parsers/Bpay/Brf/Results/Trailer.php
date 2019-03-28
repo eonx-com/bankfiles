@@ -7,6 +7,10 @@ use EoneoPay\BankFiles\Parsers\BaseResult;
 use EoneoPay\BankFiles\Parsers\Bpay\Brf\Exceptions\InvalidSignFieldException;
 use EoneoPay\BankFiles\Parsers\Bpay\Brf\SignedFieldsTrait;
 
+/**
+ * @method string|null getBillerCode()
+ * @method string|null getFiller()
+ */
 class Trailer extends BaseResult
 {
     use SignedFieldsTrait;
@@ -45,6 +49,42 @@ class Trailer extends BaseResult
     public function getAmountOfReversals(): array
     {
         return $this->getTrailerAmount('amountOfReversals');
+    }
+
+    /**
+     * Get number of error corrections and type
+     *
+     * @return mixed[]
+     *
+     * @throws \EoneoPay\BankFiles\Parsers\Bpay\Brf\Exceptions\InvalidSignFieldException
+     */
+    public function getNumberOfErrorCorrections(): array
+    {
+        return $this->getTrailerAmount('numberOfErrorCorrections');
+    }
+
+    /**
+     * Get number of payments and type
+     *
+     * @return mixed[]
+     *
+     * @throws \EoneoPay\BankFiles\Parsers\Bpay\Brf\Exceptions\InvalidSignFieldException
+     */
+    public function getNumberOfPayments(): array
+    {
+        return $this->getTrailerAmount('numberOfPayments');
+    }
+
+    /**
+     * Get Number of Reversals and type
+     *
+     * @return mixed[]
+     *
+     * @throws \EoneoPay\BankFiles\Parsers\Bpay\Brf\Exceptions\InvalidSignFieldException
+     */
+    public function getNumberOfReversals(): array
+    {
+        return $this->getTrailerAmount('numberOfReversals');
     }
 
     /**
@@ -90,18 +130,24 @@ class Trailer extends BaseResult
      */
     private function getTrailerAmount(string $attrAmount): array
     {
-        $sfCode = \substr($this->data[$attrAmount], 14);
+        $value = $this->data[$attrAmount];
+
+        // code is in the last digit
+        $sfCode = $value[\strlen($value) - 1] ?? '';
         $sfValue = $this->getSignedFieldValue($sfCode);
 
         if ($sfValue === null) {
             throw new InvalidSignFieldException(\sprintf('Invalid signed amount: %s', $attrAmount));
         }
 
-        $amountOfPayments = \substr($this->data[$attrAmount], 0, 14) . $sfValue['value'];
+        $amountOfPayments = \substr($value, 0, \strlen($value) - 1) . $sfValue['value'];
 
+        // cents only for lengths equal to 15
         $cents = \substr($amountOfPayments, 13, 2);
-        $amount = \substr($this->data[$attrAmount], 0, 13);
-        $amount = (int)$amount . '.' . $cents;
+        $amount = \substr($amountOfPayments, 0, 13);
+
+        // \strlen($cents ?: '') used as \is_string($cents) makes phpstan unhappy
+        $amount = (\strlen($cents ?: '') === 2) ? (int)$amount . '.' . $cents : (int)$amount;
 
         return ['amount' => $amount, 'type' => $sfValue['type']];
     }

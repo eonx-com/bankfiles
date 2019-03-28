@@ -84,6 +84,75 @@ class TrailerTest extends TestCase
     }
 
     /**
+     * Should return number of payments
+     *
+     * @return void
+     *
+     * @throws \EoneoPay\BankFiles\Parsers\Bpay\Brf\Exceptions\InvalidSignFieldException
+     */
+    public function testShouldReturnNumberOfPayments(): void
+    {
+        $expected = [
+            'amount' => '34',
+            'type' => 'credit'
+        ];
+
+        $trailer = new Trailer([
+            'numberOfPayments' => '00000003D'
+        ]);
+
+        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
+        self::assertInternalType('array', $trailer->getNumberOfPayments());
+        self::assertEquals($expected, $trailer->getNumberOfPayments());
+    }
+
+    /**
+     * Should return number of error corrections
+     *
+     * @return void
+     *
+     * @throws \EoneoPay\BankFiles\Parsers\Bpay\Brf\Exceptions\InvalidSignFieldException
+     */
+    public function testShouldReturnNumberOfErrorCorrections(): void
+    {
+        $expected = [
+            'amount' => '10',
+            'type' => 'credit'
+        ];
+
+        $trailer = new Trailer([
+            'numberOfErrorCorrections' => '00000001{'
+        ]);
+
+        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
+        self::assertInternalType('array', $trailer->getNumberOfErrorCorrections());
+        self::assertEquals($expected, $trailer->getNumberOfErrorCorrections());
+    }
+
+    /**
+     * Should return number of reversals
+     *
+     * @return void
+     *
+     * @throws \EoneoPay\BankFiles\Parsers\Bpay\Brf\Exceptions\InvalidSignFieldException
+     */
+    public function testShouldReturnNumberOfReversals(): void
+    {
+        $expected = [
+            'amount' => '20',
+            'type' => 'credit'
+        ];
+
+        $trailer = new Trailer([
+            'numberOfReversals' => '00000002{'
+        ]);
+
+        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
+        self::assertInternalType('array', $trailer->getNumberOfReversals());
+        self::assertEquals($expected, $trailer->getNumberOfReversals());
+    }
+
+    /**
      * Should return settlement amount
      *
      * @group \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Trailer
@@ -114,6 +183,8 @@ class TrailerTest extends TestCase
      * @group \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Trailer
      *
      * @expectedException \EoneoPay\BankFiles\Parsers\Bpay\Brf\Exceptions\InvalidSignFieldException
+     *
+     * @return void
      */
     public function testShouldThrowExceptionIfSignedFileNotFound(): void
     {

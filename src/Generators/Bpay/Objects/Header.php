@@ -6,6 +6,13 @@ namespace EoneoPay\BankFiles\Generators\Bpay\Objects;
 use EoneoPay\BankFiles\Generators\BaseObject;
 use EoneoPay\BankFiles\Generators\Interfaces\GeneratorInterface;
 
+/**
+ * @method string getBatchCustomerId()
+ * @method string getCustomerShortName()
+ * @method string getProcessingDate()
+ * @method string getRecordType()
+ * @method string getRestOfRecord()
+ */
 class Header extends BaseObject
 {
     /**
@@ -23,6 +30,7 @@ class Header extends BaseObject
 
     /**
      * Get attributes padding configuration as [<attribute> => [<length>, <string>, <type>]].
+     *
      * @see http://php.net/manual/en/function.str-pad.php
      *
      * @return mixed[]|array[int]
