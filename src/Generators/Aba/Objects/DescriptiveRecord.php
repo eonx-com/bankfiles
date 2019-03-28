@@ -6,6 +6,18 @@ namespace EoneoPay\BankFiles\Generators\Aba\Objects;
 use EoneoPay\BankFiles\Generators\BaseObject;
 use EoneoPay\BankFiles\Generators\Interfaces\GeneratorInterface;
 
+/**
+ * @method string getBlank1()
+ * @method string getBlank2()
+ * @method string getBlank3()
+ * @method string getDateToBeProcessed()
+ * @method string getDescriptionOfEntries()
+ * @method string getNameOfUserSupplyingFile()
+ * @method string getNumberOfUserSupplyingFile()
+ * @method string getRecordType()
+ * @method string getReelSequenceNumber()
+ * @method string getUserFinancialInstitution()
+ */
 class DescriptiveRecord extends BaseObject
 {
     /**

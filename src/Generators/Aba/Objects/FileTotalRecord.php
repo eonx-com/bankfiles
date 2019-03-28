@@ -6,6 +6,17 @@ namespace EoneoPay\BankFiles\Generators\Aba\Objects;
 use EoneoPay\BankFiles\Generators\BaseObject;
 use EoneoPay\BankFiles\Generators\Interfaces\GeneratorInterface;
 
+/**
+ * @method string getBlank1()
+ * @method string getBlank2()
+ * @method string getBlank3()
+ * @method string getBsbFiller()
+ * @method string getFileUserCountOfRecordsType()
+ * @method string getFileUserCreditTotalAmount()
+ * @method string getFileUserDebitTotalAmount()
+ * @method string getFileUserNetTotalAmount()
+ * @method string getRecordType()
+ */
 class FileTotalRecord extends BaseObject
 {
     /**
@@ -36,7 +47,7 @@ class FileTotalRecord extends BaseObject
     /**
      * Get attributes padding configuration as [<attribute> => [<length>, <string>, <type>]].
      *
-     *  @see http://php.net/manual/en/function.str-pad.php
+     * @see http://php.net/manual/en/function.str-pad.php
      *
      * @return mixed[]
      */

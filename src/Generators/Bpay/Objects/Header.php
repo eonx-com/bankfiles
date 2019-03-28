@@ -6,6 +6,13 @@ namespace EoneoPay\BankFiles\Generators\Bpay\Objects;
 use EoneoPay\BankFiles\Generators\BaseObject;
 use EoneoPay\BankFiles\Generators\Interfaces\GeneratorInterface;
 
+/**
+ * @method string getBatchCustomerId()
+ * @method string getCustomerShortName()
+ * @method string getProcessingDate()
+ * @method string getRecordType()
+ * @method string getRestOfRecord()
+ */
 class Header extends BaseObject
 {
     /**
