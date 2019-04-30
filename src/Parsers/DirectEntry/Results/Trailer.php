@@ -9,7 +9,6 @@ use EoneoPay\BankFiles\Parsers\DirectEntry\HasAmounts;
 /**
  * @method string|null getBsb()
  * @method string|null getNumberPayments()
- * @method string|null getRecordType()
  */
 class Trailer extends BaseResult
 {
