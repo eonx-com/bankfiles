@@ -31,8 +31,8 @@ class ParserTest extends TestCase
         $trait = $this->getObjectForTrait(ControlTotal::class);
         $formatAmount = $this->getProtectedMethod(\get_class($trait), 'formatAmount');
 
-        self::assertInternalType('float', $formatAmount->invokeArgs($trait, ['100000']));
-        self::assertEquals((float)100, $formatAmount->invokeArgs($trait, ['10000']));
+        self::assertIsFloat($formatAmount->invokeArgs($trait, ['100000']));
+        self::assertSame((float)100, $formatAmount->invokeArgs($trait, ['10000']));
     }
 
     /**
@@ -59,7 +59,7 @@ class ParserTest extends TestCase
         self::assertInstanceOf(File::class, $parser->getFile());
         /** @var \EoneoPay\BankFiles\Parsers\Nai\Results\File $file */
         $file = $parser->getFile();
-        self::assertEquals('BNZA', $file->getHeader()->getReceiverId());
+        self::assertSame('BNZA', $file->getHeader()->getReceiverId());
         self::assertCount(1, $parser->getGroups());
         self::assertCount(4, $parser->getAccounts());
         self::assertCount(6, $parser->getTransactions());

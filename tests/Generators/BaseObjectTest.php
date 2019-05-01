@@ -23,8 +23,7 @@ class BaseObjectTest extends TestCase
 
         $object = new ObjectStub($data);
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
-        self::assertInternalType('array', $object->getAttributes());
-        self::assertEquals($data, $object->getAttributes());
+        self::assertIsArray($object->getAttributes());
+        self::assertSame($data, $object->getAttributes());
     }
 }

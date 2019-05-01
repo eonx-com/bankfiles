@@ -28,18 +28,21 @@ class FileTest extends TestCase
         ];
 
         /** @var \EoneoPay\BankFiles\Parsers\Nai\Results\ResultsContext $context */
-        $context = $this->getMockWithExpectations(ResultsContext::class, function (MockInterface $context): void {
-            $context
-                ->shouldReceive('getGroups')
-                ->once()
-                ->withNoArgs()
-                ->andReturn([]);
-        });
+        $context = $this->getMockWithExpectations(
+            ResultsContext::class,
+            static function (MockInterface $context): void {
+                $context
+                    ->shouldReceive('getGroups')
+                    ->once()
+                    ->withNoArgs()
+                    ->andReturn([]);
+            }
+        );
 
         $file = new File($context, $data);
 
         self::assertInstanceOf(Header::class, $file->getHeader());
-        self::assertInternalType('array', $file->getGroups());
+        self::assertIsArray($file->getGroups());
         self::assertInstanceOf(Trailer::class, $file->getTrailer());
     }
 }

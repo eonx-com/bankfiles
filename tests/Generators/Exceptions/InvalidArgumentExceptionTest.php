@@ -18,7 +18,7 @@ class InvalidArgumentExceptionTest extends TestCase
     {
         $exception = new InvalidArgumentException();
 
-        self::assertEquals(BaseExceptionInterface::DEFAULT_ERROR_CODE_RUNTIME, $exception->getErrorCode());
-        self::assertEquals(BaseExceptionInterface::DEFAULT_ERROR_SUB_CODE, $exception->getErrorSubCode());
+        self::assertSame(BaseExceptionInterface::DEFAULT_ERROR_CODE_RUNTIME, $exception->getErrorCode());
+        self::assertSame(BaseExceptionInterface::DEFAULT_ERROR_SUB_CODE, $exception->getErrorSubCode());
     }
 }

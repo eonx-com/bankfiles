@@ -18,7 +18,7 @@ class LengthMismatchesExceptionTest extends TestCase
     {
         $exception = new LengthMismatchesException();
 
-        self::assertEquals(BaseExceptionInterface::DEFAULT_ERROR_CODE_RUNTIME, $exception->getErrorCode());
-        self::assertEquals(BaseExceptionInterface::DEFAULT_ERROR_SUB_CODE, $exception->getErrorSubCode());
+        self::assertSame(BaseExceptionInterface::DEFAULT_ERROR_CODE_RUNTIME, $exception->getErrorCode());
+        self::assertSame(BaseExceptionInterface::DEFAULT_ERROR_SUB_CODE, $exception->getErrorSubCode());
     }
 }

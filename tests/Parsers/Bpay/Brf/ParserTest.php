@@ -23,7 +23,6 @@ class ParserTest extends TestCase
     {
         $brfParser = new Parser($this->getSampleFileContents('sample.BRF'));
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(Collection::class, $brfParser->getErrors());
     }
 
@@ -70,7 +69,6 @@ class ParserTest extends TestCase
 
         $transactions = $brfParser->getTransactions();
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(Collection::class, $transactions);
 
         /** @var \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Transaction $firstTransactionItem */

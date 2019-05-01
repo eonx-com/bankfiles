@@ -28,7 +28,7 @@ class GroupTest extends TestCase
             'trailer' => new Trailer()
         ];
 
-        $setExpectations = function (MockInterface $context) use ($data): void {
+        $setExpectations = static function (MockInterface $context) use ($data): void {
             $context
                 ->shouldReceive('getFile')
                 ->once()
@@ -46,7 +46,7 @@ class GroupTest extends TestCase
 
         $group = new Group($context, $data);
 
-        self::assertInternalType('array', $group->getAccounts());
+        self::assertIsArray($group->getAccounts());
         self::assertNull($group->getFile());
         self::assertInstanceOf(Header::class, $group->getHeader());
         self::assertInstanceOf(Trailer::class, $group->getTrailer());

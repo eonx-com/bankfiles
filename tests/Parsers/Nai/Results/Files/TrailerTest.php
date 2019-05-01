@@ -28,10 +28,10 @@ class TrailerTest extends TestCase
 
         $trailer = new Trailer($data);
 
-        self::assertEquals($data['code'], $trailer->getCode());
-        self::assertEquals((float)100, $trailer->getFileControlTotalA());
-        self::assertEquals((float)100, $trailer->getFileControlTotalB());
-        self::assertEquals($data['numberOfGroups'], $trailer->getNumberOfGroups());
-        self::assertEquals($data['numberOfRecords'], $trailer->getNumberOfRecords());
+        self::assertSame($data['code'], $trailer->getCode());
+        self::assertSame((float)100, $trailer->getFileControlTotalA());
+        self::assertSame((float)100, $trailer->getFileControlTotalB());
+        self::assertSame($data['numberOfGroups'], $trailer->getNumberOfGroups());
+        self::assertSame($data['numberOfRecords'], $trailer->getNumberOfRecords());
     }
 }

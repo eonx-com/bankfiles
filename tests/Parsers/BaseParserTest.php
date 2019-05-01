@@ -22,6 +22,6 @@ class BaseParserTest extends TestCase
 
         $property = $this->getProtectedProperty(\get_class($parser), 'contents');
 
-        self::assertEquals($content, $property->getValue($parser));
+        self::assertSame($content, $property->getValue($parser));
     }
 }

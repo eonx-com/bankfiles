@@ -140,7 +140,7 @@ class Trailer extends BaseResult
             throw new InvalidSignFieldException(\sprintf('Invalid signed amount: %s', $attrAmount));
         }
 
-        $amountOfPayments = \substr($value, 0, \strlen($value) - 1) . $sfValue['value'];
+        $amountOfPayments = \substr($value, 0, -1) . $sfValue['value'];
 
         // cents only for lengths equal to 15
         $cents = \substr($amountOfPayments, 13, 2);

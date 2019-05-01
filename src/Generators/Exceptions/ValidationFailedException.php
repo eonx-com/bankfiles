@@ -12,7 +12,7 @@ class ValidationFailedException extends ValidationException
      * ValidationFailedException constructor.
      *
      * @param mixed[] $errors
-     * @param null|string $message
+     * @param string|null $message
      * @param int|null $code
      * @param null|\Throwable $previous
      */
@@ -20,7 +20,7 @@ class ValidationFailedException extends ValidationException
     {
         $message = \sprintf('%s. %s', $message ?? '', $this->getErrorsToString($errors));
 
-        parent::__construct($message, $code, $previous, $errors);
+        parent::__construct($message, null, $code, $previous, $errors);
     }
 
     /**

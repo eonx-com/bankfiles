@@ -10,13 +10,44 @@ use EoneoPay\Utils\Str;
 
 class Parser extends AbstractLineByLineParser
 {
+    /**
+     * @const string
+     */
     private const ACCOUNT_IDENTIFIER = '03';
+
+    /**
+     * @const string
+     */
     private const ACCOUNT_TRAILER = '49';
+
+    /**
+     * @const string
+     */
     private const CONTINUATION = '88';
+
+    /**
+     * @const string
+     */
     private const FILE_HEADER = '01';
+
+    /**
+     * @const string
+     */
     private const FILE_TRAILER = '99';
+
+    /**
+     * @const string
+     */
     private const GROUP_HEADER = '02';
+
+    /**
+     * @const string
+     */
     private const GROUP_TRAILER = '98';
+
+    /**
+     * @const string
+     */
     private const TRANSACTION_DETAIL = '16';
 
     /**
@@ -210,22 +241,6 @@ class Parser extends AbstractLineByLineParser
                 $this->addTransaction($line);
                 break;
         }
-    }
-
-    /**
-     * Check if record fits completely and remove slash.
-     *
-     * @param string $line
-     *
-     * @return string
-     */
-    private function sanitiseLine(string $line): string
-    {
-        // Determine if record fits completely on the line
-        $this->previousFull = (new Str())->endsWith($line, '/');
-
-        // Remove slash add the end of the line
-        return \str_replace('/', '', $line);
     }
 
     /**
@@ -475,6 +490,22 @@ class Parser extends AbstractLineByLineParser
         ];
 
         return \in_array($code, $codes, true);
+    }
+
+    /**
+     * Check if record fits completely and remove slash.
+     *
+     * @param string $line
+     *
+     * @return string
+     */
+    private function sanitiseLine(string $line): string
+    {
+        // Determine if record fits completely on the line
+        $this->previousFull = (new Str())->endsWith($line, '/');
+
+        // Remove slash add the end of the line
+        return \str_replace('/', '', $line);
     }
 
     /**

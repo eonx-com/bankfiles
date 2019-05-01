@@ -29,11 +29,11 @@ class HeaderTest extends TestCase
 
         $header = new Header($data);
 
-        self::assertEquals($data['asOfDate'], $header->getAsOfDate());
-        self::assertEquals($data['asOfTime'], $header->getAsOfTime());
-        self::assertEquals($data['code'], $header->getCode());
-        self::assertEquals($data['groupStatus'], $header->getGroupStatus());
-        self::assertEquals($data['originatorReceiverId'], $header->getOriginatorReceiverId());
-        self::assertEquals($data['ultimateReceiverId'], $header->getUltimateReceiverId());
+        self::assertSame($data['asOfDate'], $header->getAsOfDate());
+        self::assertSame($data['asOfTime'], $header->getAsOfTime());
+        self::assertSame($data['code'], $header->getCode());
+        self::assertSame($data['groupStatus'], $header->getGroupStatus());
+        self::assertSame($data['originatorReceiverId'], $header->getOriginatorReceiverId());
+        self::assertSame($data['ultimateReceiverId'], $header->getUltimateReceiverId());
     }
 }

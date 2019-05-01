@@ -40,7 +40,7 @@ class Generator extends BaseGenerator
         array $transactions,
         ?FileTotalRecord $fileTotalRecord = null
     ) {
-        if (empty($transactions)) {
+        if (\count($transactions) === 0) {
             throw new InvalidArgumentException('No transactions provided.');
         }
 

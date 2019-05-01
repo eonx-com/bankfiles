@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace EoneoPay\BankFiles\Parsers\Ack\Results;
 
-use DateTime;
 use EoneoPay\BankFiles\Parsers\BaseResult;
 use EoneoPay\Utils\Collection;
+use EoneoPay\Utils\DateTime;
 
 /**
  * @method array|null getAttributes()
@@ -25,6 +25,8 @@ class PaymentAcknowledgement extends BaseResult
      * Convert dateTime into DateTime object
      *
      * @return \DateTime[]|null
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException If datetime constructor string is invalid
      */
     public function getDateTime(): ?array
     {

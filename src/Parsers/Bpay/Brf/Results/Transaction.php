@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace EoneoPay\BankFiles\Parsers\Bpay\Brf\Results;
 
-use DateTime;
 use EoneoPay\BankFiles\Parsers\BaseResult;
+use EoneoPay\Utils\DateTime;
 
 /**
  * @method getBillerCode()
@@ -35,7 +35,9 @@ class Transaction extends BaseResult
     /**
      * Convert to DateTime object and return
      *
-     * @return \DateTime
+     * @return \EoneoPay\Utils\DateTime
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException If datetime constructor string is invalid
      */
     public function getPaymentDate(): DateTime
     {
@@ -45,7 +47,9 @@ class Transaction extends BaseResult
     /**
      * Convert to DateTime object and return
      *
-     * @return \DateTime
+     * @return \EoneoPay\Utils\DateTime
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException If datetime constructor string is invalid
      */
     public function getSettlementDate(): DateTime
     {
