@@ -28,9 +28,8 @@ class TrailerTest extends TestCase
             'amountOfErrorCorrections' => '00000000000200{'
         ]);
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
-        self::assertInternalType('array', $trailer->getAmountOfErrorCorrections());
-        self::assertEquals($expected, $trailer->getAmountOfErrorCorrections());
+        self::assertIsArray($trailer->getAmountOfErrorCorrections());
+        self::assertSame($expected, $trailer->getAmountOfErrorCorrections());
     }
 
     /**
@@ -53,9 +52,8 @@ class TrailerTest extends TestCase
             'amountOfPayments' => '00000000001201E'
         ]);
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
-        self::assertInternalType('array', $trailer->getAmountOfPayments());
-        self::assertEquals($expected, $trailer->getAmountOfPayments());
+        self::assertIsArray($trailer->getAmountOfPayments());
+        self::assertSame($expected, $trailer->getAmountOfPayments());
     }
 
     /**
@@ -78,9 +76,8 @@ class TrailerTest extends TestCase
             'amountOfReversals' => '00000000001251G'
         ]);
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
-        self::assertInternalType('array', $trailer->getAmountOfReversals());
-        self::assertEquals($expected, $trailer->getAmountOfReversals());
+        self::assertIsArray($trailer->getAmountOfReversals());
+        self::assertSame($expected, $trailer->getAmountOfReversals());
     }
 
     /**
@@ -93,7 +90,7 @@ class TrailerTest extends TestCase
     public function testShouldReturnNumberOfPayments(): void
     {
         $expected = [
-            'amount' => '34',
+            'amount' => 34,
             'type' => 'credit'
         ];
 
@@ -101,9 +98,8 @@ class TrailerTest extends TestCase
             'numberOfPayments' => '00000003D'
         ]);
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
-        self::assertInternalType('array', $trailer->getNumberOfPayments());
-        self::assertEquals($expected, $trailer->getNumberOfPayments());
+        self::assertCount(2, $trailer->getNumberOfPayments());
+        self::assertSame($expected, $trailer->getNumberOfPayments());
     }
 
     /**
@@ -116,7 +112,7 @@ class TrailerTest extends TestCase
     public function testShouldReturnNumberOfErrorCorrections(): void
     {
         $expected = [
-            'amount' => '10',
+            'amount' => 10,
             'type' => 'credit'
         ];
 
@@ -124,9 +120,8 @@ class TrailerTest extends TestCase
             'numberOfErrorCorrections' => '00000001{'
         ]);
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
-        self::assertInternalType('array', $trailer->getNumberOfErrorCorrections());
-        self::assertEquals($expected, $trailer->getNumberOfErrorCorrections());
+        self::assertCount(2, $trailer->getNumberOfErrorCorrections());
+        self::assertSame($expected, $trailer->getNumberOfErrorCorrections());
     }
 
     /**
@@ -139,7 +134,7 @@ class TrailerTest extends TestCase
     public function testShouldReturnNumberOfReversals(): void
     {
         $expected = [
-            'amount' => '20',
+            'amount' => 20,
             'type' => 'credit'
         ];
 
@@ -147,9 +142,8 @@ class TrailerTest extends TestCase
             'numberOfReversals' => '00000002{'
         ]);
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
-        self::assertInternalType('array', $trailer->getNumberOfReversals());
-        self::assertEquals($expected, $trailer->getNumberOfReversals());
+        self::assertCount(2, $trailer->getNumberOfReversals());
+        self::assertSame($expected, $trailer->getNumberOfReversals());
     }
 
     /**
@@ -172,9 +166,8 @@ class TrailerTest extends TestCase
             'settlementAmount' => '00000000001251G'
         ]);
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
-        self::assertInternalType('array', $trailer->getSettlementAmount());
-        self::assertEquals($expected, $trailer->getSettlementAmount());
+        self::assertCount(2, $trailer->getSettlementAmount());
+        self::assertSame($expected, $trailer->getSettlementAmount());
     }
 
     /**

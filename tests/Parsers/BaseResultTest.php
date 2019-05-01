@@ -22,7 +22,7 @@ class BaseResultTest extends TestCase
 
         $result = new ResultStub($data);
 
-        self::assertEquals($data['biller'], $result->getBiller());
+        self::assertSame($data['biller'], $result->getBiller());
     }
 
     /**

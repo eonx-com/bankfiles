@@ -30,7 +30,7 @@ class AccountTest extends TestCase
             'trailer' => new Trailer()
         ];
 
-        $setExpectations = function (MockInterface $context) use ($data): void {
+        $setExpectations = static function (MockInterface $context) use ($data): void {
             $context
                 ->shouldReceive('getGroup')
                 ->once()
@@ -50,7 +50,7 @@ class AccountTest extends TestCase
 
         self::assertInstanceOf(Identifier::class, $account->getIdentifier());
         self::assertNull($account->getGroup());
-        self::assertInternalType('array', $account->getTransactions());
+        self::assertIsArray($account->getTransactions());
         self::assertInstanceOf(Trailer::class, $account->getTrailer());
     }
 }

@@ -21,14 +21,14 @@ class ResultsContextTest extends TestCase
         $context = new ResultsContext([], [], [], [], []);
 
         self::assertNull($context->getAccount(0));
-        self::assertInternalType('array', $context->getAccounts());
-        self::assertInternalType('array', $context->getAccountsForGroup(1));
-        self::assertInternalType('array', $context->getErrors());
+        self::assertIsArray($context->getAccounts());
+        self::assertIsArray($context->getAccountsForGroup(1));
+        self::assertIsArray($context->getErrors());
         self::assertNull($context->getFile());
         self::assertNull($context->getGroup(0));
-        self::assertInternalType('array', $context->getGroups());
-        self::assertInternalType('array', $context->getTransactions());
-        self::assertInternalType('array', $context->getTransactionsForAccount(1));
+        self::assertIsArray($context->getGroups());
+        self::assertIsArray($context->getTransactions());
+        self::assertIsArray($context->getTransactionsForAccount(1));
     }
 
     /**

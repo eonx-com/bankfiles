@@ -20,7 +20,7 @@ class TransactionTest extends TestCase
     {
         $transaction = new Transaction(['amount' => '000000500025']);
 
-        self::assertEquals(5000.25, $transaction->getAmount());
+        self::assertSame(5000.25, $transaction->getAmount());
     }
 
     /**
@@ -29,12 +29,13 @@ class TransactionTest extends TestCase
      * @group Bpay-Transaction
      *
      * @return void
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException If datetime constructor string is invalid
      */
     public function testShouldReturnPaymentDate(): void
     {
         $transaction = new Transaction(['paymentDate' => '20160426']);
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(DateTime::class, $transaction->getPaymentDate());
     }
 
@@ -44,12 +45,13 @@ class TransactionTest extends TestCase
      * @group Bpay-Transaction
      *
      * @return void
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException If datetime constructor string is invalid
      */
     public function testShouldReturnSettlementDate(): void
     {
         $transaction = new Transaction(['settlementDate' => '20160426']);
 
-        /** @noinspection UnnecessaryAssertionInspection Assertion necessary for exact instance type */
         self::assertInstanceOf(DateTime::class, $transaction->getSettlementDate());
     }
 }

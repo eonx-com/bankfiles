@@ -172,8 +172,9 @@ abstract class BaseGenerator implements GeneratorInterface
      */
     private function processRule(array &$errors, string $rule, string $attribute, $value): void
     {
-        if ($value === null || (\is_string($value) && $value === '') || (\is_array($value) && empty($value))) {
+        if ($value === null || (\is_string($value) && $value === '') || (\is_array($value) && \count($value) === 0)) {
             $errors[] = \array_merge(\compact('attribute', 'value'), ['rule' => 'required']);
+
             return;
         }
 

@@ -22,7 +22,14 @@ use EoneoPay\BankFiles\Generators\Interfaces\GeneratorInterface;
  */
 class Transaction extends BaseObject
 {
+    /**
+     * @const int
+     */
     public const CODE_GENERAL_CREDIT = 50;
+
+    /**
+     * @const int
+     */
     public const CODE_GENERAL_DEBIT = 13;
 
     /**

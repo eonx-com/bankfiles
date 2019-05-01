@@ -31,13 +31,13 @@ class HeaderTest extends TestCase
 
         $header = new Header($data);
 
-        self::assertEquals($data['blockingFactor'], $header->getBlockingFactor());
-        self::assertEquals($data['code'], $header->getCode());
-        self::assertEquals($data['fileCreationDate'], $header->getFileCreationDate());
-        self::assertEquals($data['fileCreationTime'], $header->getFileCreationTime());
-        self::assertEquals($data['fileSequenceNumber'], $header->getFileSequenceNumber());
-        self::assertEquals($data['physicalRecordLength'], $header->getPhysicalRecordLength());
-        self::assertEquals($data['receiverId'], $header->getReceiverId());
-        self::assertEquals($data['senderId'], $header->getSenderId());
+        self::assertSame($data['blockingFactor'], $header->getBlockingFactor());
+        self::assertSame($data['code'], $header->getCode());
+        self::assertSame($data['fileCreationDate'], $header->getFileCreationDate());
+        self::assertSame($data['fileCreationTime'], $header->getFileCreationTime());
+        self::assertSame($data['fileSequenceNumber'], $header->getFileSequenceNumber());
+        self::assertSame($data['physicalRecordLength'], $header->getPhysicalRecordLength());
+        self::assertSame($data['receiverId'], $header->getReceiverId());
+        self::assertSame($data['senderId'], $header->getSenderId());
     }
 }

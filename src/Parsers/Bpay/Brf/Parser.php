@@ -13,8 +13,19 @@ use EoneoPay\Utils\Interfaces\CollectionInterface;
 
 class Parser extends AbstractLineByLineParser
 {
+    /**
+     * @const string
+     */
     private const HEADER = '00';
+
+    /**
+     * @const string
+     */
     private const TRAILER = '99';
+
+    /**
+     * @const string
+     */
     private const TRANSACTION = '50';
 
     /** @var mixed[] $errors */
@@ -95,7 +106,7 @@ class Parser extends AbstractLineByLineParser
                 break;
 
             default:
-                $this->errors[] = new Error(['line' => $line, 'lineNumber' => $lineNumber]);
+                $this->errors[] = new Error(\compact('line', 'lineNumber'));
                 break;
         }
     }

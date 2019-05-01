@@ -27,9 +27,9 @@ class TrailerTest extends TestCase
 
         $trailer = new Trailer($data);
 
-        self::assertEquals($data['code'], $trailer->getCode());
-        self::assertEquals((float)100, $trailer->getGroupControlTotalA());
-        self::assertEquals((float)100, $trailer->getGroupControlTotalB());
-        self::assertEquals($data['numberOfAccounts'], $trailer->getNumberOfAccounts());
+        self::assertSame($data['code'], $trailer->getCode());
+        self::assertSame((float)100, $trailer->getGroupControlTotalA());
+        self::assertSame((float)100, $trailer->getGroupControlTotalB());
+        self::assertSame($data['numberOfAccounts'], $trailer->getNumberOfAccounts());
     }
 }
