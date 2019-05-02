@@ -18,7 +18,7 @@ class ValidationFailedExceptionTest extends TestCase
     {
         $exception = new ValidationFailedException([]);
 
-        self::assertEquals(BaseExceptionInterface::DEFAULT_ERROR_CODE_VALIDATION, $exception->getErrorCode());
-        self::assertEquals(BaseExceptionInterface::DEFAULT_ERROR_SUB_CODE, $exception->getErrorSubCode());
+        self::assertSame(BaseExceptionInterface::DEFAULT_ERROR_CODE_VALIDATION, $exception->getErrorCode());
+        self::assertSame(BaseExceptionInterface::DEFAULT_ERROR_SUB_CODE, $exception->getErrorSubCode());
     }
 }

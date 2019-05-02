@@ -26,8 +26,8 @@ class DetailsTest extends TestCase
 
         $details = new Details($data);
 
-        self::assertEquals($data['description'], $details->getDescription());
-        self::assertEquals($data['particulars'], $details->getParticulars());
-        self::assertEquals($data['type'], $details->getType());
+        self::assertSame($data['description'], $details->getDescription());
+        self::assertSame($data['particulars'], $details->getParticulars());
+        self::assertSame($data['type'], $details->getType());
     }
 }

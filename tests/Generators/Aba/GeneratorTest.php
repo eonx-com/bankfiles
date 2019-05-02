@@ -24,7 +24,7 @@ class GeneratorTest extends AbaTestCase
         $this->expectException(ValidationFailedException::class);
 
         $transaction = $this->createTransaction();
-        $transaction->setAttribute('transactionCode', null);
+        $transaction->setAttribute('transactionCode');
 
         (new Generator($this->createDescriptiveRecord(), [$transaction]))->getContents();
     }
@@ -157,8 +157,8 @@ class GeneratorTest extends AbaTestCase
 
         try {
             (new Generator($this->createDescriptiveRecord(), [$trans]))->getContents();
-        } /** @noinspection PhpRedundantCatchClause Inspection */ catch (ValidationFailedException $exception) {
-            self::assertEquals($expected, $exception->getErrors()[0]);
+        } /** @noinspection PhpRedundantCatchClauseInspection */ catch (ValidationFailedException $exception) {
+            self::assertSame($expected, $exception->getErrors()[0]);
         }
 
         $this->expectException(ValidationFailedException::class);

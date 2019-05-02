@@ -37,7 +37,7 @@ class Generator extends BaseGenerator
      */
     public function __construct(Header $header, array $transactions, ?Trailer $trailer = null)
     {
-        if (empty($transactions)) {
+        if (\count($transactions) === 0) {
             throw new InvalidArgumentException('No transactions provided.');
         }
 

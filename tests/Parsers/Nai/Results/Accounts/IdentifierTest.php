@@ -27,9 +27,9 @@ class IdentifierTest extends TestCase
 
         $identifier = new Identifier($data);
 
-        self::assertEquals($data['code'], $identifier->getCode());
-        self::assertEquals($data['commercialAccountNumber'], $identifier->getCommercialAccountNumber());
-        self::assertEquals($data['currencyCode'], $identifier->getCurrencyCode());
-        self::assertEquals($data['transactionCodes'], $identifier->getTransactionCodes());
+        self::assertSame($data['code'], $identifier->getCode());
+        self::assertSame($data['commercialAccountNumber'], $identifier->getCommercialAccountNumber());
+        self::assertSame($data['currencyCode'], $identifier->getCurrencyCode());
+        self::assertSame($data['transactionCodes'], $identifier->getTransactionCodes());
     }
 }

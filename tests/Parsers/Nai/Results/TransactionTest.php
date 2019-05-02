@@ -32,7 +32,7 @@ class TransactionTest extends TestCase
             'transactionDetails' => new Details()
         ];
 
-        $setExpectations = function (MockInterface $context) use ($data): void {
+        $setExpectations = static function (MockInterface $context) use ($data): void {
             $context
                 ->shouldReceive('getAccount')
                 ->once()
@@ -46,12 +46,12 @@ class TransactionTest extends TestCase
         $transaction = new Transaction($context, $data);
 
         self::assertNull($transaction->getAccount());
-        self::assertEquals($data['amount'], $transaction->getAmount());
-        self::assertEquals($data['code'], $transaction->getCode());
-        self::assertEquals($data['fundsType'], $transaction->getFundsType());
-        self::assertEquals($data['referenceNumber'], $transaction->getReferenceNumber());
-        self::assertEquals($data['text'], $transaction->getText());
-        self::assertEquals($data['transactionCode'], $transaction->getTransactionCode());
+        self::assertSame($data['amount'], $transaction->getAmount());
+        self::assertSame($data['code'], $transaction->getCode());
+        self::assertSame($data['fundsType'], $transaction->getFundsType());
+        self::assertSame($data['referenceNumber'], $transaction->getReferenceNumber());
+        self::assertSame($data['text'], $transaction->getText());
+        self::assertSame($data['transactionCode'], $transaction->getTransactionCode());
         self::assertInstanceOf(Details::class, $transaction->getTransactionDetails());
     }
 }

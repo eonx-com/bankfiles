@@ -8,8 +8,8 @@
   "license": "BSD-3-Clause",
   "type": "package",
   "require": {
-    "php": ">=7.1",
-    "eoneopay/utils": "dev-master"
+    "php": ">=7.3",
+    "eoneopay/utils": "^0.2"
   },
   "require-dev": {
     "eoneopay/standards": "dev-master",

@@ -68,13 +68,18 @@ abstract class BaseObject extends AbstractDataBag
      * Set the value of the attribute
      *
      * @param string $attribute
-     * @param null|string|int $value
+     * @param string|int|null $value
      *
      * @return self
      */
     public function setAttribute(string $attribute, $value = null): self
     {
-        $this->data[$attribute] = $value ?? '';
+        // Set value if null
+        if ($value === null) {
+            $value = '';
+        }
+
+        $this->data[$attribute] = $value;
 
         return $this;
     }

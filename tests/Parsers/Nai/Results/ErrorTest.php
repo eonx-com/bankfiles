@@ -25,7 +25,7 @@ class ErrorTest extends TestCase
 
         $error = new Error($data);
 
-        self::assertEquals($data['line'], $error->getLine());
-        self::assertEquals($data['lineNumber'], $error->getLineNumber());
+        self::assertSame($data['line'], $error->getLine());
+        self::assertSame($data['lineNumber'], $error->getLineNumber());
     }
 }

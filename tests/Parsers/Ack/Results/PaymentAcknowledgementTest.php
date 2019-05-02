@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\BankFiles\Parsers\Ack\Results;
 
-use DateTime;
 use EoneoPay\BankFiles\Parsers\Ack\Results\PaymentAcknowledgement;
+use EoneoPay\Utils\DateTime;
 use Tests\EoneoPay\BankFiles\Parsers\TestCase;
 
 class PaymentAcknowledgementTest extends TestCase
@@ -15,6 +15,8 @@ class PaymentAcknowledgementTest extends TestCase
      * @group Ack-PaymentAcknowledgement
      *
      * @return void
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException If datetime constructor string is invalid
      */
     public function testShouldReturnDateTimeAsObject(): void
     {
