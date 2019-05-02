@@ -39,10 +39,10 @@ class ParserTest extends TestCase
 
         $expected = new Header([
             'dateProcessed' => '070905',
-            'description' => 'DE Returns',
+            'description' => 'DE Returns  ',
             'userFinancialInstitution' => 'NAB',
             'userIdSupplyingFile' => '012345',
-            'userSupplyingFile' => 'NAB',
+            'userSupplyingFile' => 'NAB                       ',
             'reelSequenceNumber' => '01'
         ]);
 
