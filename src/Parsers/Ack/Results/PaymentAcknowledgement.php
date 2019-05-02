@@ -8,15 +8,15 @@ use EoneoPay\Utils\Collection;
 use EoneoPay\Utils\DateTime;
 
 /**
- * @method array|null getAttributes()
- * @method array|null getPaymentId()
- * @method array|null getOriginalMessageId()
- * @method array|null getCustomerId()
- * @method array|null getCompanyName()
- * @method array|null getUserMessage()
- * @method array|null getDetailedMessage()
- * @method array|null getOriginalFilename()
- * @method array|null getOriginalReference()
+ * @method mixed getAttributes()
+ * @method mixed getPaymentId()
+ * @method mixed getOriginalMessageId()
+ * @method mixed getCustomerId()
+ * @method mixed getCompanyName()
+ * @method mixed getUserMessage()
+ * @method mixed getDetailedMessage()
+ * @method mixed getOriginalFilename()
+ * @method mixed getOriginalReference()
  * @method Collection getIssues()
  */
 class PaymentAcknowledgement extends BaseResult
