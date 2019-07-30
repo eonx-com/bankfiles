@@ -6,10 +6,65 @@ namespace Tests\EoneoPay\BankFiles\Parsers\Ack;
 use EoneoPay\BankFiles\Parsers\Ack\Parser;
 use EoneoPay\BankFiles\Parsers\Ack\Results\Issue;
 use EoneoPay\Utils\Collection;
+use EoneoPay\Utils\XmlConverter;
 use Tests\EoneoPay\BankFiles\Parsers\TestCase;
 
 class ParserTest extends TestCase
 {
+    /**
+     * Test issues are correctly processed regardless of formatting
+     *
+     * @group Ack-Parser
+     *
+     * @return void
+     *
+     * @throws \EoneoPay\Utils\Exceptions\InvalidXmlException
+     * @throws \EoneoPay\Utils\Exceptions\InvalidXmlTagException Inherited, if xml contains an invalid tag
+     */
+    public function testIssueProcessing(): void
+    {
+        $converter = new XmlConverter();
+
+        // Test no issues
+        $xml = $converter->arrayToXml([]);
+        $parser = new Parser($xml);
+        self::assertEquals(new Collection(), $parser->getIssues());
+
+        // Test single issue without attributes
+        $xml = $converter->arrayToXml(['Issues' => ['Issue' => 'test']]);
+        $parser = new Parser($xml);
+        self::assertEquals(
+            new Collection([new Issue(['value' => 'test', 'attributes' => null])]),
+            $parser->getIssues()
+        );
+
+        // Test single issue with attribute
+        $xml = $converter->arrayToXml(['Issues' => ['Issue' => ['@attributes' => ['id' => '10'], '@value' => 'test']]]);
+        $parser = new Parser($xml);
+        self::assertEquals(
+            new Collection([new Issue(['value' => 'test', 'attributes' => ['id' => '10']])]),
+            $parser->getIssues()
+        );
+
+        // Test array of issues
+        $xml = $converter->arrayToXml([
+            'Issues' => [
+                'Issue' => [
+                    ['@attributes' => ['id' => '10'], '@value' => 'test'],
+                    ['@attributes' => ['id' => '11'], '@value' => 'test2']
+                ]
+            ]
+        ]);
+        $parser = new Parser($xml);
+        self::assertEquals(
+            new Collection([
+                new Issue(['value' => 'test', 'attributes' => ['id' => '10']]),
+                new Issue(['value' => 'test2', 'attributes' => ['id' => '11']])
+            ]),
+            $parser->getIssues()
+        );
+    }
+
     /**
      * Should return empty collection if no issue
      * and an empty array if attribute is not found in the xml

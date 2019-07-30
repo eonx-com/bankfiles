@@ -64,16 +64,6 @@ class Parser extends BaseParser
 
         $result = $xmlConverter->xmlToArray($this->contents, 1);
 
-        $issues = [];
-        if ($arr->get($result, 'Issues')) {
-            foreach ((array)$result['Issues']['Issue'] as $issue) {
-                $issues[] = new Issue([
-                    'value' => $arr->get($issue, '@value'),
-                    'attributes' => $arr->get($issue, '@attributes')
-                ]);
-            }
-        }
-
         $this->acknowledgement = new PaymentAcknowledgement([
             'attributes' => $arr->get($result, '@attributes'),
             'paymentId' => $arr->get($result, 'PaymentId'),
@@ -85,7 +75,41 @@ class Parser extends BaseParser
             'detailedMessage' => $arr->get($result, 'DetailedMessage'),
             'originalFilename' => $arr->get($result, 'OriginalFilename'),
             'originalReference' => $arr->get($result, 'OriginalReference'),
-            'issues' => new Collection($issues)
+            'issues' => new Collection($this->extractIssues($arr->get($result, 'Issues.Issue')))
         ]);
+    }
+
+    /**
+     * Determine how to process issues, this array can change depending on whether there
+     * are one or many issues to be stored
+     *
+     * @param mixed $issues
+     *
+     * @return \EoneoPay\BankFiles\Parsers\Ack\Results\Issue[]
+     */
+    private function extractIssues($issues): array
+    {
+        $arr = new Arr();
+
+        // If there are no issues, return
+        if ($issues === null) {
+            return [];
+        }
+
+        // If issues is a single item, force to array
+        if (\array_key_exists('@value', $issues) === true) {
+            $issues = [$issues];
+        }
+
+        // Process issues array
+        $objects = [];
+        foreach ($issues as $issue) {
+            $objects[] = new Issue([
+                'value' => $arr->get($issue, '@value'),
+                'attributes' => $arr->get($issue, '@attributes')
+            ]);
+        }
+
+        return $objects;
     }
 }
