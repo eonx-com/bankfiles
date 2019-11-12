@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\BankFiles\Parsers;
 
-use Mockery\MockInterface;
+use Mockery\LegacyMockInterface;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use ReflectionClass;
 use ReflectionMethod;
@@ -20,11 +20,11 @@ class TestCase extends PHPUnitTestCase
      * @param string $class
      * @param callable $setExpectations
      *
-     * @return \Mockery\MockInterface
+     * @return \Mockery\LegacyMockInterface
      *
      * @SuppressWarnings(PHPMD.StaticAccess) Inherited from Mockery
      */
-    protected function getMockWithExpectations(string $class, callable $setExpectations): MockInterface
+    protected function getMockWithExpectations(string $class, callable $setExpectations): LegacyMockInterface
     {
         $mock = \Mockery::mock($class);
 

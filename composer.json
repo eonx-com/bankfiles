@@ -1,5 +1,5 @@
 {
-  "name": "eoneopay/bankfiles",
+  "name": "eonx-com/bankfiles",
   "description": "Library for parsing and creating bank files",
   "keywords": [
     "eoneopay",
@@ -9,10 +9,10 @@
   "type": "package",
   "require": {
     "php": ">=7.3",
-    "eoneopay/utils": "^0.2"
+    "eonx-com/utils": "^1.0"
   },
   "require-dev": {
-    "eoneopay/standards": "dev-master",
+    "eonx-com/standards": "^0.2",
     "mockery/mockery": "^1.0",
     "phpmd/phpmd": "^2.6",
     "phpstan/phpstan": "^0.11",
@@ -21,6 +21,9 @@
     "sebastian/phpcpd": "^4.0",
     "squizlabs/php_codesniffer": "3.*",
     "symfony/var-dumper": "^4.0"
+  },
+  "replace": {
+    "eoneopay/bankfiles": "*"
   },
   "autoload": {
     "psr-4": {
