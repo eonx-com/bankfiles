@@ -290,7 +290,9 @@ class ResultsContext
         $lineArray = \explode(',', $line);
         $str = new Str();
 
-        foreach (\array_merge($required, $optional) as $index => $attribute) {
+        $attributes = \array_merge($required, $optional);
+
+        foreach ($attributes as $index => $attribute) {
             $value = $lineArray[$index] ?? '';
             $endsWithSlash = $str->endsWith((string)$value, '/');
             $data[$attribute] = $endsWithSlash ? \str_replace('/', '', $value) : $value;
@@ -301,23 +303,19 @@ class ResultsContext
             }
         }
 
-        // Validate all required attributes are defined
-        foreach ($required as $attribute) {
+        // Validate all required and optional attributes are defined
+        foreach ($attributes as $attribute) {
             if (isset($data[$attribute]) === true && $data[$attribute] !== '') {
                 continue;
             }
 
-            // Add error if data is either null or empty string
-            $this->addError($line, $lineNumber);
+            // if this is a required attribute fail and return.
+            if (\in_array($attribute, $required, true) === true) {
+                // Add error if data is either null or empty string
+                $this->addError($line, $lineNumber);
 
-            // stop processing this line.
-            return null;
-        }
-
-        // Make sure there is a default value for each optional
-        foreach ($optional as $attribute) {
-            if (isset($data[$attribute]) === true) {
-                continue;
+                // stop processing this line.
+                return null;
             }
 
             // otherwise set a default value to it.

@@ -361,6 +361,19 @@ class Parser extends AbstractLineByLineParser
     }
 
     /**
+     * Check if this line has full contents in it. If the line ends with a /
+     * it means its a full line.
+     *
+     * @param string $line
+     *
+     * @return bool
+     */
+    private function checkFullLine(string $line): bool
+    {
+        return $this->previousFull = (new Str())->endsWith($line, '/');
+    }
+
+    /**
      * Continue account line for given index.
      *
      * @param string $index
@@ -491,11 +504,6 @@ class Parser extends AbstractLineByLineParser
         ];
 
         return \in_array($code, $codes, true);
-    }
-
-    private function checkFullLine(string $line): bool
-    {
-        return $this->previousFull = (new Str())->endsWith($line, '/');
     }
 
     /**
