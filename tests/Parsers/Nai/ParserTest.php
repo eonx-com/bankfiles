@@ -75,6 +75,8 @@ class ParserTest extends TestCase
      * This tests a file which has slashes in the transaction records.
      *
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength) Method is long because of expected array.
      */
     public function testParserParsesSuccessfullyWhenFileHasTransactionWithSlashes(): void
     {

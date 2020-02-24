@@ -278,7 +278,7 @@ class ResultsContext
      * @param string $line
      * @param int $lineNumber
      *
-     * @return array|null
+     * @return mixed[]|null
      */
     private function getTransactionDataFromLine(string $line, int $lineNumber): ?array
     {
