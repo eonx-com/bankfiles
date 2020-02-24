@@ -271,6 +271,44 @@ class ResultsContext
     }
 
     /**
+     * Get transaction data from line as an associative array using given attributes.
+     * If line structure invalid, return null. If the last element in data is missing,
+     * its alright as transaction might not have a text.
+     *
+     * @param string $line
+     * @param int $lineNumber
+     *
+     * @return array|null
+     */
+    private function getTransactionDataFromLine(string $line, int $lineNumber): ?array
+    {
+        $attributes = [
+            'code',
+            'transactionCode',
+            'amount',
+            'fundsType',
+            'referenceNumber',
+            'text'
+        ];
+
+        $data = [];
+        $lineArray = \explode(',', $line);
+
+        foreach ($attributes as $index => $attribute) {
+            // If one attribute is missing from the file, but its not `text` return null, as text can be empty.
+            if ($attribute !== 'text' && isset($lineArray[$index]) === false) {
+                $this->addError($line, $lineNumber);
+
+                return null;
+            }
+
+            $data[$attribute] = $lineArray[$index] ?? '';
+        }
+
+        return $data;
+    }
+
+    /**
      * Instantiate account identifier.
      *
      * @param mixed[] $identifier
@@ -284,6 +322,7 @@ class ResultsContext
 
         if ($data === null) {
             $this->addError($identifier['line'], $identifier['line_number']);
+
             return null;
         }
 
@@ -489,14 +528,7 @@ class ResultsContext
     private function initTransactions(array $transactions): self
     {
         foreach ($transactions as $transaction) {
-            $data = $this->getDataFromLine([
-                'code',
-                'transactionCode',
-                'amount',
-                'fundsType',
-                'referenceNumber',
-                'text'
-            ], $transaction['line'], $transaction['line_number']);
+            $data = $this->getTransactionDataFromLine($transaction['line'], $transaction['line_number']);
 
             if ($data === null) {
                 continue;
