@@ -11,6 +11,7 @@ use EoneoPay\BankFiles\Parsers\Nai\Results\Files\Trailer as FileTrailer;
 use EoneoPay\BankFiles\Parsers\Nai\Results\Groups\Header as GroupHeader;
 use EoneoPay\BankFiles\Parsers\Nai\Results\Groups\Trailer as GroupTrailer;
 use EoneoPay\BankFiles\Parsers\Nai\TransactionDetailCodes;
+use EoneoPay\Utils\Str;
 
 class ResultsContext
 {
@@ -282,27 +283,32 @@ class ResultsContext
      */
     private function getTransactionDataFromLine(string $line, int $lineNumber): ?array
     {
-        $attributes = [
-            'code',
-            'transactionCode',
-            'amount',
-            'fundsType',
-            'referenceNumber',
-            'text'
-        ];
+        $required = ['code', 'transactionCode', 'amount', 'fundsType'];
+        $optional = ['referenceNumber', 'text'];
 
         $data = [];
         $lineArray = \explode(',', $line);
+        $str = new Str();
 
-        foreach ($attributes as $index => $attribute) {
-            // If one attribute is missing from the file, but its not `text` return null, as text can be empty.
-            if ($attribute !== 'text' && isset($lineArray[$index]) === false) {
-                $this->addError($line, $lineNumber);
+        foreach (\array_merge($required, $optional) as $index => $attribute) {
+            $value = $lineArray[$index] ?? '';
+            $endsWithSlash = $str->endsWith((string)$value, '/');
+            $data[$attribute] = $endsWithSlash ? \str_replace('/', '', $value) : $value;
 
-                return null;
+            // If attribute ends with slash, it's the last one of line, exit
+            if ($endsWithSlash) {
+                break;
+            }
+        }
+
+        // Validate all required attributes are defined
+        foreach ($required as $attribute) {
+            if ($data[$attribute] !== '') {
+                continue;
             }
 
-            $data[$attribute] = $lineArray[$index] ?? '';
+            // Add error if data is either null or empty string
+            $this->addError($line, $lineNumber);
         }
 
         return $data;
