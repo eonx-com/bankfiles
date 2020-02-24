@@ -303,12 +303,25 @@ class ResultsContext
 
         // Validate all required attributes are defined
         foreach ($required as $attribute) {
-            if ($data[$attribute] !== '') {
+            if (isset($data[$attribute]) === true && $data[$attribute] !== '') {
                 continue;
             }
 
             // Add error if data is either null or empty string
             $this->addError($line, $lineNumber);
+
+            // stop processing this line.
+            return null;
+        }
+
+        // Make sure there is a default value for each optional
+        foreach ($optional as $attribute) {
+            if (isset($data[$attribute]) === true) {
+                continue;
+            }
+
+            // otherwise set a default value to it.
+            $data[$attribute] = '';
         }
 
         return $data;

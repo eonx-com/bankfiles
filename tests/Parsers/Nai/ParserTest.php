@@ -88,8 +88,9 @@ class ParserTest extends TestCase
         self::assertSame('BNZA', $file->getHeader()->getReceiverId());
         self::assertCount(1, $parser->getGroups());
         self::assertCount(4, $parser->getAccounts());
-        self::assertCount(9, $parser->getTransactions());
-        self::assertCount(0, $parser->getErrors());
+        self::assertCount(10, $parser->getTransactions());
+        // one error line, 16,475,330/ .. because its missing required fundType
+        self::assertCount(1, $parser->getErrors());
 
         $transactions = $parser->getTransactions();
 
@@ -155,6 +156,14 @@ class ParserTest extends TestCase
                 'code' => '16',
                 'fundsType' => '0',
                 'referenceNumber' => '0006100',
+                'text' => '',
+                'transactionCode' => '475'
+            ],
+            [
+                'amount' => '330',
+                'code' => '16',
+                'fundsType' => '0',
+                'referenceNumber' => '',
                 'text' => '',
                 'transactionCode' => '475'
             ],
