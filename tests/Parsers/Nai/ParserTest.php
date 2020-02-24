@@ -178,7 +178,7 @@ class ParserTest extends TestCase
             ];
         }
 
-        self::assertEquals($expectedTransactions, $actualTransactions);
+        self::assertSame($expectedTransactions, $actualTransactions);
     }
 
     /**
