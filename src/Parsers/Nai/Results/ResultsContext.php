@@ -13,6 +13,10 @@ use EoneoPay\BankFiles\Parsers\Nai\Results\Groups\Trailer as GroupTrailer;
 use EoneoPay\BankFiles\Parsers\Nai\TransactionDetailCodes;
 use EoneoPay\Utils\Str;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) High coupling required to do string functions.
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity) Complexity due to different string edge cases.
+ */
 class ResultsContext
 {
     use AccountSummaryCodes;
