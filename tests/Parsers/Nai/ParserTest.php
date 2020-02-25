@@ -71,6 +71,128 @@ class ParserTest extends TestCase
     }
 
     /**
+     * Parser should parse sample file successfully.
+     * This tests a file which has slashes in the transaction records.
+     *
+     * @return void
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength) Method is long because of expected array.
+     */
+    public function testParserParsesSuccessfullyWhenFileHasTransactionWithSlashes(): void
+    {
+        $parser = new Parser($this->getSampleFileContents('nab_sample.NAI'));
+
+        self::assertInstanceOf(File::class, $parser->getFile());
+        /** @var \EoneoPay\BankFiles\Parsers\Nai\Results\File $file */
+        $file = $parser->getFile();
+        self::assertSame('BNZA', $file->getHeader()->getReceiverId());
+        self::assertCount(1, $parser->getGroups());
+        self::assertCount(4, $parser->getAccounts());
+        self::assertCount(10, $parser->getTransactions());
+        // one error line, 16,475,330/ .. because its missing required fundType
+        self::assertCount(1, $parser->getErrors());
+
+        $transactions = $parser->getTransactions();
+
+        $expectedTransactions = [
+            [
+                'amount' => '64598',
+                'code' => '16',
+                'fundsType' => '0',
+                'referenceNumber' => '0',
+                'text' => 'ABC DEF',
+                'transactionCode' => '936'
+            ],
+            [
+                'amount' => '70050',
+                'code' => '16',
+                'fundsType' => '0',
+                'referenceNumber' => '0005607',
+                'text' => '',
+                'transactionCode' => '475'
+            ],
+            [
+                'amount' => '22410',
+                'code' => '16',
+                'fundsType' => '0',
+                'referenceNumber' => '0005712',
+                'text' => '',
+                'transactionCode' => '475'
+            ],
+            [
+                'amount' => '22650',
+                'code' => '16',
+                'fundsType' => '0',
+                'referenceNumber' => '0005820',
+                'text' => '',
+                'transactionCode' => '475'
+            ],
+            [
+                'amount' => '210620',
+                'code' => '16',
+                'fundsType' => '0',
+                'referenceNumber' => '0005924',
+                'text' => '',
+                'transactionCode' => '475'
+            ],
+            [
+                'amount' => '379200',
+                'code' => '16',
+                'fundsType' => '0',
+                'referenceNumber' => '0005956',
+                'text' => '',
+                'transactionCode' => '475'
+            ],
+            [
+                'amount' => '61915',
+                'code' => '16',
+                'fundsType' => '0',
+                'referenceNumber' => '0005968',
+                'text' => '',
+                'transactionCode' => '475'
+            ],
+            [
+                'amount' => '3300000',
+                'code' => '16',
+                'fundsType' => '0',
+                'referenceNumber' => '0006100',
+                'text' => '',
+                'transactionCode' => '475'
+            ],
+            [
+                'amount' => '330',
+                'code' => '16',
+                'fundsType' => '0',
+                'referenceNumber' => '',
+                'text' => '',
+                'transactionCode' => '475'
+            ],
+            [
+                'amount' => '104410',
+                'code' => '16',
+                'fundsType' => '0',
+                'referenceNumber' => '0',
+                'text' => 'AP8YA0436912      GEDFH            083310',
+                'transactionCode' => '501'
+            ]
+        ];
+
+        $actualTransactions = [];
+        foreach ($transactions as $transaction) {
+            $actualTransactions[] = [
+                'amount' => $transaction->getAmount(),
+                'code' => $transaction->getCode(),
+                'fundsType' => $transaction->getFundsType(),
+                'referenceNumber' => $transaction->getReferenceNumber(),
+                'text' => $transaction->getText(),
+                'transactionCode' => $transaction->getTransactionCode()
+            ];
+        }
+
+        self::assertSame($expectedTransactions, $actualTransactions);
+    }
+
+    /**
      * Transaction codes detail trait should return null if code is invalid.
      *
      * @return void

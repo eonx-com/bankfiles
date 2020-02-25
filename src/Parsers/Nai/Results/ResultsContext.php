@@ -11,7 +11,12 @@ use EoneoPay\BankFiles\Parsers\Nai\Results\Files\Trailer as FileTrailer;
 use EoneoPay\BankFiles\Parsers\Nai\Results\Groups\Header as GroupHeader;
 use EoneoPay\BankFiles\Parsers\Nai\Results\Groups\Trailer as GroupTrailer;
 use EoneoPay\BankFiles\Parsers\Nai\TransactionDetailCodes;
+use EoneoPay\Utils\Str;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) High coupling required to do string functions.
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity) Complexity due to different string edge cases.
+ */
 class ResultsContext
 {
     use AccountSummaryCodes;
@@ -271,6 +276,60 @@ class ResultsContext
     }
 
     /**
+     * Get transaction data from line as an associative array using given attributes.
+     * If line structure invalid, return null. If the last element in data is missing,
+     * its alright as transaction might not have a text.
+     *
+     * @param string $line
+     * @param int $lineNumber
+     *
+     * @return mixed[]|null
+     */
+    private function getTransactionDataFromLine(string $line, int $lineNumber): ?array
+    {
+        $required = ['code', 'transactionCode', 'amount', 'fundsType'];
+        $optional = ['referenceNumber', 'text'];
+
+        $data = [];
+        $lineArray = \explode(',', $line);
+        $str = new Str();
+
+        $attributes = \array_merge($required, $optional);
+
+        foreach ($attributes as $index => $attribute) {
+            $value = $lineArray[$index] ?? '';
+            $endsWithSlash = $str->endsWith((string)$value, '/');
+            $data[$attribute] = $endsWithSlash ? \str_replace('/', '', $value) : $value;
+
+            // If attribute ends with slash, it's the last one of line, exit
+            if ($endsWithSlash) {
+                break;
+            }
+        }
+
+        // Validate all required and optional attributes are defined
+        foreach ($attributes as $attribute) {
+            if (isset($data[$attribute]) === true && $data[$attribute] !== '') {
+                continue;
+            }
+
+            // if this is a required attribute fail and return.
+            if (\in_array($attribute, $required, true) === true) {
+                // Add error if data is either null or empty string
+                $this->addError($line, $lineNumber);
+
+                // stop processing this line.
+                return null;
+            }
+
+            // otherwise set a default value to it.
+            $data[$attribute] = '';
+        }
+
+        return $data;
+    }
+
+    /**
      * Instantiate account identifier.
      *
      * @param mixed[] $identifier
@@ -284,6 +343,7 @@ class ResultsContext
 
         if ($data === null) {
             $this->addError($identifier['line'], $identifier['line_number']);
+
             return null;
         }
 
@@ -489,14 +549,7 @@ class ResultsContext
     private function initTransactions(array $transactions): self
     {
         foreach ($transactions as $transaction) {
-            $data = $this->getDataFromLine([
-                'code',
-                'transactionCode',
-                'amount',
-                'fundsType',
-                'referenceNumber',
-                'text'
-            ], $transaction['line'], $transaction['line_number']);
+            $data = $this->getTransactionDataFromLine($transaction['line'], $transaction['line_number']);
 
             if ($data === null) {
                 continue;

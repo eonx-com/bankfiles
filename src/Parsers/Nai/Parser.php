@@ -202,7 +202,8 @@ class Parser extends AbstractLineByLineParser
             return;
         }
 
-        $line = $this->sanitiseLine($line);
+        // Check if line fits in only one line
+        $this->checkFullLine($line);
 
         // If continuation, update previous and skip to next line
         if ($code === self::CONTINUATION) {
@@ -360,6 +361,19 @@ class Parser extends AbstractLineByLineParser
     }
 
     /**
+     * Check if this line has full contents in it. If the line ends with a /
+     * it means its a full line.
+     *
+     * @param string $line
+     *
+     * @return bool
+     */
+    private function checkFullLine(string $line): bool
+    {
+        return $this->previousFull = (new Str())->endsWith($line, '/');
+    }
+
+    /**
      * Continue account line for given index.
      *
      * @param string $index
@@ -493,22 +507,6 @@ class Parser extends AbstractLineByLineParser
     }
 
     /**
-     * Check if record fits completely and remove slash.
-     *
-     * @param string $line
-     *
-     * @return string
-     */
-    private function sanitiseLine(string $line): string
-    {
-        // Determine if record fits completely on the line
-        $this->previousFull = (new Str())->endsWith($line, '/');
-
-        // Remove slash add the end of the line
-        return \str_replace('/', '', $line);
-    }
-
-    /**
      * Structure item content with line number.
      *
      * @param string $line
@@ -517,6 +515,7 @@ class Parser extends AbstractLineByLineParser
      */
     private function setItem(string $line): array
     {
-        return ['line' => $line, 'line_number' => $this->currentLineNumber];
+        // Sanitise line before setting item
+        return ['line' => \str_replace('/', '', $line), 'line_number' => $this->currentLineNumber];
     }
 }
