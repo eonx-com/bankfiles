@@ -16,7 +16,7 @@ final class ImpossibleException extends RuntimeException
      */
     public function getErrorCode(): int
     {
-        return self::DEFAULT_ERROR_CODE_RUNTIME + 999;
+        return self::DEFAULT_ERROR_CODE_RUNTIME + 899;
     }
 
     /**

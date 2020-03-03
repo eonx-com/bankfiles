@@ -20,7 +20,7 @@ class ImpossibleExceptionTest extends TestCase
     {
         $exception = new ImpossibleException();
 
-        self::assertSame(1999, $exception->getCode());
+        self::assertSame(1999, $exception->getErrorCode());
         self::assertSame(1, $exception->getErrorSubCode());
     }
 }
