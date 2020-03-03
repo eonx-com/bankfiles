@@ -8,6 +8,7 @@ use EoneoPay\BankFiles\Parsers\Ack\BpbParser;
 use EoneoPay\BankFiles\Parsers\Ack\Results\Issue;
 use EoneoPay\BankFiles\Parsers\Ack\Results\PaymentAcknowledgement;
 use EoneoPay\Utils\Collection;
+use EoneoPay\Utils\Exceptions\InvalidXmlException;
 use EoneoPay\Utils\XmlConverter;
 use Tests\EoneoPay\BankFiles\Parsers\TestCase;
 
@@ -257,6 +258,39 @@ class ParserTest extends TestCase
             ]),
             $parser->getIssues()
         );
+    }
+
+    /**
+     * Tests that the parser successfully mitigates a raised exception around invalid content.
+     *
+     * @return void
+     */
+    public function testParserMitigatesInvalidData(): void
+    {
+        $filename = \realpath(__DIR__ . '/data/invalid_node_value_sample.txt.ENC.PENDING.ACK');
+        $content = \file_get_contents($filename ?: '') ?: '';
+
+        $parser = new AbaParser($content);
+
+        self::assertInstanceOf(Collection::class, $parser->getIssues());
+        self::assertInstanceOf(Issue::class, $parser->getIssues()->first());
+        self::assertIsArray($parser->getIssues()->first()->getAttributes());
+    }
+
+    /**
+     * Tests that the parser still throws the raised exception if the value back from the mitigator is empty.
+     *
+     * @return void
+     */
+    public function testParserStillThrowsExceptionIfMitigationReturnsEmpty(): void
+    {
+        $xml = <<<'XML'
+
+XML;
+
+        $this->expectException(InvalidXmlException::class);
+
+        new AbaParser($xml);
     }
 
     /**
