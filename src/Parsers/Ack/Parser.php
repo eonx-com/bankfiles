@@ -12,6 +12,9 @@ use EoneoPay\Utils\Exceptions\InvalidXmlException;
 use EoneoPay\Utils\Interfaces\CollectionInterface;
 use EoneoPay\Utils\XmlConverter;
 
+/**
+ * @SuppressWarnings(PHPMD.StaticAccess) Ignore static access to XML mitigation.
+ */
 abstract class Parser extends BaseParser
 {
     /**
@@ -56,23 +59,23 @@ abstract class Parser extends BaseParser
      *
      * @param string $xml
      *
-     * @return mixed[]|null
+     * @return mixed[]
      *
      * @throws \EoneoPay\Utils\Exceptions\InvalidXmlException
      */
-    protected function convertXmlToArray(string $xml): ?array
+    protected function convertXmlToArray(string $xml): array
     {
         $xmlConverter = new XmlConverter();
 
         try {
-            $result = $xmlConverter->xmlToArray($this->contents, 1);
+            $result = $xmlConverter->xmlToArray($xml, 1);
         } catch (InvalidXmlException $exception) {
             // When an exception is thrown, let's attempt to mitigate the issue by cleaning up some common
             // inconsistencies from the bank's side.
-            $fixedContents = XmlFailureMitigation::tryMitigateParseFailures($this->contents);
+            $fixedContents = XmlFailureMitigation::tryMitigateParseFailures($xml);
 
-            // If the content back from mitigation is null, throw the initial exception
-            if ($fixedContents === null || $fixedContents === '') {
+            // If the content back from mitigation is empty, throw the initial exception
+            if ($fixedContents === '') {
                 throw $exception;
             }
 

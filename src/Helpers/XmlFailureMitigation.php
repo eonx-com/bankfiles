@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace EoneoPay\BankFiles\Helpers;
 
+use EoneoPay\BankFiles\Exceptions\ImpossibleException;
+
 /**
  * A helper class that works to mitigate XML-related issues.
  */
@@ -14,6 +16,8 @@ class XmlFailureMitigation
      * @param string $content The XML content.
      *
      * @return string
+     *
+     * @throws \EoneoPay\BankFiles\Exceptions\ImpossibleException
      */
     public static function tryMitigateParseFailures(string $content): string
     {
@@ -35,7 +39,10 @@ class XmlFailureMitigation
                 if (\count($match) !== 3) {
                     // @codeCoverageIgnoreStart
                     // Sanity check only and unable to be tested.
-                    continue;
+                    throw new ImpossibleException(\sprintf(
+                        'Regular expression match result should have 3 children, %d found.',
+                        \count($match)
+                    ));
                     // @codeCoverageIgnoreEnd
                 }
 

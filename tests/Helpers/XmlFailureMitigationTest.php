@@ -8,6 +8,8 @@ use Tests\EoneoPay\BankFiles\TestCases\TestCase;
 
 /**
  * @covers \EoneoPay\BankFiles\Helpers\XmlFailureMitigation
+ *
+ * @SuppressWarnings(PHPMD.StaticAccess) Ignore static access to XML mitigation.
  */
 class XmlFailureMitigationTest extends TestCase
 {
@@ -37,29 +39,14 @@ XML
     }
 
     /**
-     * Tests that the helper method successfully handles the provided scenarios.
-     *
-     * @param string $input
-     * @param string $expected
-     *
-     * @return void
-     *
-     * @dataProvider getXmlScenarios
-     */
-    public function testMitigationReplacesInvalidLines(string $input, string $expected): void
-    {
-        $result = XmlFailureMitigation::tryMitigateParseFailures($input);
-
-        self::assertSame($expected, $result);
-    }
-
-    /**
      * Test that the helper class does not touch valid XML.
      *
      * @return void
      */
     public function testMitigationLeavesValidXmlAlone(): void
     {
+        // phpcs:disable
+        // Disabled to ignore long lines in XML sample.
         $xml = <<<'XML'
 <PaymentsAcknowledgement type="info">
 <PaymentId>94829970</PaymentId>
@@ -79,9 +66,27 @@ XML
 </Issues>
 </PaymentsAcknowledgement>
 XML;
+        // phpcs:enable
 
         $result = XmlFailureMitigation::tryMitigateParseFailures($xml);
 
         self::assertSame($xml, $result);
+    }
+
+    /**
+     * Tests that the helper method successfully handles the provided scenarios.
+     *
+     * @param string $input
+     * @param string $expected
+     *
+     * @return void
+     *
+     * @dataProvider getXmlScenarios
+     */
+    public function testMitigationReplacesInvalidLines(string $input, string $expected): void
+    {
+        $result = XmlFailureMitigation::tryMitigateParseFailures($input);
+
+        self::assertSame($expected, $result);
     }
 }
