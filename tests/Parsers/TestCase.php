@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\BankFiles\Parsers;
 
+use Tests\EoneoPay\BankFiles\TestCases\TestCase as BaseTestCase;
 use Mockery\LegacyMockInterface;
-use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionProperty;
@@ -12,7 +12,7 @@ use ReflectionProperty;
 /**
  * @SuppressWarnings(PHPMD.NumberOfChildren) All Tests extend this class
  */
-class TestCase extends PHPUnitTestCase
+class TestCase extends BaseTestCase
 {
     /**
      * Get mock for given class and set expectations based on given callable.

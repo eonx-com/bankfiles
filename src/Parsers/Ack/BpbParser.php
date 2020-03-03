@@ -6,7 +6,6 @@ namespace EoneoPay\BankFiles\Parsers\Ack;
 use EoneoPay\BankFiles\Parsers\Ack\Results\PaymentAcknowledgement;
 use EoneoPay\Utils\Arr;
 use EoneoPay\Utils\Collection;
-use EoneoPay\Utils\XmlConverter;
 
 class BpbParser extends Parser
 {
@@ -19,10 +18,9 @@ class BpbParser extends Parser
      */
     protected function process(): void
     {
-        $xmlConverter = new XmlConverter();
         $arr = new Arr();
 
-        $result = $xmlConverter->xmlToArray($this->contents, 1);
+        $result = $this->convertXmlToArray($this->contents);
 
         $this->acknowledgement = new PaymentAcknowledgement([
             'attributes' => $arr->get($result, '@attributes'),
