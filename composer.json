@@ -8,7 +8,7 @@
   "license": "BSD-3-Clause",
   "type": "package",
   "require": {
-    "php": ">=7.3",
+    "php": "^7.3",
     "eonx-com/utils": "^1.0"
   },
   "require-dev": {
@@ -25,6 +25,25 @@
   "replace": {
     "eoneopay/bankfiles": "*"
   },
+  "scripts": {
+    "code-sniffer": "phpcs --standard=vendor/eonx-com/standards/php-code-sniffer/EoneoPay --colors --report=full src tests -p",
+    "copy-paste-detector": "phpcpd --ansi --min-lines=5 --min-tokens=70 src tests",
+    "mess-detector": "phpmd src,tests text phpmd.xml",
+    "phpstan": "phpstan analyze src tests -c phpstan.neon --ansi --level max --memory-limit=2048M",
+    "phpunit": "phpunit --configuration phpunit.xml",
+    "coverage": [
+      "@composer phpunit -- --coverage-text=coverage_output.txt --coverage-html=coverage-html",
+      "tar zcf coverage-html.tgz --directory=coverage-html .",
+      "easy-test check-coverage -c 100 coverage_output.txt"
+    ],
+    "standards": [
+      "@code-sniffer",
+      "@copy-paste-detector",
+      "@mess-detector",
+      "@phpstan",
+      "@phpunit"
+    ]
+  },
   "autoload": {
     "psr-4": {
       "EoneoPay\\BankFiles\\": "src/"
@@ -36,6 +55,5 @@
     }
   },
   "minimum-stability": "stable",
-  "prefer-stable": true,
-  "optimize-autoloader": true
+  "prefer-stable": true
 }
