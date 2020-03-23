@@ -175,12 +175,13 @@ class TrailerTest extends TestCase
      *
      * @group \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Trailer
      *
-     * @expectedException \EoneoPay\BankFiles\Parsers\Bpay\Brf\Exceptions\InvalidSignFieldException
-     *
      * @return void
+     *
+     * @throws \EoneoPay\BankFiles\Parsers\Bpay\Brf\Exceptions\InvalidSignFieldException
      */
     public function testShouldThrowExceptionIfSignedFileNotFound(): void
     {
+        $this->expectException(\EoneoPay\BankFiles\Parsers\Bpay\Brf\Exceptions\InvalidSignFieldException::class);
         $trailer = new Trailer([
             'amountOfErrorCorrections' => '00000000000200W'
         ]);
