@@ -9,7 +9,7 @@
   "type": "package",
   "require": {
     "php": ">=7.3",
-    "eonx-com/utils": "^1.0"
+    "eonx-com/utils": "^1.0|^2.0"
   },
   "require-dev": {
     "eonx-com/standards": "^0.2",
