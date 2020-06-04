@@ -40,8 +40,6 @@ XML
 
     /**
      * Test that the helper class does not touch valid XML.
-     *
-     * @return void
      */
     public function testMitigationLeavesValidXmlAlone(): void
     {
@@ -75,11 +73,6 @@ XML;
 
     /**
      * Tests that the helper method successfully handles the provided scenarios.
-     *
-     * @param string $input
-     * @param string $expected
-     *
-     * @return void
      *
      * @dataProvider getXmlScenarios
      */

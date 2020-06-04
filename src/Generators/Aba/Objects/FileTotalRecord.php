@@ -40,7 +40,7 @@ class FileTotalRecord extends BaseObject
             'fileUserNetTotalAmount' => GeneratorInterface::VALIDATION_RULE_NUMERIC,
             'fileUserCreditTotalAmount' => GeneratorInterface::VALIDATION_RULE_NUMERIC,
             'fileUserDebitTotalAmount' => GeneratorInterface::VALIDATION_RULE_NUMERIC,
-            'fileUserCountOfRecordsType' => GeneratorInterface::VALIDATION_RULE_NUMERIC
+            'fileUserCountOfRecordsType' => GeneratorInterface::VALIDATION_RULE_NUMERIC,
         ];
     }
 
@@ -60,7 +60,7 @@ class FileTotalRecord extends BaseObject
             'fileUserCountOfRecordsType' => [6, '0', \STR_PAD_LEFT],
             'fileUserNetTotalAmount' => [10, '0', \STR_PAD_LEFT],
             'fileUserCreditTotalAmount' => [10, '0', \STR_PAD_LEFT],
-            'fileUserDebitTotalAmount' => [10, '0', \STR_PAD_LEFT]
+            'fileUserDebitTotalAmount' => [10, '0', \STR_PAD_LEFT],
         ];
     }
 
@@ -80,14 +80,12 @@ class FileTotalRecord extends BaseObject
             'fileUserDebitTotalAmount',
             'blank2',
             'fileUserCountOfRecordsType',
-            'blank3'
+            'blank3',
         ];
     }
 
     /**
      * Return record type.
-     *
-     * @return string
      */
     protected function initRecordType(): string
     {

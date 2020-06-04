@@ -17,14 +17,12 @@ class FileTest extends TestCase
 {
     /**
      * Result should return data as expected.
-     *
-     * @return void
      */
     public function testGetDataAsExpected(): void
     {
         $data = [
             'header' => new Header(),
-            'trailer' => new Trailer()
+            'trailer' => new Trailer(),
         ];
 
         /** @var \EoneoPay\BankFiles\Parsers\Nai\Results\ResultsContext $context */

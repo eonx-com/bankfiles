@@ -12,8 +12,6 @@ class AbaParser extends Parser
     /**
      * Process line and parse data
      *
-     * @return void
-     *
      * @throws \EoneoPay\Utils\Exceptions\InvalidXmlException
      */
     protected function process(): void
@@ -33,7 +31,7 @@ class AbaParser extends Parser
             'detailedMessage' => $arr->get($result, 'DetailedMessage'),
             'originalFilename' => $arr->get($result, 'OriginalFilename'),
             'originalReference' => $arr->get($result, 'OriginalReference'),
-            'issues' => new Collection($this->extractIssues($arr->get($result, 'Issues.Issue')))
+            'issues' => new Collection($this->extractIssues($arr->get($result, 'Issues.Issue'))),
         ]);
     }
 }

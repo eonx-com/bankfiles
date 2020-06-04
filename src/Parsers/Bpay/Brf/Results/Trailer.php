@@ -115,14 +115,12 @@ class Trailer extends BaseResult
             'numberOfReversals',
             'amountOfReversals',
             'settlementAmount',
-            'filler'
+            'filler',
         ];
     }
 
     /**
      * Get the trailer amount and convert to proper value based on signed field
-     *
-     * @param string $attrAmount
      *
      * @return mixed[]
      *

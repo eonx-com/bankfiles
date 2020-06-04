@@ -20,8 +20,6 @@ class Transaction extends BaseResult
 {
     /**
      * Convert amount into float and return
-     *
-     * @return float
      */
     public function getAmount(): float
     {
@@ -35,8 +33,6 @@ class Transaction extends BaseResult
     /**
      * Convert to DateTime object and return
      *
-     * @return \EoneoPay\Utils\DateTime
-     *
      * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException If datetime constructor string is invalid
      */
     public function getPaymentDate(): DateTime
@@ -46,8 +42,6 @@ class Transaction extends BaseResult
 
     /**
      * Convert to DateTime object and return
-     *
-     * @return \EoneoPay\Utils\DateTime
      *
      * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException If datetime constructor string is invalid
      */
@@ -74,7 +68,7 @@ class Transaction extends BaseResult
             'paymentDate',
             'paymentTime',
             'settlementDate',
-            'filler'
+            'filler',
         ];
     }
 }

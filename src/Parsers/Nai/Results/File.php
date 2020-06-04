@@ -31,7 +31,7 @@ class File extends AbstractNaiResult
     {
         return [
             'header',
-            'trailer'
+            'trailer',
         ];
     }
 }

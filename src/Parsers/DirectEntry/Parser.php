@@ -49,8 +49,6 @@ class Parser extends AbstractLineByLineParser
 
     /**
      * Get header record
-     *
-     * @return \EoneoPay\BankFiles\Parsers\DirectEntry\Results\Header
      */
     public function getHeader(): Header
     {
@@ -59,8 +57,6 @@ class Parser extends AbstractLineByLineParser
 
     /**
      * Get trailer record
-     *
-     * @return \EoneoPay\BankFiles\Parsers\DirectEntry\Results\Trailer
      */
     public function getTrailer(): Trailer
     {
@@ -68,9 +64,7 @@ class Parser extends AbstractLineByLineParser
     }
 
     /**
-     * Get transactions from the file
-     *
-     * @return \EoneoPay\Utils\Interfaces\CollectionInterface
+     * @return \EoneoPay\Utils\Interfaces\CollectionInterface<\EoneoPay\BankFiles\Parsers\DirectEntry\Results\Transaction>
      */
     public function getTransactions(): CollectionInterface
     {
@@ -101,10 +95,6 @@ class Parser extends AbstractLineByLineParser
 
     /**
      * Process header block of line
-     *
-     * @param string $line
-     *
-     * @return \EoneoPay\BankFiles\Parsers\DirectEntry\Results\Header
      */
     private function processHeader(string $line): Header
     {
@@ -114,16 +104,12 @@ class Parser extends AbstractLineByLineParser
             'userFinancialInstitution' => \substr($line, 20, 3),
             'userIdSupplyingFile' => \substr($line, 56, 6),
             'userSupplyingFile' => \substr($line, 30, 26),
-            'reelSequenceNumber' => \substr($line, 18, 2)
+            'reelSequenceNumber' => \substr($line, 18, 2),
         ]);
     }
 
     /**
      * Process trailer block of line
-     *
-     * @param string $line
-     *
-     * @return \EoneoPay\BankFiles\Parsers\DirectEntry\Results\Trailer
      */
     private function processTrailer(string $line): Trailer
     {
@@ -132,16 +118,12 @@ class Parser extends AbstractLineByLineParser
             'numberPayments' => \substr($line, 74, 6),
             'totalNetAmount' => \substr($line, 20, 10),
             'totalCreditAmount' => \substr($line, 30, 10),
-            'totalDebitAmount' => \substr($line, 40, 10)
+            'totalDebitAmount' => \substr($line, 40, 10),
         ]);
     }
 
     /**
      * Process transaction block of line
-     *
-     * @param string $line
-     *
-     * @return \EoneoPay\BankFiles\Parsers\DirectEntry\Results\Transaction
      */
     private function processTransaction(string $line): Transaction
     {
@@ -157,7 +139,7 @@ class Parser extends AbstractLineByLineParser
             'traceAccountNumber' => \substr($line, 87, 9),
             'traceBsb' => \substr($line, 80, 7),
             'txnCode' => \substr($line, 18, 2),
-            'withholdingTax' => \substr($line, 112, 8)
+            'withholdingTax' => \substr($line, 112, 8),
         ]);
     }
 }

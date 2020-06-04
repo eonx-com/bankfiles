@@ -18,15 +18,10 @@ use EoneoPay\Utils\XmlConverter;
 abstract class Parser extends BaseParser
 {
     /**
-     * @var \EoneoPay\BankFiles\Parsers\Ack\Results\PaymentAcknowledgement $acknowledgement
+     * @var \EoneoPay\BankFiles\Parsers\Ack\Results\PaymentAcknowledgement
      */
     protected $acknowledgement;
 
-    /**
-     * Override parent constructor.
-     *
-     * @param string $contents
-     */
     public function __construct(string $contents)
     {
         parent::__construct($contents);
@@ -35,9 +30,7 @@ abstract class Parser extends BaseParser
     }
 
     /**
-     * Return issues
-     *
-     * @return \EoneoPay\Utils\Interfaces\CollectionInterface
+     * @return \EoneoPay\Utils\Interfaces\CollectionInterface<\EoneoPay\BankFiles\Parsers\Ack\Results\Issue>
      */
     public function getIssues(): CollectionInterface
     {
@@ -46,8 +39,6 @@ abstract class Parser extends BaseParser
 
     /**
      * Return PaymentAcknowledgement
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Ack\Results\PaymentAcknowledgement
      */
     public function getPaymentAcknowledgement(): PaymentAcknowledgement
     {
@@ -56,8 +47,6 @@ abstract class Parser extends BaseParser
 
     /**
      * Attempts to convert the provided XML string to an array.
-     *
-     * @param string $xml
      *
      * @return mixed[]
      *
@@ -113,7 +102,7 @@ abstract class Parser extends BaseParser
         foreach ($issues as $issue) {
             $objects[] = new Issue([
                 'value' => $arr->get($issue, '@value'),
-                'attributes' => $arr->get($issue, '@attributes')
+                'attributes' => $arr->get($issue, '@attributes'),
             ]);
         }
 

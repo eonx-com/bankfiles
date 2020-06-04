@@ -15,7 +15,6 @@ abstract class AbstractNaiResult extends BaseResult
     /**
      * AbstractNaiResult constructor.
      *
-     * @param \EoneoPay\BankFiles\Parsers\Nai\Results\ResultsContext $context
      * @param mixed[]|null $data
      */
     public function __construct(ResultsContext $context, ?array $data = null)

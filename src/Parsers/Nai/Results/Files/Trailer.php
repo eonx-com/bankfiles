@@ -17,8 +17,6 @@ class Trailer extends BaseResult
 
     /**
      * Return file control total A
-     *
-     * @return float
      */
     public function getFileControlTotalA(): float
     {
@@ -27,8 +25,6 @@ class Trailer extends BaseResult
 
     /**
      * Return file control total B
-     *
-     * @return float
      */
     public function getFileControlTotalB(): float
     {
@@ -47,7 +43,7 @@ class Trailer extends BaseResult
             'fileControlTotalA',
             'fileControlTotalB',
             'numberOfGroups',
-            'numberOfRecords'
+            'numberOfRecords',
         ];
     }
 }

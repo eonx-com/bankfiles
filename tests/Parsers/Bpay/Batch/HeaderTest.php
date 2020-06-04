@@ -14,14 +14,12 @@ class HeaderTest extends TestCase
      *
      * @group Batch-Header
      *
-     * @return void
-     *
      * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException If datetime constructor string is invalid
      */
     public function testShouldReturnProcessingDateObject(): void
     {
         $header = new Header([
-            'processingDate' => '20190919'
+            'processingDate' => '20190919',
         ]);
 
         $object = $header->getProcessingDateObject();
@@ -33,8 +31,6 @@ class HeaderTest extends TestCase
      * Should return processing date as a null
      *
      * @group Batch-Trailer
-     *
-     * @return void
      *
      * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException If datetime constructor string is invalid
      */

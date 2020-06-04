@@ -27,7 +27,7 @@ class Transaction extends BaseObject
             'paymentAccountBSB' => GeneratorInterface::VALIDATION_RULE_NUMERIC,
             'paymentAccountNumber' => GeneratorInterface::VALIDATION_RULE_NUMERIC,
             'customerReferenceNumber' => GeneratorInterface::VALIDATION_RULE_ALPHA,
-            'amount' => GeneratorInterface::VALIDATION_RULE_NUMERIC
+            'amount' => GeneratorInterface::VALIDATION_RULE_NUMERIC,
         ];
     }
 
@@ -47,7 +47,7 @@ class Transaction extends BaseObject
             'lodgementReference1' => [10],
             'lodgementReference2' => [20],
             'lodgementReference3' => [50],
-            'restOfRecord' => [5]
+            'restOfRecord' => [5],
         ];
     }
 
@@ -68,14 +68,12 @@ class Transaction extends BaseObject
             'lodgementReference1',
             'lodgementReference2',
             'lodgementReference3',
-            'restOfRecord'
+            'restOfRecord',
         ];
     }
 
     /**
      * Return record type.
-     *
-     * @return string
      */
     protected function initRecordType(): string
     {

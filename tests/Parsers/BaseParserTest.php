@@ -10,8 +10,6 @@ class BaseParserTest extends TestCase
     /**
      * Should set the content
      *
-     * @return void
-     *
      * @throws \ReflectionException
      */
     public function testShouldSetContent(): void

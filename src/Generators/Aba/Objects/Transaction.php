@@ -49,7 +49,7 @@ class Transaction extends BaseObject
             'traceAccountNumber' => GeneratorInterface::VALIDATION_RULE_ALPHA,
             'nameOfRemitter' => GeneratorInterface::VALIDATION_RULE_ALPHA,
             'amountOfWithholdingTax' => GeneratorInterface::VALIDATION_RULE_NUMERIC,
-            'transactionCode' => GeneratorInterface::class
+            'transactionCode' => GeneratorInterface::class,
         ];
     }
 
@@ -70,7 +70,7 @@ class Transaction extends BaseObject
             'lodgementReference' => [18],
             'traceAccountNumber' => [9, ' ', \STR_PAD_LEFT],
             'nameOfRemitter' => [16],
-            'amountOfWithholdingTax' => [8, '0', \STR_PAD_LEFT]
+            'amountOfWithholdingTax' => [8, '0', \STR_PAD_LEFT],
         ];
     }
 
@@ -93,14 +93,12 @@ class Transaction extends BaseObject
             'traceBsb',
             'traceAccountNumber',
             'nameOfRemitter',
-            'amountOfWithholdingTax'
+            'amountOfWithholdingTax',
         ];
     }
 
     /**
      * Return record type.
-     *
-     * @return string
      */
     protected function initRecordType(): string
     {

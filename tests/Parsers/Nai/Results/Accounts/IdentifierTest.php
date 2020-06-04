@@ -13,8 +13,6 @@ class IdentifierTest extends TestCase
 {
     /**
      * Result should return data as expected.
-     *
-     * @return void
      */
     public function testGetDataAsExpected(): void
     {
@@ -22,7 +20,7 @@ class IdentifierTest extends TestCase
             'code' => '03',
             'commercialAccountNumber' => 'account-number',
             'currencyCode' => 'AUD',
-            'transactionCodes' => []
+            'transactionCodes' => [],
         ];
 
         $identifier = new Identifier($data);

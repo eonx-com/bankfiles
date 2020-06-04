@@ -17,8 +17,6 @@ class Header extends BaseResult
     /**
      * Get processing date as an object
      *
-     * @return \EoneoPay\Utils\DateTime|null
-     *
      * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException If datetime constructor string is invalid
      */
     public function getProcessingDateObject(): ?DateTime
@@ -43,7 +41,7 @@ class Header extends BaseResult
             'customerId',
             'customerShortName',
             'processingDate',
-            'restOfRecord'
+            'restOfRecord',
         ];
     }
 }

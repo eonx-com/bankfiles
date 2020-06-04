@@ -23,8 +23,6 @@ class Transaction extends BaseResult
 {
     /**
      * Convert amount into decimal and return
-     *
-     * @return string|null
      */
     public function getAmountDecimal(): ?string
     {
@@ -61,7 +59,7 @@ class Transaction extends BaseResult
             'restOfRecord',
             'returnCode',
             'returnCodeDescription',
-            'transactionReferenceNumber'
+            'transactionReferenceNumber',
         ];
     }
 }

@@ -23,7 +23,7 @@ class Trailer extends BaseObject
     {
         return [
             'totalNumberOfPayments' => GeneratorInterface::VALIDATION_RULE_NUMERIC,
-            'totalFileValue' => GeneratorInterface::VALIDATION_RULE_NUMERIC
+            'totalFileValue' => GeneratorInterface::VALIDATION_RULE_NUMERIC,
         ];
     }
 
@@ -39,7 +39,7 @@ class Trailer extends BaseObject
         return [
             'totalNumberOfPayments' => [10, '0', \STR_PAD_LEFT],
             'totalFileValue' => [13, '0', \STR_PAD_LEFT],
-            'restOfRecord' => [120]
+            'restOfRecord' => [120],
         ];
     }
 
@@ -54,14 +54,12 @@ class Trailer extends BaseObject
             'recordType',
             'totalNumberOfPayments',
             'totalFileValue',
-            'restOfRecord'
+            'restOfRecord',
         ];
     }
 
     /**
      * Return record type.
-     *
-     * @return string
      */
     protected function initRecordType(): string
     {

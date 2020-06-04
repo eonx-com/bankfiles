@@ -11,8 +11,6 @@ class ValidationFailedExceptionTest extends TestCase
 {
     /**
      * Exception should return expected error codes.
-     *
-     * @return void
      */
     public function testErrorCodes(): void
     {

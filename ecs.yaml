@@ -1,0 +1,44 @@
+parameters:
+    exclude_files:
+        - '*/var/*.php'
+        - '*/vendor/*.php'
+        - 'packages/EasyCore/src/Bridge/Symfony/ApiPlatform/Filter/VirtualSearchFilter.php'
+        - 'packages/EasyStandard/src/Sniffs/Commenting/FunctionCommentSniff.php'
+
+    sets:
+        - 'common'
+        - 'clean-code'
+        - 'php70'
+        - 'php71'
+        - 'psr12'
+        - 'types'
+        - 'dead-code'
+
+    skip:
+        PhpCsFixer\Fixer\CastNotation\CastSpacesFixer: ~
+        PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\NoSuperfluousPhpdocTagsFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocVarWithoutNameFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer: ~
+        PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer: ~
+        PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer: ~
+
+        SlevomatCodingStandard\Sniffs\TypeHints\NullTypeHintOnLastPositionSniff.NullTypeHintNotOnLastPosition: ~
+
+        # types: allow mixed
+        SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff.MissingAnyTypeHint: ~
+        SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSniff.MissingTraversableTypeHintSpecification: ~
+        SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff.MissingTraversableTypeHintSpecification: ~
+        SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSniff.MissingAnyTypeHint: ~
+
+services:
+    PhpCsFixer\Fixer\ControlStructure\YodaStyleFixer:
+        equal: false
+        identical: false
+        less_and_greater: false
+
+    EonX\EasyStandard\Sniffs\Classes\RequireStrictDeclarationSniff: ~
+    EonX\EasyStandard\Sniffs\Classes\StrictDeclarationFormatSniff: ~
+    EonX\EasyStandard\Sniffs\ControlStructures\NoElseSniff: ~
+    EonX\EasyStandard\Sniffs\ControlStructures\NoNotOperatorSniff: ~
+    EonX\EasyStandard\Sniffs\Namespaces\Psr4Sniff: ~

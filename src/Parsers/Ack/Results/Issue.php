@@ -20,7 +20,7 @@ class Issue extends BaseResult
     {
         return [
             'value',
-            'attributes'
+            'attributes',
         ];
     }
 }

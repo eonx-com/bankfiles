@@ -9,8 +9,6 @@ class LengthMismatchesException extends RuntimeException
 {
     /**
      * Get Error code.
-     *
-     * @return int
      */
     public function getErrorCode(): int
     {
@@ -19,8 +17,6 @@ class LengthMismatchesException extends RuntimeException
 
     /**
      * Get Error sub-code.
-     *
-     * @return int
      */
     public function getErrorSubCode(): int
     {

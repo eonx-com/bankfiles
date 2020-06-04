@@ -29,9 +29,7 @@ class Generator extends BaseGenerator
     /**
      * Generator constructor.
      *
-     * @param \EoneoPay\BankFiles\Generators\Aba\Objects\DescriptiveRecord $descriptiveRecord
      * @param mixed[] $transactions
-     * @param \EoneoPay\BankFiles\Generators\Aba\Objects\FileTotalRecord|null $fileTotalRecord
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
@@ -51,8 +49,6 @@ class Generator extends BaseGenerator
 
     /**
      * Generate content
-     *
-     * @return void
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
@@ -91,8 +87,6 @@ class Generator extends BaseGenerator
 
     /**
      * Return the defined line length of a generator
-     *
-     * @return int
      */
     protected function getLineLength(): int
     {
@@ -101,12 +95,6 @@ class Generator extends BaseGenerator
 
     /**
      * Create new file total record.
-     *
-     * @param int $count
-     * @param int $creditTotal
-     * @param int $debitTotal
-     *
-     * @return \EoneoPay\BankFiles\Generators\Aba\Objects\FileTotalRecord
      */
     private function createFileTotalRecord(int $count, int $creditTotal, int $debitTotal): FileTotalRecord
     {
@@ -118,7 +106,7 @@ class Generator extends BaseGenerator
             'fileUserCountOfRecordsType' => $count,
             'fileUserCreditTotalAmount' => $creditTotal,
             'fileUserDebitTotalAmount' => $debitTotal,
-            'fileUserNetTotalAmount' => $creditTotal - $debitTotal
+            'fileUserNetTotalAmount' => $creditTotal - $debitTotal,
         ]);
     }
 }

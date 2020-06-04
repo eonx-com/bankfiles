@@ -13,15 +13,13 @@ class DetailsTest extends TestCase
 {
     /**
      * Result should return data as expected.
-     *
-     * @return void
      */
     public function testGetDataAsExpected(): void
     {
         $data = [
             'description' => 'description',
             'particulars' => 'particulars',
-            'type' => 'type'
+            'type' => 'type',
         ];
 
         $details = new Details($data);

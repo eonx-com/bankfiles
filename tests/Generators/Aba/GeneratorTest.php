@@ -15,8 +15,6 @@ class GeneratorTest extends AbaTestCase
     /**
      * Generator should throw exception when required attributes not set.
      *
-     * @return void
-     *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
     public function testAttributesWithDefinedRuleAreRequiredException(): void
@@ -32,8 +30,6 @@ class GeneratorTest extends AbaTestCase
     /**
      * Generator should throw exception when no transactions given.
      *
-     * @return void
-     *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
     public function testEmptyTransactionsException(): void
@@ -45,8 +41,6 @@ class GeneratorTest extends AbaTestCase
 
     /**
      * Generator should throw exception when invalid transaction given.
-     *
-     * @return void
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
@@ -61,8 +55,6 @@ class GeneratorTest extends AbaTestCase
      * Should return contents as string with descriptive record in it
      *
      * @group Generator-Aba
-     *
-     * @return void
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
@@ -79,8 +71,6 @@ class GeneratorTest extends AbaTestCase
      * Should trow exception if DescriptiveRecord's length is greater than 120
      *
      * @group Generator-Aba
-     *
-     * @return void
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
@@ -99,8 +89,6 @@ class GeneratorTest extends AbaTestCase
      *
      * @group Generator-Aba
      *
-     * @return void
-     *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
     public function testShouldThrowExceptionIfTransactionLineExceeds(): void
@@ -117,8 +105,6 @@ class GeneratorTest extends AbaTestCase
      * Should throw exception if validation fails
      *
      * @group Generator-Aba
-     *
-     * @return void
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
@@ -139,8 +125,6 @@ class GeneratorTest extends AbaTestCase
      *
      * @group Generator-Aba
      *
-     * @return void
-     *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
     public function testShouldThrowValidationExceptionIfWrongBSBFormat(): void
@@ -148,7 +132,7 @@ class GeneratorTest extends AbaTestCase
         $expected = [
             'attribute' => 'bsbNumber',
             'value' => '1112333',
-            'rule' => 'bsb'
+            'rule' => 'bsb',
         ];
 
         $trans = $this->createTransaction();
@@ -171,8 +155,6 @@ class GeneratorTest extends AbaTestCase
      * Descriptive record, transactions and file total record should be present on the contents
      *
      * @group Generator-Aba
-     *
-     * @return void
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */

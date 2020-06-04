@@ -7,10 +7,6 @@ trait ControlTotal
 {
     /**
      * Format amount/total from string to float
-     *
-     * @param string $amount
-     *
-     * @return float
      */
     private function formatAmount(string $amount): float
     {

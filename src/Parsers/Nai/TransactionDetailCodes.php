@@ -7,7 +7,9 @@ use EoneoPay\BankFiles\Parsers\Nai\Results\Transactions\Details;
 
 trait TransactionDetailCodes
 {
-    /** @var mixed[] $transactionCodes */
+    /**
+     * @var mixed[] $transactionCodes
+     */
     private static $transactionCodes = [
         108 => ['cdrd' => 'CR', 'description' => 'Deposit', 'particulars' => ''],
         175 => ['cdrd' => 'CR', 'description' => 'Cheques', 'particulars' => 'Cash/Cheques'],
@@ -61,12 +63,12 @@ trait TransactionDetailCodes
         970 => [
             'cdrd' => 'DR',
             'description' => 'State government tax',
-            'particulars' => 'State government credit tax'
+            'particulars' => 'State government credit tax',
         ],
         971 => [
             'cdrd' => 'DR',
             'description' => 'Federal government tax',
-            'particulars' => 'Federal government debit tax'
+            'particulars' => 'Federal government debit tax',
         ],
         972 => ['cdrd' => 'DR', 'description' => 'Credit Card Purchase', 'particulars' => ''],
         975 => ['cdrd' => 'DR', 'description' => 'Bankcards', 'particulars' => 'Bankcard'],
@@ -74,15 +76,11 @@ trait TransactionDetailCodes
         985 => ['cdrd' => 'DR', 'description' => 'Debits summarised', 'particulars' => 'Not applicable'],
         986 => ['cdrd' => 'DR', 'description' => 'Cheques summarised', 'particulars' => 'Not applicable'],
         987 => ['cdrd' => 'DR', 'description' => 'Non-cheques summarised', 'particulars' => 'Not applicable'],
-        988 => ['cdrd' => 'DR', 'description' => 'Coca debit transaction', 'particulars' => 'Not applicable']
+        988 => ['cdrd' => 'DR', 'description' => 'Coca debit transaction', 'particulars' => 'Not applicable'],
     ];
 
     /**
      * Return Transaction Detail Code
-     *
-     * @param string $code
-     *
-     * @return null|\EoneoPay\BankFiles\Parsers\Nai\Results\Transactions\Details
      */
     public function getTransactionCodeDetails(string $code): ?Details
     {
@@ -95,7 +93,7 @@ trait TransactionDetailCodes
         return new Details([
             'description' => $details['description'],
             'particulars' => $details['particulars'],
-            'type' => $details['cdrd']
+            'type' => $details['cdrd'],
         ]);
     }
 }

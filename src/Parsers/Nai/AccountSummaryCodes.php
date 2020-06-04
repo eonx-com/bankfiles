@@ -5,7 +5,9 @@ namespace EoneoPay\BankFiles\Parsers\Nai;
 
 trait AccountSummaryCodes
 {
-    /** @var string[] $codeSummary */
+    /**
+     * @var string[] $codeSummary
+     */
     private static $codeSummary = [
         '001' => 'Customer number',
         '003' => 'Number of segments for the account',
@@ -23,15 +25,11 @@ trait AccountSummaryCodes
         '966' => 'Effective Credit interest rate',
         '967' => 'Accrued State Government Duty',
         '968' => 'Accrued Government Credit Tax',
-        '969' => 'Accrued Government Debit Tax'
+        '969' => 'Accrued Government Debit Tax',
     ];
 
     /**
      * Return code summary
-     *
-     * @param string $code
-     *
-     * @return string|null
      */
     public function getCodeSummary(string $code): ?string
     {

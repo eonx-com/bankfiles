@@ -17,15 +17,13 @@ class GroupTest extends TestCase
 {
     /**
      * Result should return data as expected.
-     *
-     * @return void
      */
     public function testGetDataAsExpected(): void
     {
         $data = [
             'header' => new Header(),
             'index' => 2,
-            'trailer' => new Trailer()
+            'trailer' => new Trailer(),
         ];
 
         $setExpectations = static function (MockInterface $context) use ($data): void {
