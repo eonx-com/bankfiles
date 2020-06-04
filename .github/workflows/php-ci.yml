@@ -33,6 +33,8 @@ jobs:
             key: ${{ matrix.php }}-comp-${{ hashFiles('**/composer.json') }}
             restore-keys: ${{ matrix.php }}-comp-
 
+      -   run: composer install
+
       -   name: '[CI] Check ${{ matrix.actions.name }} [CI]'
           run: ${{ matrix.actions.run }}
           shell: bash
