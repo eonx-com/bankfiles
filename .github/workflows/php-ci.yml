@@ -10,9 +10,7 @@ jobs:
       matrix:
         php: ['7.3', '7.4' ]
         actions:
-          - { name: Code sniffer, run: composer code-sniffer }
-          - { name: Copy paste detector, run: composer copy-paste-detector }
-          - { name: Mess detector, run: composer mess-detector }
+          - { name: ECS, run: composer ecs }
           - { name: PHPStan, run: composer phpstan }
           - { name: PHPUnit, run: composer coverage, coverage: pcov, artifact: coverage-html.tgz }
 
