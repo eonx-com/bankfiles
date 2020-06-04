@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\EoneoPay\BankFiles\Parsers\Bpay\Brf;
 
+use EoneoPay\BankFiles\Parsers\Bpay\Brf\Exceptions\InvalidSignFieldException;
 use EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Trailer;
 use Tests\EoneoPay\BankFiles\Parsers\TestCase;
 
@@ -175,12 +176,12 @@ class TrailerTest extends TestCase
      *
      * @group \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Trailer
      *
-     * @expectedException \EoneoPay\BankFiles\Parsers\Bpay\Brf\Exceptions\InvalidSignFieldException
-     *
      * @return void
      */
     public function testShouldThrowExceptionIfSignedFileNotFound(): void
     {
+        $this->expectException(InvalidSignFieldException::class);
+
         $trailer = new Trailer([
             'amountOfErrorCorrections' => '00000000000200W'
         ]);

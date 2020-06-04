@@ -202,15 +202,16 @@ class Parser extends AbstractLineByLineParser
             return;
         }
 
-        // Check if line fits in only one line
-        $this->checkFullLine($line);
-
         // If continuation, update previous and skip to next line
         if ($code === self::CONTINUATION) {
             $this->continuePrevious($line);
+            $this->checkFullLine($line); // Handle continuation line with trailing slash
 
             return;
         }
+
+        // Check if line fits in only one line, remove trailing sash if one
+        $line = $this->checkFullLine($line);
 
         // Current code becomes then previous one for next continuation
         $this->previousCode = $code;
@@ -366,11 +367,18 @@ class Parser extends AbstractLineByLineParser
      *
      * @param string $line
      *
-     * @return bool
+     * @return string
      */
-    private function checkFullLine(string $line): bool
+    private function checkFullLine(string $line): string
     {
-        return $this->previousFull = (new Str())->endsWith($line, '/');
+        $this->previousFull = false;
+
+        if ((new Str())->endsWith($line, '/')) {
+            $this->previousFull = true;
+            $line = \substr($line, 0, -1); // Remove trailing slash
+        }
+
+        return $line;
     }
 
     /**
@@ -481,6 +489,8 @@ class Parser extends AbstractLineByLineParser
         }
 
         $this->transactions[$this->currentTransaction]['line'] .= $line;
+
+        \var_dump($this->transactions[$this->currentTransaction]);
     }
 
     /**

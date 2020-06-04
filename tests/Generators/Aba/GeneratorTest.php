@@ -72,7 +72,7 @@ class GeneratorTest extends AbaTestCase
         $generator = new Generator($descriptiveRecord, [$this->createTransaction()]);
 
         self::assertNotEmpty($generator->getContents());
-        self::assertContains($descriptiveRecord->getAttributesAsLine(), $generator->getContents());
+        self::assertStringContainsString($descriptiveRecord->getAttributesAsLine(), $generator->getContents());
     }
 
     /**
@@ -189,8 +189,8 @@ class GeneratorTest extends AbaTestCase
 
         $generator = new Generator($descriptiveRecord, $transactions, $fileTotalRecord);
 
-        self::assertContains($descriptiveRecord->getAttributesAsLine(), $generator->getContents());
-        self::assertContains($trans->getAttributesAsLine(), $generator->getContents());
-        self::assertContains($fileTotalRecord->getAttributesAsLine(), $generator->getContents());
+        self::assertStringContainsString($descriptiveRecord->getAttributesAsLine(), $generator->getContents());
+        self::assertStringContainsString($trans->getAttributesAsLine(), $generator->getContents());
+        self::assertStringContainsString($fileTotalRecord->getAttributesAsLine(), $generator->getContents());
     }
 }

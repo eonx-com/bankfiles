@@ -207,6 +207,15 @@ class ParserTest extends TestCase
         self::assertNull($trait->getTransactionCodeDetails('invalid'));
     }
 
+    public function testTrickyFile(): void
+    {
+        $parser = new Parser($this->getSampleFileContents('tricky.NAI'));
+        $expected = 'STUART SMALL        FRKXMT8BK5          FRKXMT8BK5 Stuart Sm';
+
+        self::assertCount(1, $parser->getTransactions());
+        self::assertEquals($expected, $parser->getTransactions()[0]->getText());
+    }
+
     /**
      * Get sample file contents.
      *

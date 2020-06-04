@@ -45,8 +45,8 @@ class GeneratorTest extends TestCase
 
         $generator = new Generator($header, [$trans1, $trans2]);
 
-        self::assertContains($header->getAttributesAsLine(), $generator->getContents());
-        self::assertContains($trans1->getAttributesAsLine(), $generator->getContents());
+        self::assertStringContainsString($header->getAttributesAsLine(), $generator->getContents());
+        self::assertStringContainsString($trans1->getAttributesAsLine(), $generator->getContents());
     }
 
     /**
