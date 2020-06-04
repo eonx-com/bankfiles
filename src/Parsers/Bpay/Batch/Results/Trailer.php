@@ -18,8 +18,6 @@ class Trailer extends BaseResult
 {
     /**
      * Get the amount of approvals as a decimal
-     *
-     * @return string|null
      */
     public function getAmountOfApprovalsDecimal(): ?string
     {
@@ -28,8 +26,6 @@ class Trailer extends BaseResult
 
     /**
      * Get the amount of declines as a decimal
-     *
-     * @return string|null
      */
     public function getAmountOfDeclinesDecimal(): ?string
     {
@@ -38,8 +34,6 @@ class Trailer extends BaseResult
 
     /**
      * Get the amount of payments as a decimal
-     *
-     * @return string|null
      */
     public function getAmountOfPaymentsDecimal(): ?string
     {
@@ -60,7 +54,7 @@ class Trailer extends BaseResult
             'numberOfApprovals',
             'numberOfDeclines',
             'numberOfPayments',
-            'restOfRecord'
+            'restOfRecord',
         ];
     }
 
@@ -68,8 +62,6 @@ class Trailer extends BaseResult
      * Get the amount as a decimal
      *
      * @param string $attribute The attribute to get the decimal amount from
-     *
-     * @return string
      */
     private function getTrailerAmountDecimal(string $attribute): ?string
     {

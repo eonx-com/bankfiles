@@ -13,8 +13,6 @@ class TransactionTest extends TestCase
      * Should return transaction amount
      *
      * @group Bpay-Transaction
-     *
-     * @return void
      */
     public function testShouldReturnAmount(): void
     {
@@ -27,8 +25,6 @@ class TransactionTest extends TestCase
      * Should return payment date as DateTime object
      *
      * @group Bpay-Transaction
-     *
-     * @return void
      *
      * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException If datetime constructor string is invalid
      */
@@ -43,8 +39,6 @@ class TransactionTest extends TestCase
      * Should return settlement date as DateTime object
      *
      * @group Bpay-Transaction
-     *
-     * @return void
      *
      * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException If datetime constructor string is invalid
      */

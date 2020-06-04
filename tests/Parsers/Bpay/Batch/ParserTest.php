@@ -13,8 +13,6 @@ class ParserTest extends TestCase
      * Should return error from the content
      *
      * @group Batch-Parser-Error
-     *
-     * @return void
      */
     public function testShouldReturnErrors(): void
     {
@@ -27,8 +25,6 @@ class ParserTest extends TestCase
      * Should return Header object
      *
      * @group Batch-Parser-Header
-     *
-     * @return void
      */
     public function testShouldReturnHeader(): void
     {
@@ -45,8 +41,6 @@ class ParserTest extends TestCase
      * Should return trailer from the content
      *
      * @group Batch-Parser-Trailer
-     *
-     * @return void
      */
     public function testShouldReturnTrailer(): void
     {
@@ -66,8 +60,6 @@ class ParserTest extends TestCase
      * Should return Transaction and TransactionItem class
      *
      * @group Batch-Parser-Transaction
-     *
-     * @return void
      */
     public function testShouldReturnTransaction(): void
     {
@@ -78,9 +70,7 @@ class ParserTest extends TestCase
         self::assertInstanceOf(Collection::class, $transactions);
         self::assertCount(2, $transactions);
 
-        /**
-         * @var \EoneoPay\BankFiles\Parsers\Bpay\Batch\Results\Transaction $firstTransactionItem
-         */
+        /** @var \EoneoPay\BankFiles\Parsers\Bpay\Batch\Results\Transaction $firstTransactionItem */
         $firstTransactionItem = $transactions->first();
         self::assertSame('0000000000162', $firstTransactionItem->getAmount());
         self::assertSame('083170', $firstTransactionItem->getAccountBsb());
@@ -101,10 +91,6 @@ class ParserTest extends TestCase
 
     /**
      * Get sample file contents.
-     *
-     * @param string $file
-     *
-     * @return string
      */
     private function getSampleFileContents(string $file): string
     {

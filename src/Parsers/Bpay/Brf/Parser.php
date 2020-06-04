@@ -28,22 +28,28 @@ class Parser extends AbstractLineByLineParser
      */
     private const TRANSACTION = '50';
 
-    /** @var mixed[] $errors */
+    /**
+     * @var mixed[] $errors
+     */
     protected $errors;
 
-    /** @var \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Header $header */
+    /**
+     * @var \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Header
+     */
     protected $header;
 
-    /** @var \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Trailer $trailer */
+    /**
+     * @var \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Trailer
+     */
     protected $trailer;
 
-    /** @var \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Transaction[] $transactions */
+    /**
+     * @var \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Transaction[] $transactions
+     */
     protected $transactions;
 
     /**
-     * Return the Error object
-     *
-     * @return \EoneoPay\Utils\Interfaces\CollectionInterface
+     * @return \EoneoPay\Utils\Interfaces\CollectionInterface<\EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Error>
      */
     public function getErrors(): CollectionInterface
     {
@@ -52,8 +58,6 @@ class Parser extends AbstractLineByLineParser
 
     /**
      * Return the Header object
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Header
      */
     public function getHeader(): Header
     {
@@ -62,8 +66,6 @@ class Parser extends AbstractLineByLineParser
 
     /**
      * Return the Trailer object
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Trailer
      */
     public function getTrailer(): Trailer
     {
@@ -71,9 +73,7 @@ class Parser extends AbstractLineByLineParser
     }
 
     /**
-     * Return the Transaction
-     *
-     * @return \EoneoPay\Utils\Interfaces\CollectionInterface
+     * @return \EoneoPay\Utils\Interfaces\CollectionInterface<\EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Transaction>
      */
     public function getTransactions(): CollectionInterface
     {
@@ -82,11 +82,6 @@ class Parser extends AbstractLineByLineParser
 
     /**
      * Process line and parse data
-     *
-     * @param int $lineNumber
-     * @param string $line
-     *
-     * @return void
      */
     protected function processLine(int $lineNumber, string $line): void
     {
@@ -113,10 +108,6 @@ class Parser extends AbstractLineByLineParser
 
     /**
      * Parse header
-     *
-     * @param string $line
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Header
      */
     private function processHeader(string $line): Header
     {
@@ -127,16 +118,12 @@ class Parser extends AbstractLineByLineParser
             'billerCreditAccount' => \substr($line, 38, 9),
             'fileCreationDate' => \substr($line, 47, 8),
             'fileCreationTime' => \substr($line, 55, 6),
-            'filler' => \substr($line, 61, 158)
+            'filler' => \substr($line, 61, 158),
         ]);
     }
 
     /**
      * Parse trailer
-     *
-     * @param string $line
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Trailer
      */
     private function processTrailer(string $line): Trailer
     {
@@ -149,16 +136,12 @@ class Parser extends AbstractLineByLineParser
             'numberOfReversals' => \substr($line, 60, 9),
             'amountOfReversals' => \substr($line, 69, 15),
             'settlementAmount' => \substr($line, 84, 15),
-            'filler' => \substr($line, 99, 120)
+            'filler' => \substr($line, 99, 120),
         ]);
     }
 
     /**
      * Parse transaction items
-     *
-     * @param string $line
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Bpay\Brf\Results\Transaction
      */
     private function processTransaction(string $line): Transaction
     {
@@ -173,7 +156,7 @@ class Parser extends AbstractLineByLineParser
             'paymentDate' => \substr($line, 91, 8),
             'paymentTime' => \substr($line, 99, 6),
             'settlementDate' => \substr($line, 105, 8),
-            'filler' => \substr($line, 113, 106)
+            'filler' => \substr($line, 113, 106),
         ]);
     }
 }

@@ -13,8 +13,6 @@ class ResultsContextTest extends TestCase
 {
     /**
      * Context should return default/empty value when no data set.
-     *
-     * @return void
      */
     public function testEmptyGettersReturnValueAsExpected(): void
     {
@@ -33,8 +31,6 @@ class ResultsContextTest extends TestCase
 
     /**
      * Context should create errors as expected.
-     *
-     * @return void
      */
     public function testErrorsInRecords(): void
     {
@@ -42,13 +38,13 @@ class ResultsContextTest extends TestCase
             [
                 'identifier' => ['line' => '', 'line_number' => 1],
                 'group' => 1,
-                'trailer' => ['line' => '', 'line_number' => 2]
+                'trailer' => ['line' => '', 'line_number' => 2],
             ],
-            []
+            [],
         ];
         $groups = [[]];
         $transactions = [
-            ['line' => '', 'line_number' => 2]
+            ['line' => '', 'line_number' => 2],
         ];
 
         $context = new ResultsContext($accounts, [], [], $groups, $transactions);

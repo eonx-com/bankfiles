@@ -13,8 +13,6 @@ class HeaderTest extends TestCase
 {
     /**
      * Result should return data as expected.
-     *
-     * @return void
      */
     public function testGetDataAsExpected(): void
     {
@@ -24,7 +22,7 @@ class HeaderTest extends TestCase
             'code' => '02',
             'groupStatus' => '1',
             'originatorReceiverId' => 'original-receiver-id',
-            'ultimateReceiverId' => 'ultimate-receiver-id'
+            'ultimateReceiverId' => 'ultimate-receiver-id',
         ];
 
         $header = new Header($data);

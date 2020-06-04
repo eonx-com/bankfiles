@@ -9,8 +9,6 @@ class ParserStub extends BaseParser
 {
     /**
      * Process parsing
-     *
-     * @return void
      */
     public function process(): void
     {

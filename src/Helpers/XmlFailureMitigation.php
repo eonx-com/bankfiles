@@ -15,8 +15,6 @@ class XmlFailureMitigation
      *
      * @param string $content The XML content.
      *
-     * @return string
-     *
      * @throws \EoneoPay\BankFiles\Exceptions\ImpossibleException
      */
     public static function tryMitigateParseFailures(string $content): string

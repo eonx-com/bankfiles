@@ -24,8 +24,6 @@ class Transaction extends BaseResult
 
     /**
      * Get amount on transaction as dollar
-     *
-     * @return string
      */
     public function getAmount(): string
     {
@@ -34,8 +32,6 @@ class Transaction extends BaseResult
 
     /**
      * Get withholding tax on transaction as dollar
-     *
-     * @return string
      */
     public function getWithholdingTax(): string
     {
@@ -61,7 +57,7 @@ class Transaction extends BaseResult
             'traceAccountNumber',
             'traceBsb',
             'txnCode',
-            'withholdingTax'
+            'withholdingTax',
         ];
     }
 }

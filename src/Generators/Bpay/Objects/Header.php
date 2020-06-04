@@ -24,7 +24,7 @@ class Header extends BaseObject
     {
         return [
             'customerShortName' => GeneratorInterface::VALIDATION_RULE_ALPHA,
-            'processingDate' => GeneratorInterface::VALIDATION_RULE_DATE
+            'processingDate' => GeneratorInterface::VALIDATION_RULE_DATE,
         ];
     }
 
@@ -33,14 +33,14 @@ class Header extends BaseObject
      *
      * @see http://php.net/manual/en/function.str-pad.php
      *
-     * @return mixed[]|array[int]
+     * @return mixed[][int]
      */
     protected function getAttributesPaddingRules(): array
     {
         return [
             'batchCustomerId' => [16],
             'customerShortName' => [20],
-            'restOfRecord' => [99]
+            'restOfRecord' => [99],
         ];
     }
 
@@ -56,14 +56,12 @@ class Header extends BaseObject
             'batchCustomerId',
             'customerShortName',
             'processingDate',
-            'restOfRecord'
+            'restOfRecord',
         ];
     }
 
     /**
      * Return record type.
-     *
-     * @return string
      */
     protected function initRecordType(): string
     {

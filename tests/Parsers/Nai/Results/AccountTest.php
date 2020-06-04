@@ -18,8 +18,6 @@ class AccountTest extends TestCase
 {
     /**
      * Result should return data as expected.
-     *
-     * @return void
      */
     public function testGetDataAsExpected(): void
     {
@@ -27,7 +25,7 @@ class AccountTest extends TestCase
             'group' => 1,
             'identifier' => new Identifier(),
             'index' => 2,
-            'trailer' => new Trailer()
+            'trailer' => new Trailer(),
         ];
 
         $setExpectations = static function (MockInterface $context) use ($data): void {

@@ -15,14 +15,12 @@ class HeaderTest extends TestCase
     /**
      * Test if date conversion works as expected
      *
-     * @return void
-     *
      * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
      */
     public function testDateConversion(): void
     {
         $header = new Header([
-            'dateProcessed' => '070904'
+            'dateProcessed' => '070904',
         ]);
 
         $expectedDateTime = new DateTime('2004-09-07');
@@ -33,14 +31,12 @@ class HeaderTest extends TestCase
     /**
      * Test if invalid date returns null
      *
-     * @return void
-     *
      * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
      */
     public function testInvalidDateReturnsNullOnConversion(): void
     {
         $header = new Header([
-            'dateProcessed' => ''
+            'dateProcessed' => '',
         ]);
 
         self::assertNull($header->getDateProcessed());

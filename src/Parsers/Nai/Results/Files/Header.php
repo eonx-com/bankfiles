@@ -32,7 +32,7 @@ class Header extends BaseResult
             'fileSequenceNumber',
             'physicalRecordLength',
             'receiverId',
-            'senderId'
+            'senderId',
         ];
     }
 }

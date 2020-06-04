@@ -36,8 +36,6 @@ abstract class BaseObject extends AbstractDataBag
 
     /**
      * Return attribute values as single line
-     *
-     * @return string
      */
     public function getAttributesAsLine(): string
     {
@@ -67,10 +65,7 @@ abstract class BaseObject extends AbstractDataBag
     /**
      * Set the value of the attribute
      *
-     * @param string $attribute
      * @param string|int|null $value
-     *
-     * @return self
      */
     public function setAttribute(string $attribute, $value = null): self
     {
@@ -95,8 +90,6 @@ abstract class BaseObject extends AbstractDataBag
 
     /**
      * Return record type.
-     *
-     * @return string
      */
     abstract protected function initRecordType(): string;
 }

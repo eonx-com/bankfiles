@@ -17,11 +17,6 @@ class TestCase extends BaseTestCase
     /**
      * Get mock for given class and set expectations based on given callable.
      *
-     * @param string $class
-     * @param callable $setExpectations
-     *
-     * @return \Mockery\LegacyMockInterface
-     *
      * @SuppressWarnings(PHPMD.StaticAccess) Inherited from Mockery
      */
     protected function getMockWithExpectations(string $class, callable $setExpectations): LegacyMockInterface
@@ -36,12 +31,9 @@ class TestCase extends BaseTestCase
     /**
      * Set the protected/private function to accessible and return reflection method
      *
-     * @param string $class
-     * @param string $method
-     *
-     * @return \ReflectionMethod
-     *
      * @throws \ReflectionException
+     *
+     * @phpstan-param class-string $class
      */
     protected function getProtectedMethod(string $class, string $method): ReflectionMethod
     {
@@ -56,12 +48,9 @@ class TestCase extends BaseTestCase
     /**
      * Set property to accessible and return reflection property
      *
-     * @param string $class
-     * @param string $property
-     *
-     * @return \ReflectionProperty
-     *
      * @throws \ReflectionException
+     *
+     * @phpstan-param class-string $class
      */
     protected function getProtectedProperty(string $class, string $property): ReflectionProperty
     {

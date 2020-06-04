@@ -132,8 +132,6 @@ class Parser extends AbstractLineByLineParser
 
     /**
      * Get file.
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\File|null
      */
     public function getFile(): ?File
     {
@@ -162,8 +160,6 @@ class Parser extends AbstractLineByLineParser
 
     /**
      * Parse given contents and instantiate results context.
-     *
-     * @return void
      */
     protected function process(): void
     {
@@ -181,11 +177,6 @@ class Parser extends AbstractLineByLineParser
     /**
      * Process line and parse data
      *
-     * @param int $lineNumber
-     * @param string $line
-     *
-     * @return void
-     *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity) Inherited from file complexity
      */
     protected function processLine(int $lineNumber, string $line): void
@@ -202,15 +193,16 @@ class Parser extends AbstractLineByLineParser
             return;
         }
 
-        // Check if line fits in only one line
-        $this->checkFullLine($line);
-
         // If continuation, update previous and skip to next line
         if ($code === self::CONTINUATION) {
             $this->continuePrevious($line);
+            $this->checkFullLine($line); // Handle continuation line with trailing slash
 
             return;
         }
+
+        // Check if line fits in only one line, remove trailing sash if one
+        $line = $this->checkFullLine($line);
 
         // Current code becomes then previous one for next continuation
         $this->previousCode = $code;
@@ -246,11 +238,6 @@ class Parser extends AbstractLineByLineParser
 
     /**
      * Add header to given account.
-     *
-     * @param int $account
-     * @param string $identifier
-     *
-     * @return void
      */
     private function addAccountIdentifier(int $account, string $identifier): void
     {
@@ -270,11 +257,6 @@ class Parser extends AbstractLineByLineParser
 
     /**
      * Add trailer to given account.
-     *
-     * @param int $account
-     * @param string $trailer
-     *
-     * @return void
      */
     private function addAccountTrailer(int $account, string $trailer): void
     {
@@ -290,10 +272,6 @@ class Parser extends AbstractLineByLineParser
 
     /**
      * Add error.
-     *
-     * @param string $line
-     *
-     * @return void
      */
     private function addError(string $line): void
     {
@@ -302,11 +280,6 @@ class Parser extends AbstractLineByLineParser
 
     /**
      * Add header to given group.
-     *
-     * @param int $group
-     * @param string $header
-     *
-     * @return void
      */
     private function addGroupHeader(int $group, string $header): void
     {
@@ -319,11 +292,6 @@ class Parser extends AbstractLineByLineParser
 
     /**
      * Add trailer to given group.
-     *
-     * @param int $group
-     * @param string $trailer
-     *
-     * @return void
      */
     private function addGroupTrailer(int $group, string $trailer): void
     {
@@ -339,10 +307,6 @@ class Parser extends AbstractLineByLineParser
 
     /**
      * Add transaction.
-     *
-     * @param string $transaction
-     *
-     * @return void
      */
     private function addTransaction(string $transaction): void
     {
@@ -356,30 +320,28 @@ class Parser extends AbstractLineByLineParser
         $this->transactions[$this->currentTransaction] = [
             'account' => $this->currentAccount,
             'line' => $transaction,
-            'line_number' => $this->currentLineNumber
+            'line_number' => $this->currentLineNumber,
         ];
     }
 
     /**
      * Check if this line has full contents in it. If the line ends with a /
      * it means its a full line.
-     *
-     * @param string $line
-     *
-     * @return bool
      */
-    private function checkFullLine(string $line): bool
+    private function checkFullLine(string $line): string
     {
-        return $this->previousFull = (new Str())->endsWith($line, '/');
+        $this->previousFull = false;
+
+        if ((new Str())->endsWith($line, '/')) {
+            $this->previousFull = true;
+            $line = \substr($line, 0, -1); // Remove trailing slash
+        }
+
+        return $line;
     }
 
     /**
      * Continue account line for given index.
-     *
-     * @param string $index
-     * @param string $line
-     *
-     * @return void
      */
     private function continueAccount(string $index, string $line): void
     {
@@ -394,11 +356,6 @@ class Parser extends AbstractLineByLineParser
 
     /**
      * Continue file line for given index.
-     *
-     * @param string $index
-     * @param string $line
-     *
-     * @return void
      */
     private function continueFile(string $index, string $line): void
     {
@@ -407,11 +364,6 @@ class Parser extends AbstractLineByLineParser
 
     /**
      * Continue group line for given index.
-     *
-     * @param string $index
-     * @param string $line
-     *
-     * @return void
      */
     private function continueGroup(string $index, string $line): void
     {
@@ -426,10 +378,6 @@ class Parser extends AbstractLineByLineParser
 
     /**
      * Continue previous line.
-     *
-     * @param string $line
-     *
-     * @return void
      */
     private function continuePrevious(string $line): void
     {
@@ -467,10 +415,6 @@ class Parser extends AbstractLineByLineParser
 
     /**
      * Continue transaction line.
-     *
-     * @param string $line
-     *
-     * @return void
      */
     private function continueTransaction(string $line): void
     {
@@ -485,10 +429,6 @@ class Parser extends AbstractLineByLineParser
 
     /**
      * Check if given code is valid.
-     *
-     * @param string $code
-     *
-     * @return bool
      */
     private function isCodeValid(string $code): bool
     {
@@ -500,7 +440,7 @@ class Parser extends AbstractLineByLineParser
             self::FILE_TRAILER,
             self::GROUP_HEADER,
             self::GROUP_TRAILER,
-            self::TRANSACTION_DETAIL
+            self::TRANSACTION_DETAIL,
         ];
 
         return \in_array($code, $codes, true);
@@ -508,8 +448,6 @@ class Parser extends AbstractLineByLineParser
 
     /**
      * Structure item content with line number.
-     *
-     * @param string $line
      *
      * @return mixed[]
      */

@@ -15,8 +15,6 @@ class GeneratorTest extends AbaTestCase
     /**
      * Generator should throw exception when required attributes not set.
      *
-     * @return void
-     *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
     public function testAttributesWithDefinedRuleAreRequiredException(): void
@@ -32,8 +30,6 @@ class GeneratorTest extends AbaTestCase
     /**
      * Generator should throw exception when no transactions given.
      *
-     * @return void
-     *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
     public function testEmptyTransactionsException(): void
@@ -45,8 +41,6 @@ class GeneratorTest extends AbaTestCase
 
     /**
      * Generator should throw exception when invalid transaction given.
-     *
-     * @return void
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
@@ -62,8 +56,6 @@ class GeneratorTest extends AbaTestCase
      *
      * @group Generator-Aba
      *
-     * @return void
-     *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
     public function testShouldReturnContents(): void
@@ -72,15 +64,13 @@ class GeneratorTest extends AbaTestCase
         $generator = new Generator($descriptiveRecord, [$this->createTransaction()]);
 
         self::assertNotEmpty($generator->getContents());
-        self::assertContains($descriptiveRecord->getAttributesAsLine(), $generator->getContents());
+        self::assertStringContainsString($descriptiveRecord->getAttributesAsLine(), $generator->getContents());
     }
 
     /**
      * Should trow exception if DescriptiveRecord's length is greater than 120
      *
      * @group Generator-Aba
-     *
-     * @return void
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
@@ -99,8 +89,6 @@ class GeneratorTest extends AbaTestCase
      *
      * @group Generator-Aba
      *
-     * @return void
-     *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
     public function testShouldThrowExceptionIfTransactionLineExceeds(): void
@@ -117,8 +105,6 @@ class GeneratorTest extends AbaTestCase
      * Should throw exception if validation fails
      *
      * @group Generator-Aba
-     *
-     * @return void
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
@@ -139,8 +125,6 @@ class GeneratorTest extends AbaTestCase
      *
      * @group Generator-Aba
      *
-     * @return void
-     *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
     public function testShouldThrowValidationExceptionIfWrongBSBFormat(): void
@@ -148,7 +132,7 @@ class GeneratorTest extends AbaTestCase
         $expected = [
             'attribute' => 'bsbNumber',
             'value' => '1112333',
-            'rule' => 'bsb'
+            'rule' => 'bsb',
         ];
 
         $trans = $this->createTransaction();
@@ -172,8 +156,6 @@ class GeneratorTest extends AbaTestCase
      *
      * @group Generator-Aba
      *
-     * @return void
-     *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
     public function testValuesShouldBePresentInTheContent(): void
@@ -189,8 +171,8 @@ class GeneratorTest extends AbaTestCase
 
         $generator = new Generator($descriptiveRecord, $transactions, $fileTotalRecord);
 
-        self::assertContains($descriptiveRecord->getAttributesAsLine(), $generator->getContents());
-        self::assertContains($trans->getAttributesAsLine(), $generator->getContents());
-        self::assertContains($fileTotalRecord->getAttributesAsLine(), $generator->getContents());
+        self::assertStringContainsString($descriptiveRecord->getAttributesAsLine(), $generator->getContents());
+        self::assertStringContainsString($trans->getAttributesAsLine(), $generator->getContents());
+        self::assertStringContainsString($fileTotalRecord->getAttributesAsLine(), $generator->getContents());
     }
 }

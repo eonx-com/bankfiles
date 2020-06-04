@@ -11,22 +11,18 @@ class TestCase extends GeneratorTestCase
 {
     /**
      * Create a Header object
-     *
-     * @return \EoneoPay\BankFiles\Generators\Bpay\Objects\Header
      */
     protected function createHeader(): Header
     {
         return new Header([
             'batchCustomerId' => '85765',
             'customerShortName' => 'CustomerShortName',
-            'processingDate' => '20171104'
+            'processingDate' => '20171104',
         ]);
     }
 
     /**
      * Create a Transaction object
-     *
-     * @return \EoneoPay\BankFiles\Generators\Bpay\Objects\Transaction
      */
     protected function createTransaction(): Transaction
     {
@@ -38,7 +34,7 @@ class TestCase extends GeneratorTestCase
             'amount' => '2599',
             'lodgementReference1' => 'lodgeRef1',
             'lodgementReference2' => 'lodgeRef2',
-            'lodgementReference3' => 'lodgeRef2'
+            'lodgementReference3' => 'lodgeRef2',
         ]);
     }
 }

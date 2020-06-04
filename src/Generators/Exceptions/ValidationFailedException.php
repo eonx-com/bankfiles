@@ -12,9 +12,6 @@ class ValidationFailedException extends ValidationException
      * ValidationFailedException constructor.
      *
      * @param mixed[] $errors
-     * @param string|null $message
-     * @param int|null $code
-     * @param null|\Throwable $previous
      */
     public function __construct(array $errors, ?string $message = null, ?int $code = null, ?Throwable $previous = null)
     {
@@ -25,8 +22,6 @@ class ValidationFailedException extends ValidationException
 
     /**
      * Get Error code.
-     *
-     * @return int
      */
     public function getErrorCode(): int
     {
@@ -35,8 +30,6 @@ class ValidationFailedException extends ValidationException
 
     /**
      * Get Error sub-code.
-     *
-     * @return int
      */
     public function getErrorSubCode(): int
     {
@@ -47,8 +40,6 @@ class ValidationFailedException extends ValidationException
      * Get validation errors as string representation.
      *
      * @param mixed[]|null $errors
-     *
-     * @return string
      */
     public function getErrorsToString(?array $errors = null): string
     {

@@ -13,8 +13,6 @@ class TrailerTest extends TestCase
 {
     /**
      * Result should return data as expected.
-     *
-     * @return void
      */
     public function testGetDataAsExpected(): void
     {
@@ -22,7 +20,7 @@ class TrailerTest extends TestCase
             'code' => '98',
             'groupControlTotalA' => '10000',
             'groupControlTotalB' => '10000',
-            'numberOfAccounts' => '4'
+            'numberOfAccounts' => '4',
         ];
 
         $trailer = new Trailer($data);

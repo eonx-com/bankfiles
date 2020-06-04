@@ -1,41 +1,55 @@
 {
-  "name": "eonx-com/bankfiles",
-  "description": "Library for parsing and creating bank files",
-  "keywords": [
-    "eoneopay",
-    "bank files"
-  ],
-  "license": "BSD-3-Clause",
-  "type": "package",
-  "require": {
-    "php": ">=7.3",
-    "eonx-com/utils": "^1.0"
-  },
-  "require-dev": {
-    "eonx-com/standards": "^0.2",
-    "mockery/mockery": "^1.0",
-    "phpmd/phpmd": "^2.6",
-    "phpstan/phpstan": "^0.11",
-    "phpunit/phpunit": "^7.0",
-    "roave/security-advisories": "dev-master",
-    "sebastian/phpcpd": "^4.0",
-    "squizlabs/php_codesniffer": "3.*",
-    "symfony/var-dumper": "^4.0"
-  },
-  "replace": {
-    "eoneopay/bankfiles": "*"
-  },
-  "autoload": {
-    "psr-4": {
-      "EoneoPay\\BankFiles\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Tests\\EoneoPay\\BankFiles\\": "tests/"
-    }
-  },
-  "minimum-stability": "stable",
-  "prefer-stable": true,
-  "optimize-autoloader": true
+    "name": "eonx-com/bankfiles",
+    "description": "Library for parsing and creating bank files",
+    "keywords": [
+        "eoneopay",
+        "bank files"
+    ],
+    "license": "BSD-3-Clause",
+    "type": "package",
+    "require": {
+        "php": "^7.3",
+        "eonx-com/utils": "^1.0|^2.0"
+    },
+    "require-dev": {
+        "eonx-com/easy-test": "^2.4",
+        "eonx-com/easy-standard": "^2.4",
+        "symplify/easy-coding-standard": "^7.2",
+        "mockery/mockery": "^1.0",
+        "phpstan/phpstan": "^0.12",
+        "phpunit/phpunit": "^8.4",
+        "roave/security-advisories": "dev-master",
+        "symfony/var-dumper": "^4.0"
+    },
+    "replace": {
+        "eoneopay/bankfiles": "*"
+    },
+    "scripts": {
+        "ecs": "vendor/bin/ecs check src tests --clear-cache",
+        "phpstan": "phpstan analyze src tests -c phpstan.neon --ansi --level max --memory-limit=2048M",
+        "phpunit": "phpunit --configuration phpunit.xml",
+        "coverage": [
+            "@composer phpunit -- --coverage-text=coverage_output.txt --coverage-html=coverage-html",
+            "tar zcf coverage-html.tgz --directory=coverage-html .",
+            "easy-test check-coverage -c 95 coverage_output.txt"
+        ],
+        "standards": [
+            "@ecs",
+            "@phpstan",
+            "@phpunit"
+        ]
+    },
+    "autoload": {
+        "psr-4": {
+            "EoneoPay\\BankFiles\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\EoneoPay\\BankFiles\\": "tests/"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "optimize-autoloader": true
 }

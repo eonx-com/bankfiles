@@ -24,7 +24,7 @@ class Identifier extends BaseResult
             'code',
             'commercialAccountNumber',
             'currencyCode',
-            'transactionCodes'
+            'transactionCodes',
         ];
     }
 }

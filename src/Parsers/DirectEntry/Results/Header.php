@@ -19,8 +19,6 @@ class Header extends BaseResult
     /**
      * Get processed date
      *
-     * @return \DateTime|null
-     *
      * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
      */
     public function getDateProcessed(): ?BaseDateTime
@@ -54,7 +52,7 @@ class Header extends BaseResult
             'userFinancialInstitution',
             'userIdSupplyingFile',
             'userSupplyingFile',
-            'reelSequenceNumber'
+            'reelSequenceNumber',
         ];
     }
 }

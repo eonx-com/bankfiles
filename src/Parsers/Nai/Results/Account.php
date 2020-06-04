@@ -14,8 +14,6 @@ class Account extends AbstractNaiResult
 {
     /**
      * Get group.
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\Group|null
      */
     public function getGroup(): ?Group
     {
@@ -43,7 +41,7 @@ class Account extends AbstractNaiResult
             'group',
             'identifier',
             'index',
-            'trailer'
+            'trailer',
         ];
     }
 }

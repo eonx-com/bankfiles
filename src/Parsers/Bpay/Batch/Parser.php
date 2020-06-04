@@ -49,9 +49,7 @@ class Parser extends AbstractLineByLineParser
     protected $transactions;
 
     /**
-     * Return the Error object
-     *
-     * @return \EoneoPay\Utils\Interfaces\CollectionInterface
+     * @return \EoneoPay\Utils\Interfaces\CollectionInterface<\EoneoPay\BankFiles\Parsers\Bpay\Batch\Results\Error>
      */
     public function getErrors(): CollectionInterface
     {
@@ -60,8 +58,6 @@ class Parser extends AbstractLineByLineParser
 
     /**
      * Return the Header object
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Bpay\Batch\Results\Header
      */
     public function getHeader(): Header
     {
@@ -70,8 +66,6 @@ class Parser extends AbstractLineByLineParser
 
     /**
      * Return the Trailer object
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Bpay\Batch\Results\Trailer
      */
     public function getTrailer(): Trailer
     {
@@ -79,9 +73,7 @@ class Parser extends AbstractLineByLineParser
     }
 
     /**
-     * Return the Transaction
-     *
-     * @return \EoneoPay\Utils\Interfaces\CollectionInterface
+     * @return \EoneoPay\Utils\Interfaces\CollectionInterface<\EoneoPay\BankFiles\Parsers\Bpay\Batch\Results\Transaction>
      */
     public function getTransactions(): CollectionInterface
     {
@@ -90,11 +82,6 @@ class Parser extends AbstractLineByLineParser
 
     /**
      * Process line and parse data
-     *
-     * @param int $lineNumber
-     * @param string $line
-     *
-     * @return void
      */
     protected function processLine(int $lineNumber, string $line): void
     {
@@ -121,10 +108,6 @@ class Parser extends AbstractLineByLineParser
 
     /**
      * Parse header
-     *
-     * @param string $line
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Bpay\Batch\Results\Header
      */
     private function processHeader(string $line): Header
     {
@@ -132,16 +115,12 @@ class Parser extends AbstractLineByLineParser
             'customerId' => \substr($line, 1, 16),
             'customerShortName' => \substr($line, 17, 20),
             'processingDate' => \substr($line, 37, 8),
-            'restOfRecord' => \substr($line, 45, 174)
+            'restOfRecord' => \substr($line, 45, 174),
         ]);
     }
 
     /**
      * Parse trailer
-     *
-     * @param string $line
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Bpay\Batch\Results\Trailer
      */
     private function processTrailer(string $line): Trailer
     {
@@ -152,16 +131,12 @@ class Parser extends AbstractLineByLineParser
             'amountOfDeclines' => \substr($line, 34, 13),
             'numberOfPayments' => \substr($line, 47, 10),
             'amountOfPayments' => \substr($line, 57, 13),
-            'restOfRecord' => \substr($line, 70, 149)
+            'restOfRecord' => \substr($line, 70, 149),
         ]);
     }
 
     /**
      * Parse transaction items
-     *
-     * @param string $line
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Bpay\Batch\Results\Transaction
      */
     private function processTransaction(string $line): Transaction
     {
@@ -177,7 +152,7 @@ class Parser extends AbstractLineByLineParser
             'returnCode' => \substr($line, 139, 4),
             'returnCodeDescription' => \substr($line, 143, 50),
             'transactionReferenceNumber' => \substr($line, 193, 21),
-            'restOfRecord' => \substr($line, 214, 5)
+            'restOfRecord' => \substr($line, 214, 5),
         ]);
     }
 }

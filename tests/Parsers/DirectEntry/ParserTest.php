@@ -16,8 +16,6 @@ class ParserTest extends TestCase
 {
     /**
      * Test if process on parser returns transactions
-     *
-     * @return void
      */
     public function testProcessReturnsTransactions(): void
     {
@@ -28,8 +26,6 @@ class ParserTest extends TestCase
 
     /**
      * Test process on parser returns header
-     *
-     * @return void
      *
      * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException
      */
@@ -43,7 +39,7 @@ class ParserTest extends TestCase
             'userFinancialInstitution' => 'NAB',
             'userIdSupplyingFile' => '012345',
             'userSupplyingFile' => 'NAB                       ',
-            'reelSequenceNumber' => '01'
+            'reelSequenceNumber' => '01',
         ]);
 
         $parser = new Parser($contents);
@@ -57,8 +53,6 @@ class ParserTest extends TestCase
 
     /**
      * Test if process on parser returns a trailer record
-     *
-     * @return void
      */
     public function testProcessShouldReturnTrailer(): void
     {
@@ -69,7 +63,7 @@ class ParserTest extends TestCase
             'numberPayments' => '000010',
             'totalNetAmount' => '0000296782',
             'totalCreditAmount' => '0000000000',
-            'totalDebitAmount' => '0000296782'
+            'totalDebitAmount' => '0000296782',
         ]);
 
         $parser = new Parser($contents);
@@ -85,10 +79,6 @@ class ParserTest extends TestCase
 
     /**
      * Get sample file contents.
-     *
-     * @param string $file
-     *
-     * @return string
      */
     private function getSampleFileContents(string $file): string
     {

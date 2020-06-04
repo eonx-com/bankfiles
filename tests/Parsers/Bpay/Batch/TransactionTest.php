@@ -12,8 +12,6 @@ class TransactionTest extends TestCase
      * Should return transaction amount as a decimal
      *
      * @group Batch-Transaction
-     *
-     * @return void
      */
     public function testShouldReturnAmountDecimal(): void
     {
@@ -26,8 +24,6 @@ class TransactionTest extends TestCase
      * Should return transaction amount
      *
      * @group Batch-Transaction
-     *
-     * @return void
      */
     public function testShouldReturnAmountDecimalNull(): void
     {

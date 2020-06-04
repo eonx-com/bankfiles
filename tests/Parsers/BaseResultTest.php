@@ -11,13 +11,11 @@ class BaseResultTest extends TestCase
      * Should return company name as biller
      *
      * @group Base-Result
-     *
-     * @return void
      */
     public function testShouldReturnBiller(): void
     {
         $data = [
-            'biller' => 'Company Name'
+            'biller' => 'Company Name',
         ];
 
         $result = new ResultStub($data);
@@ -29,13 +27,11 @@ class BaseResultTest extends TestCase
      * Should return null if attribute does not exist
      *
      * @group Base-Result
-     *
-     * @return void
      */
     public function testShouldReturnNull(): void
     {
         $data = [
-            'biller' => 'Company Name'
+            'biller' => 'Company Name',
         ];
 
         $result = new ResultStub($data);

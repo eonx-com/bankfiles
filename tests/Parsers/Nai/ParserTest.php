@@ -21,13 +21,10 @@ class ParserTest extends TestCase
     /**
      * ControlTotal should format amount as expected.
      *
-     * @return void
-     *
      * @throws \ReflectionException
      */
     public function testControlTotalTraitReturnFormattedAmount(): void
     {
-        /** @var \EoneoPay\BankFiles\Parsers\Nai\ControlTotal $trait */
         $trait = $this->getObjectForTrait(ControlTotal::class);
         $formatAmount = $this->getProtectedMethod(\get_class($trait), 'formatAmount');
 
@@ -37,8 +34,6 @@ class ParserTest extends TestCase
 
     /**
      * Parser should handle structure errors as expected.
-     *
-     * @return void
      */
     public function testParserHandleStructureErrorAsExpected(): void
     {
@@ -49,8 +44,6 @@ class ParserTest extends TestCase
 
     /**
      * Parser should parse sample file successfully.
-     *
-     * @return void
      */
     public function testParserParsesSuccessfully(): void
     {
@@ -73,8 +66,6 @@ class ParserTest extends TestCase
     /**
      * Parser should parse sample file successfully.
      * This tests a file which has slashes in the transaction records.
-     *
-     * @return void
      *
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength) Method is long because of expected array.
      */
@@ -101,7 +92,7 @@ class ParserTest extends TestCase
                 'fundsType' => '0',
                 'referenceNumber' => '0',
                 'text' => 'ABC DEF',
-                'transactionCode' => '936'
+                'transactionCode' => '936',
             ],
             [
                 'amount' => '70050',
@@ -109,7 +100,7 @@ class ParserTest extends TestCase
                 'fundsType' => '0',
                 'referenceNumber' => '0005607',
                 'text' => '',
-                'transactionCode' => '475'
+                'transactionCode' => '475',
             ],
             [
                 'amount' => '22410',
@@ -117,7 +108,7 @@ class ParserTest extends TestCase
                 'fundsType' => '0',
                 'referenceNumber' => '0005712',
                 'text' => '',
-                'transactionCode' => '475'
+                'transactionCode' => '475',
             ],
             [
                 'amount' => '22650',
@@ -125,7 +116,7 @@ class ParserTest extends TestCase
                 'fundsType' => '0',
                 'referenceNumber' => '0005820',
                 'text' => '',
-                'transactionCode' => '475'
+                'transactionCode' => '475',
             ],
             [
                 'amount' => '210620',
@@ -133,7 +124,7 @@ class ParserTest extends TestCase
                 'fundsType' => '0',
                 'referenceNumber' => '0005924',
                 'text' => '',
-                'transactionCode' => '475'
+                'transactionCode' => '475',
             ],
             [
                 'amount' => '379200',
@@ -141,7 +132,7 @@ class ParserTest extends TestCase
                 'fundsType' => '0',
                 'referenceNumber' => '0005956',
                 'text' => '',
-                'transactionCode' => '475'
+                'transactionCode' => '475',
             ],
             [
                 'amount' => '61915',
@@ -149,7 +140,7 @@ class ParserTest extends TestCase
                 'fundsType' => '0',
                 'referenceNumber' => '0005968',
                 'text' => '',
-                'transactionCode' => '475'
+                'transactionCode' => '475',
             ],
             [
                 'amount' => '3300000',
@@ -157,7 +148,7 @@ class ParserTest extends TestCase
                 'fundsType' => '0',
                 'referenceNumber' => '0006100',
                 'text' => '',
-                'transactionCode' => '475'
+                'transactionCode' => '475',
             ],
             [
                 'amount' => '330',
@@ -165,7 +156,7 @@ class ParserTest extends TestCase
                 'fundsType' => '0',
                 'referenceNumber' => '',
                 'text' => '',
-                'transactionCode' => '475'
+                'transactionCode' => '475',
             ],
             [
                 'amount' => '104410',
@@ -173,8 +164,8 @@ class ParserTest extends TestCase
                 'fundsType' => '0',
                 'referenceNumber' => '0',
                 'text' => 'AP8YA0436912      GEDFH            083310',
-                'transactionCode' => '501'
-            ]
+                'transactionCode' => '501',
+            ],
         ];
 
         $actualTransactions = [];
@@ -185,7 +176,7 @@ class ParserTest extends TestCase
                 'fundsType' => $transaction->getFundsType(),
                 'referenceNumber' => $transaction->getReferenceNumber(),
                 'text' => $transaction->getText(),
-                'transactionCode' => $transaction->getTransactionCode()
+                'transactionCode' => $transaction->getTransactionCode(),
             ];
         }
 
@@ -195,24 +186,26 @@ class ParserTest extends TestCase
     /**
      * Transaction codes detail trait should return null if code is invalid.
      *
-     * @return void
-     *
      * @throws \ReflectionException
      */
     public function testTransactionCodesTraitReturnNullWhenInvalidCode(): void
     {
-        /** @var \EoneoPay\BankFiles\Parsers\Nai\TransactionDetailCodes $trait */
         $trait = $this->getObjectForTrait(TransactionDetailCodes::class);
 
         self::assertNull($trait->getTransactionCodeDetails('invalid'));
     }
 
+    public function testTrickyFile(): void
+    {
+        $parser = new Parser($this->getSampleFileContents('tricky.NAI'));
+        $expected = 'STUART SMALL        FRKXMT8BK5          FRKXMT8BK5 Stuart Sm';
+
+        self::assertCount(1, $parser->getTransactions());
+        self::assertEquals($expected, $parser->getTransactions()[0]->getText());
+    }
+
     /**
      * Get sample file contents.
-     *
-     * @param string $file
-     *
-     * @return string
      */
     private function getSampleFileContents(string $file): string
     {

@@ -27,13 +27,11 @@ abstract class BaseGenerator implements GeneratorInterface
     private static $validationRules = [
         self::VALIDATION_RULE_ALPHA => '/[^A-Za-z0-9 &\',-\.\/\+\$\!%\(\)\*\#=:\?\[\]_\^@]/',
         self::VALIDATION_RULE_NUMERIC => '/[^0-9-]/',
-        self::VALIDATION_RULE_BSB => '/^\d{3}(\-)\d{3}/'
+        self::VALIDATION_RULE_BSB => '/^\d{3}(\-)\d{3}/',
     ];
 
     /**
      * Return contents
-     *
-     * @return string
      */
     public function getContents(): string
     {
@@ -44,8 +42,6 @@ abstract class BaseGenerator implements GeneratorInterface
 
     /**
      * Set break lines.
-     *
-     * @param string $breakLine
      *
      * @return \EoneoPay\BankFiles\Generators\BaseGenerator
      */
@@ -58,24 +54,16 @@ abstract class BaseGenerator implements GeneratorInterface
 
     /**
      * Generate
-     *
-     * @return void
      */
     abstract protected function generate(): void;
 
     /**
      * Return the defined line length of a generator
-     *
-     * @return int
      */
     abstract protected function getLineLength(): int;
 
     /**
      * Check if line's length is greater than defined length
-     *
-     * @param string $line
-     *
-     * @return void
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
      */
@@ -93,10 +81,7 @@ abstract class BaseGenerator implements GeneratorInterface
     /**
      * Validate object attributes
      *
-     * @param \EoneoPay\BankFiles\Generators\BaseObject $object
      * @param null|mixed[] $rules
-     *
-     * @return void
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
      *
@@ -118,10 +103,6 @@ abstract class BaseGenerator implements GeneratorInterface
     /**
      * Add line to contents.
      *
-     * @param string $line
-     *
-     * @return void
-     *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
      */
     protected function writeLine(string $line): void
@@ -134,8 +115,6 @@ abstract class BaseGenerator implements GeneratorInterface
      * Add lines for given objects.
      *
      * @param mixed[] $objects
-     *
-     * @return void
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
@@ -164,8 +143,6 @@ abstract class BaseGenerator implements GeneratorInterface
      * @param string $rule The rule to process
      * @param string $attribute The attribute the value relates to
      * @param mixed $value The value from the attribute
-     *
-     * @return void
      *
      * @SuppressWarnings(PHPMD.StaticAccess) DateTime requires static access to createFromFormat()
      * @SuppressWarnings(PHPMD.CyclomaticComplexity) Planned to externalise validation

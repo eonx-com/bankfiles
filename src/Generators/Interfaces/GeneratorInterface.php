@@ -42,8 +42,6 @@ interface GeneratorInterface
 
     /**
      * Return contents.
-     *
-     * @return string
      */
     public function getContents(): string;
 }

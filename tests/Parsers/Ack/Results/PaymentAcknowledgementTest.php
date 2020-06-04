@@ -14,19 +14,17 @@ class PaymentAcknowledgementTest extends TestCase
      *
      * @group Ack-PaymentAcknowledgement
      *
-     * @return void
-     *
      * @throws \EoneoPay\Utils\Exceptions\InvalidDateTimeStringException If datetime constructor string is invalid
      */
     public function testShouldReturnDateTimeAsObject(): void
     {
         $dateString = '2017/10/17';
         $expected = [
-            '@value' => new DateTime($dateString)
+            '@value' => new DateTime($dateString),
         ];
 
         $acknowledgement = new PaymentAcknowledgement([
-            'dateTime' => ['@value' => $dateString]
+            'dateTime' => ['@value' => $dateString],
         ]);
 
         self::assertEquals($expected, $acknowledgement->getDateTime());

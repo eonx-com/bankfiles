@@ -18,8 +18,6 @@ class Transaction extends AbstractNaiResult
 {
     /**
      * Get account.
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\Account|null
      */
     public function getAccount(): ?Account
     {
@@ -41,7 +39,7 @@ class Transaction extends AbstractNaiResult
             'referenceNumber',
             'text',
             'transactionCode',
-            'transactionDetails'
+            'transactionDetails',
         ];
     }
 }

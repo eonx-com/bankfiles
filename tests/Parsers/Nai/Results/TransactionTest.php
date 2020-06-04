@@ -16,8 +16,6 @@ class TransactionTest extends TestCase
 {
     /**
      * Result should return data as expected.
-     *
-     * @return void
      */
     public function testGetDataAsExpected(): void
     {
@@ -29,7 +27,7 @@ class TransactionTest extends TestCase
             'referenceNumber' => 'reference-number',
             'text' => 'text',
             'transactionCode' => '23',
-            'transactionDetails' => new Details()
+            'transactionDetails' => new Details(),
         ];
 
         $setExpectations = static function (MockInterface $context) use ($data): void {

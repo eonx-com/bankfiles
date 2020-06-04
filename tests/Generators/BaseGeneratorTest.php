@@ -11,8 +11,6 @@ class BaseGeneratorTest extends TestCase
     /**
      * Should throw exception if target is not an object
      *
-     * @return void
-     *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException

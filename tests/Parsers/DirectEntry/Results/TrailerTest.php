@@ -13,13 +13,11 @@ class TrailerTest extends TestCase
 {
     /**
      * Test amount conversion works as expected
-     *
-     * @return void
      */
     public function testAmountConversionWorksAsExpected(): void
     {
         $trailer = new Trailer([
-            'totalCreditAmount' => '0000023857'
+            'totalCreditAmount' => '0000023857',
         ]);
 
         self::assertSame('238.57', $trailer->getTotalCreditAmount());
@@ -27,13 +25,11 @@ class TrailerTest extends TestCase
 
     /**
      * Test amount conversions if invalid data provided
-     *
-     * @return void
      */
     public function testAmountConversionsIfInvalidData(): void
     {
         $trailer = new Trailer([
-            'totalNetAmount' => '000'
+            'totalNetAmount' => '000',
         ]);
 
         self::assertSame('0.00', $trailer->getTotalNetAmount());
@@ -41,8 +37,6 @@ class TrailerTest extends TestCase
 
     /**
      * Test amount conversions if no data provided
-     *
-     * @return void
      */
     public function testAmountConversionsIfNoData(): void
     {
