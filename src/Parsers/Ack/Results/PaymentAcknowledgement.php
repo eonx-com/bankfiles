@@ -57,7 +57,7 @@ class PaymentAcknowledgement extends BaseResult
             'detailedMessage',
             'originalFilename',
             'originalReference',
-            'issues'
+            'issues',
         ];
     }
 }

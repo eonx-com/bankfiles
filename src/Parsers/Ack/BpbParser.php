@@ -12,8 +12,6 @@ class BpbParser extends Parser
     /**
      * Process line and parse data
      *
-     * @return void
-     *
      * @throws \EoneoPay\Utils\Exceptions\InvalidXmlException
      */
     protected function process(): void
@@ -29,7 +27,7 @@ class BpbParser extends Parser
             'customerId' => $arr->get($result, 'CustomerId'),
             'companyName' => $arr->get($result, 'CompanyName'),
             'originalFilename' => $arr->get($result, 'MessageDetails.OriginalFilename'),
-            'issues' => new Collection($this->extractIssues($arr->get($result, 'Issues.Issue')))
+            'issues' => new Collection($this->extractIssues($arr->get($result, 'Issues.Issue'))),
         ]);
     }
 }

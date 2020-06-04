@@ -30,7 +30,7 @@ class Header extends BaseResult
             'billerCreditAccount',
             'fileCreationDate',
             'fileCreationTime',
-            'filler'
+            'filler',
         ];
     }
 }

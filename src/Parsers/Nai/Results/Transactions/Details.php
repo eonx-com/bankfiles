@@ -22,7 +22,7 @@ class Details extends BaseResult
         return [
             'description',
             'particulars',
-            'type'
+            'type',
         ];
     }
 }

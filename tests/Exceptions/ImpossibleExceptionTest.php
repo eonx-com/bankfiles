@@ -13,8 +13,6 @@ class ImpossibleExceptionTest extends TestCase
 {
     /**
      * Tests that the exception codes match the expected.
-     *
-     * @return void
      */
     public function testExceptionCodes(): void
     {

@@ -38,14 +38,12 @@ class ObjectStub extends BaseObject
     {
         return [
             'accountName',
-            'accountNumber'
+            'accountNumber',
         ];
     }
 
     /**
      * Return record type.
-     *
-     * @return string
      */
     protected function initRecordType(): string
     {

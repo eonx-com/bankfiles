@@ -16,8 +16,6 @@ class Trailer extends BaseResult
 
     /**
      * Get total credit amount as in file trailer as dollars
-     *
-     * @return string
      */
     public function getTotalCreditAmount(): string
     {
@@ -26,8 +24,6 @@ class Trailer extends BaseResult
 
     /**
      * Get total debit amount as in file trailer as dollars
-     *
-     * @return string
      */
     public function getTotalDebitAmount(): string
     {
@@ -36,8 +32,6 @@ class Trailer extends BaseResult
 
     /**
      * Get total net amount as in file trailer as dollars
-     *
-     * @return string
      */
     public function getTotalNetAmount(): string
     {
@@ -56,7 +50,7 @@ class Trailer extends BaseResult
             'numberPayments',
             'totalNetAmount',
             'totalCreditAmount',
-            'totalDebitAmount'
+            'totalDebitAmount',
         ];
     }
 }

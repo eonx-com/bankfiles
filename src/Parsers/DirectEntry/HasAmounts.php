@@ -7,10 +7,6 @@ trait HasAmounts
 {
     /**
      * Create amount value in dollars from string
-     *
-     * @param string $value
-     *
-     * @return string
      */
     protected function createAmount(string $value): string
     {

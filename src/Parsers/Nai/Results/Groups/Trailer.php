@@ -16,8 +16,6 @@ class Trailer extends BaseResult
 
     /**
      * Return group control total A
-     *
-     * @return float
      */
     public function getGroupControlTotalA(): float
     {
@@ -26,8 +24,6 @@ class Trailer extends BaseResult
 
     /**
      * Return group control total B
-     *
-     * @return float
      */
     public function getGroupControlTotalB(): float
     {
@@ -45,7 +41,7 @@ class Trailer extends BaseResult
             'code',
             'groupControlTotalA',
             'groupControlTotalB',
-            'numberOfAccounts'
+            'numberOfAccounts',
         ];
     }
 }

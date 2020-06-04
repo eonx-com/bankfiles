@@ -12,8 +12,6 @@ class TestCase extends GeneratorTestCase
 {
     /**
      * Create a DescriptiveRecord object with default attributes
-     *
-     * @return \EoneoPay\BankFiles\Generators\Aba\Objects\DescriptiveRecord
      */
     protected function createDescriptiveRecord(): DescriptiveRecord
     {
@@ -23,14 +21,12 @@ class TestCase extends GeneratorTestCase
             'nameOfUserSupplyingFile' => 'LOYALTY CORP AUSTRALIA',
             'numberOfUserSupplyingFile' => 492627,
             'descriptionOfEntries' => 'PAYMENTS',
-            'dateToBeProcessed' => '100817'
+            'dateToBeProcessed' => '100817',
         ]);
     }
 
     /**
      * Create File Total Record object with default values
-     *
-     * @return \EoneoPay\BankFiles\Generators\Aba\Objects\FileTotalRecord
      */
     protected function createFileTotalRecord(): FileTotalRecord
     {
@@ -38,7 +34,7 @@ class TestCase extends GeneratorTestCase
             'fileUserNetTotalAmount' => '0',
             'fileUserCreditTotalAmount' => '43452',
             'fileUserDebitTotalAmount' => '43452',
-            'fileUserCountOfRecordsType' => '2'
+            'fileUserCountOfRecordsType' => '2',
         ]);
     }
 
@@ -46,8 +42,6 @@ class TestCase extends GeneratorTestCase
      * Create a Transaction object with default values
      *
      * @param int|null $transactionCode Either Transaction::CODE_GENERAL_CREDIT or Transaction::CODE_GENERAL_DEBIT
-     *
-     * @return \EoneoPay\BankFiles\Generators\Aba\Objects\Transaction
      */
     protected function createTransaction(?int $transactionCode = null): Transaction
     {
@@ -61,7 +55,7 @@ class TestCase extends GeneratorTestCase
             'traceBsb' => '083-170',
             'traceAccountNumber' => '739827524',
             'nameOfRemitter' => 'TEST PAY RENT RE',
-            'amountOfWithholdingTax' => '00000000'
+            'amountOfWithholdingTax' => '00000000',
         ]);
     }
 }

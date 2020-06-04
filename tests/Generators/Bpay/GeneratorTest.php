@@ -12,8 +12,6 @@ class GeneratorTest extends TestCase
     /**
      * Generator should throw exception when no transactions given.
      *
-     * @return void
-     *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
     public function testEmptyTransactionsException(): void
@@ -27,8 +25,6 @@ class GeneratorTest extends TestCase
      * Generated data should be present in the content
      *
      * @group Generator-Bpay
-     *
-     * @return void
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
@@ -51,8 +47,6 @@ class GeneratorTest extends TestCase
 
     /**
      * Generator should throw exception when invalid transaction given.
-     *
-     * @return void
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */

@@ -12,15 +12,13 @@ class TrailerTest extends TestCase
      * Should return total amounts as a decimal
      *
      * @group Batch-Trailer
-     *
-     * @return void
      */
     public function testShouldReturnAmountsDecimal(): void
     {
         $trailer = new Trailer([
             'amountOfApprovals' => '0000000030018',
             'amountOfDeclines' => '0000000020010',
-            'amountOfPayments' => '0000000050028'
+            'amountOfPayments' => '0000000050028',
         ]);
 
         self::assertSame('300.18', $trailer->getAmountOfApprovalsDecimal());
@@ -32,8 +30,6 @@ class TrailerTest extends TestCase
      * Should return total amounts as a null
      *
      * @group Batch-Trailer
-     *
-     * @return void
      */
     public function testShouldReturnAmountsDecimalNull(): void
     {

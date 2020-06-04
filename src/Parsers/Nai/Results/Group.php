@@ -24,8 +24,6 @@ class Group extends AbstractNaiResult
 
     /**
      * Get file.
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\File|null
      */
     public function getFile(): ?File
     {
@@ -42,7 +40,7 @@ class Group extends AbstractNaiResult
         return [
             'header',
             'index',
-            'trailer'
+            'trailer',
         ];
     }
 }

@@ -73,10 +73,6 @@ class ResultsContext
 
     /**
      * Get account for given index.
-     *
-     * @param int $index
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\Account|null
      */
     public function getAccount(int $index): ?Account
     {
@@ -95,8 +91,6 @@ class ResultsContext
 
     /**
      * Get accounts for given group.
-     *
-     * @param int $group
      *
      * @return \EoneoPay\BankFiles\Parsers\Nai\Results\Account[]
      */
@@ -117,8 +111,6 @@ class ResultsContext
 
     /**
      * Get file.
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\File|null
      */
     public function getFile(): ?File
     {
@@ -127,10 +119,6 @@ class ResultsContext
 
     /**
      * Get group for given index.
-     *
-     * @param int $index
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\Group|null
      */
     public function getGroup(int $index): ?Group
     {
@@ -160,8 +148,6 @@ class ResultsContext
     /**
      * Get transactions for given account.
      *
-     * @param int $account
-     *
      * @return \EoneoPay\BankFiles\Parsers\Nai\Results\Transaction[]
      */
     public function getTransactionsForAccount(int $account): array
@@ -171,11 +157,6 @@ class ResultsContext
 
     /**
      * Add error.
-     *
-     * @param string $line
-     * @param int $lineNumber
-     *
-     * @return void
      */
     private function addError(string $line, int $lineNumber): void
     {
@@ -184,11 +165,6 @@ class ResultsContext
 
     /**
      * Cache account for given group.
-     *
-     * @param int $group
-     * @param \EoneoPay\BankFiles\Parsers\Nai\Results\Account $account
-     *
-     * @return void
      */
     private function cacheAccount(int $group, Account $account): void
     {
@@ -198,10 +174,7 @@ class ResultsContext
     /**
      * Cache result for given key.
      *
-     * @param string $key
      * @param mixed $result
-     *
-     * @return void
      */
     private function cacheResult(string $key, $result): void
     {
@@ -214,11 +187,6 @@ class ResultsContext
 
     /**
      * Cache transaction for given account.
-     *
-     * @param int $account
-     * @param \EoneoPay\BankFiles\Parsers\Nai\Results\Transaction $transaction
-     *
-     * @return void
      */
     private function cacheTransaction(int $account, Transaction $transaction): void
     {
@@ -240,7 +208,7 @@ class ResultsContext
             $transactionCodes[$key] = [
                 'code' => $code,
                 'description' => $this->getCodeSummary($code),
-                'amount' => $amount
+                'amount' => $amount,
             ];
         }
 
@@ -251,8 +219,6 @@ class ResultsContext
      * Get data from line as an associative array using given attributes. If line structure invalid, return null.
      *
      * @param string[] $attributes
-     * @param string $line
-     * @param int $lineNumber
      *
      * @return mixed[]|null
      */
@@ -279,9 +245,6 @@ class ResultsContext
      * Get transaction data from line as an associative array using given attributes.
      * If line structure invalid, return null. If the last element in data is missing,
      * its alright as transaction might not have a text.
-     *
-     * @param string $line
-     * @param int $lineNumber
      *
      * @return mixed[]|null
      */
@@ -333,8 +296,6 @@ class ResultsContext
      * Instantiate account identifier.
      *
      * @param mixed[] $identifier
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Identifier|null
      */
     private function initAccountIdentifier(array $identifier): ?AccountIdentifier
     {
@@ -363,15 +324,13 @@ class ResultsContext
      * Instantiate account trailer.
      *
      * @param mixed[] $trailer
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\Accounts\Trailer|null
      */
     private function initAccountTrailer(array $trailer): ?AccountTrailer
     {
         return $this->instantiateSimpleItem([
             'code',
             'accountControlTotalA',
-            'accountControlTotalB'
+            'accountControlTotalB',
         ], AccountTrailer::class, $trailer);
     }
 
@@ -393,7 +352,7 @@ class ResultsContext
                 'group' => $account['group'] - 1, // Indexes coming from parser start from 1, we want 0
                 'identifier' => $this->initAccountIdentifier($account['identifier']),
                 'index' => $index,
-                'trailer' => $this->initAccountTrailer($account['trailer'])
+                'trailer' => $this->initAccountTrailer($account['trailer']),
             ]);
 
             $this->accounts[] = $accountResult;
@@ -407,8 +366,6 @@ class ResultsContext
      * Instantiate errors.
      *
      * @param mixed[] $errors
-     *
-     * @return self
      */
     private function initErrors(array $errors): self
     {
@@ -423,8 +380,6 @@ class ResultsContext
      * Instantiate file.
      *
      * @param mixed[] $file
-     *
-     * @return self
      */
     private function initFile(array $file): self
     {
@@ -434,7 +389,7 @@ class ResultsContext
 
         $this->file = $this->instantiateNaiResult(File::class, [
             'header' => $this->initFileHeader($file['header']),
-            'trailer' => $this->initFileTrailer($file['trailer'])
+            'trailer' => $this->initFileTrailer($file['trailer']),
         ]);
 
         return $this;
@@ -444,8 +399,6 @@ class ResultsContext
      * Instantiate file header.
      *
      * @param mixed[] $header
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\Files\Header|null
      */
     private function initFileHeader(array $header): ?FilerHeader
     {
@@ -457,7 +410,7 @@ class ResultsContext
             'fileCreationTime',
             'fileSequenceNumber',
             'physicalRecordLength',
-            'blockingFactor'
+            'blockingFactor',
         ], FilerHeader::class, $header);
     }
 
@@ -465,8 +418,6 @@ class ResultsContext
      * Instantiate file trailer.
      *
      * @param mixed[] $trailer
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\Files\Trailer|null
      */
     private function initFileTrailer(array $trailer): ?FileTrailer
     {
@@ -475,7 +426,7 @@ class ResultsContext
             'fileControlTotalA',
             'numberOfGroups',
             'numberOfRecords',
-            'fileControlTotalB'
+            'fileControlTotalB',
         ], FileTrailer::class, $trailer);
     }
 
@@ -483,8 +434,6 @@ class ResultsContext
      * Instantiate group header.
      *
      * @param mixed[] $header
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\Groups\Header|null
      */
     private function initGroupHeader(array $header): ?GroupHeader
     {
@@ -494,7 +443,7 @@ class ResultsContext
             'originatorReceiverId',
             'groupStatus',
             'asOfDate',
-            'asOfTime'
+            'asOfTime',
         ], GroupHeader::class, $header);
     }
 
@@ -502,8 +451,6 @@ class ResultsContext
      * Instantiate group trailer.
      *
      * @param mixed[] $trailer
-     *
-     * @return \EoneoPay\BankFiles\Parsers\Nai\Results\Groups\Trailer|null
      */
     private function initGroupTrailer(array $trailer): ?GroupTrailer
     {
@@ -511,7 +458,7 @@ class ResultsContext
             'code',
             'groupControlTotalA',
             'numberOfAccounts',
-            'groupControlTotalB'
+            'groupControlTotalB',
         ], GroupTrailer::class, $trailer);
     }
 
@@ -519,8 +466,6 @@ class ResultsContext
      * Instantiate groups.
      *
      * @param mixed[] $groups
-     *
-     * @return self
      */
     private function initGroups(array $groups): self
     {
@@ -532,7 +477,7 @@ class ResultsContext
             $this->groups[] = $this->instantiateNaiResult(Group::class, [
                 'header' => $this->initGroupHeader($group['header']),
                 'index' => $index,
-                'trailer' => $this->initGroupTrailer($group['trailer'])
+                'trailer' => $this->initGroupTrailer($group['trailer']),
             ]);
         }
 
@@ -543,8 +488,6 @@ class ResultsContext
      * Instantiate transactions.
      *
      * @param mixed[] $transactions
-     *
-     * @return self
      */
     private function initTransactions(array $transactions): self
     {
@@ -557,7 +500,7 @@ class ResultsContext
 
             $transactionResult = $this->instantiateNaiResult(Transaction::class, \array_merge($data, [
                 'account' => $transaction['account'] - 1, // Indexes coming from parser start from 1, we want 0
-                'transactionDetails' => $this->getTransactionCodeDetails($data['transactionCode'])
+                'transactionDetails' => $this->getTransactionCodeDetails($data['transactionCode']),
             ]));
 
             $this->transactions[] = $transactionResult;
@@ -570,7 +513,6 @@ class ResultsContext
     /**
      * Instantiate Nai result object and pass the context as parameter.
      *
-     * @param string $resultClass
      * @param mixed[] $data
      *
      * @return mixed
@@ -584,7 +526,6 @@ class ResultsContext
      * Instantiate simple item for given attributes, class and array.
      *
      * @param string[] $attributes
-     * @param string $class
      * @param mixed[] $item
      *
      * @return mixed

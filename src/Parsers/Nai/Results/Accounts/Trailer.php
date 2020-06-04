@@ -15,8 +15,6 @@ class Trailer extends BaseResult
 
     /**
      * Get account control total A.
-     *
-     * @return float
      */
     public function getAccountControlTotalA(): float
     {
@@ -25,8 +23,6 @@ class Trailer extends BaseResult
 
     /**
      * Get account control total B.
-     *
-     * @return float
      */
     public function getAccountControlTotalB(): float
     {
@@ -43,7 +39,7 @@ class Trailer extends BaseResult
         return [
             'code',
             'accountControlTotalA',
-            'accountControlTotalB'
+            'accountControlTotalB',
         ];
     }
 }

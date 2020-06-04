@@ -39,8 +39,6 @@ class GeneratorStub extends BaseGenerator
     /**
      * Generate
      *
-     * @return void
-     *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
@@ -55,8 +53,6 @@ class GeneratorStub extends BaseGenerator
 
     /**
      * Return the defined line length of a generators
-     *
-     * @return int
      */
     protected function getLineLength(): int
     {
@@ -65,8 +61,6 @@ class GeneratorStub extends BaseGenerator
 
     /**
      * Check if record length is no more than defined characters
-     *
-     * @return void
      */
     protected function validateLineLengths(): void
     {

@@ -28,7 +28,7 @@ class Header extends BaseResult
             'code',
             'groupStatus',
             'originatorReceiverId',
-            'ultimateReceiverId'
+            'ultimateReceiverId',
         ];
     }
 }

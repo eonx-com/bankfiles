@@ -29,9 +29,7 @@ class Generator extends BaseGenerator
     /**
      * Generator constructor.
      *
-     * @param \EoneoPay\BankFiles\Generators\Bpay\Objects\Header $header
      * @param mixed[] $transactions
-     * @param \EoneoPay\BankFiles\Generators\Bpay\Objects\Trailer|null $trailer
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\InvalidArgumentException
      */
@@ -48,8 +46,6 @@ class Generator extends BaseGenerator
 
     /**
      * Generate
-     *
-     * @return void
      *
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\LengthMismatchesException
      * @throws \EoneoPay\BankFiles\Generators\Exceptions\ValidationFailedException
@@ -83,8 +79,6 @@ class Generator extends BaseGenerator
 
     /**
      * Return the defined line length of a generator
-     *
-     * @return int
      */
     protected function getLineLength(): int
     {
@@ -93,17 +87,12 @@ class Generator extends BaseGenerator
 
     /**
      * Create new trailer.
-     *
-     * @param int $count
-     * @param int $totalAmount
-     *
-     * @return \EoneoPay\BankFiles\Generators\Bpay\Objects\Trailer
      */
     private function createTrailer(int $count, int $totalAmount): Trailer
     {
         return new Trailer([
             'totalNumberOfPayments' => $count,
-            'totalFileValue' => $totalAmount
+            'totalFileValue' => $totalAmount,
         ]);
     }
 }

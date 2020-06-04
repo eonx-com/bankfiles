@@ -36,7 +36,6 @@ abstract class AbstractDataBag
     /**
      * Return attribute's value
      *
-     * @param string $method
      * @param mixed[] $parameters
      *
      * @return mixed|null

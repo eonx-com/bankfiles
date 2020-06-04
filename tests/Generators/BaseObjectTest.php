@@ -11,14 +11,12 @@ class BaseObjectTest extends TestCase
      * Should return all attributes
      *
      * @group Generator-BaseObject
-     *
-     * @return void
      */
     public function testShouldReturnAttributes(): void
     {
         $data = [
             'accountName' => 'John Doe',
-            'accountNumber' => '11-222-33'
+            'accountNumber' => '11-222-33',
         ];
 
         $object = new ObjectStub($data);

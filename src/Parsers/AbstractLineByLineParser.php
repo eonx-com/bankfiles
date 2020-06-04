@@ -7,8 +7,6 @@ abstract class AbstractLineByLineParser extends BaseParser
 {
     /**
      * AbstractLineByLineParser constructor.
-     *
-     * @param string $contents
      */
     public function __construct(string $contents)
     {
@@ -19,18 +17,11 @@ abstract class AbstractLineByLineParser extends BaseParser
 
     /**
      * Process line and parse data
-     *
-     * @param int $lineNumber
-     * @param string $line
-     *
-     * @return void
      */
     abstract protected function processLine(int $lineNumber, string $line): void;
 
     /**
      * Process parsing
-     *
-     * @return void
      */
     protected function process(): void
     {

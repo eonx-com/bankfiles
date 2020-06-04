@@ -11,17 +11,11 @@ use EoneoPay\Utils\Exceptions\RuntimeException;
  */
 final class ImpossibleException extends RuntimeException
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getErrorCode(): int
     {
         return self::DEFAULT_ERROR_CODE_RUNTIME + 899;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getErrorSubCode(): int
     {
         return 1;

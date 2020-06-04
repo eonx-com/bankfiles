@@ -13,14 +13,12 @@ class ErrorTest extends TestCase
 {
     /**
      * Result should return data as expected.
-     *
-     * @return void
      */
     public function testGetDataAsExpected(): void
     {
         $data = [
             'line' => 'line',
-            'lineNumber' => 23
+            'lineNumber' => 23,
         ];
 
         $error = new Error($data);

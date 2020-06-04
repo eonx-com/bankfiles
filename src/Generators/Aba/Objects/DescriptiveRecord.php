@@ -41,7 +41,7 @@ class DescriptiveRecord extends BaseObject
             'nameOfUserSupplyingFile' => GeneratorInterface::VALIDATION_RULE_ALPHA,
             'numberOfUserSupplyingFile' => GeneratorInterface::VALIDATION_RULE_NUMERIC,
             'descriptionOfEntries' => GeneratorInterface::VALIDATION_RULE_ALPHA,
-            'dateToBeProcessed' => GeneratorInterface::VALIDATION_RULE_DATE
+            'dateToBeProcessed' => GeneratorInterface::VALIDATION_RULE_DATE,
         ];
     }
 
@@ -60,7 +60,7 @@ class DescriptiveRecord extends BaseObject
             'blank3' => [40],
             'nameOfUserSupplyingFile' => [26],
             'numberOfUserSupplyingFile' => [6, '0', \STR_PAD_LEFT],
-            'descriptionOfEntries' => [12]
+            'descriptionOfEntries' => [12],
         ];
     }
 
@@ -81,14 +81,12 @@ class DescriptiveRecord extends BaseObject
             'numberOfUserSupplyingFile',
             'descriptionOfEntries',
             'dateToBeProcessed',
-            'blank3'
+            'blank3',
         ];
     }
 
     /**
      * Return record type.
-     *
-     * @return string
      */
     protected function initRecordType(): string
     {
