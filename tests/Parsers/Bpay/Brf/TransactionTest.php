@@ -10,15 +10,30 @@ use Tests\EoneoPay\BankFiles\Parsers\TestCase;
 class TransactionTest extends TestCase
 {
     /**
+     * @return iterable<mixed>
+     */
+    public function providerTestAmount(): iterable
+    {
+        yield 'Big number' => ['000000500025', 5000.25];
+        yield 'Do not drop zero in decimals' => ['000000000101', 1.01];
+        yield 'Less than zero' => ['000000000001', 0.01];
+    }
+
+    /**
      * Should return transaction amount
+     *
+     * @param string $amount
+     * @param float $expected
+     *
+     * @dataProvider providerTestAmount
      *
      * @group Bpay-Transaction
      */
-    public function testShouldReturnAmount(): void
+    public function testShouldReturnAmount(string $amount, float $expected): void
     {
-        $transaction = new Transaction(['amount' => '000000500025']);
+        $transaction = new Transaction(['amount' => $amount]);
 
-        self::assertSame(5000.25, $transaction->getAmount());
+        self::assertSame($expected, $transaction->getAmount());
     }
 
     /**

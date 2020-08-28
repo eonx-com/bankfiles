@@ -19,15 +19,11 @@ use EoneoPay\Utils\DateTime;
 class Transaction extends BaseResult
 {
     /**
-     * Convert amount into float and return
+     * Convert amount into float and return as dollars
      */
     public function getAmount(): float
     {
-        return (float)\sprintf(
-            '%d.%d',
-            (int)\substr($this->data['amount'], 0, 10),
-            (int)\substr($this->data['amount'], 10, 2)
-        );
+        return (float)(((int)$this->data['amount']) / 100);
     }
 
     /**
